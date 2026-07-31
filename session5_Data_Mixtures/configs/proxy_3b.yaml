@@ -1,0 +1,62 @@
+# Confirmation scale. Only the two arms that survive the 1B round run here, because
+# a mixture decision that does not hold across a 3x scale change is a coincidence.
+#
+#   6 * 3e9 * 60e9 = 1.08e21 FLOPs per arm
+#   8xH100 at ~400 TFLOP/s achieved => ~94 h per arm => ~4 node-days each
+#
+# The question at 3B is not "which mixture is better" - the 1B round answers that.
+# It is "does the ranking survive, and do the scarce lanes still respond the same
+# way once the model is big enough to actually use them".
+name: proxy_3b
+seed: 1337
+device: auto
+vocab_size: 131072
+
+lanes: [web, code, math, reasoning, indic, agentic, longctx, instruct]
+
+model:
+  n_layer: 32
+  n_head: 24
+  n_embd: 3072
+  block_size: 8192
+  dropout: 0.0
+
+train:
+  total_tokens: 60000000000
+  batch_size: 1024
+  lr: 0.00024
+  weight_decay: 0.1
+  grad_clip: 1.0
+  warmup_steps: 3000
+  evals: 20
+
+selector:
+  enabled: true
+  candidates: 8
+  score_tokens: 512
+  reference_lanes: [web, code]
+  reference_steps: 6000
+
+arms:
+  - id: B1_winner_from_1b
+    description: whichever configuration won the 1B round, unchanged
+    floors: true
+    selector: true
+
+  - id: B2_runner_up
+    description: the closest challenger, to confirm the ranking is not scale-dependent
+    floors: true
+    selector: true
+
+acceptance:
+  primary:
+    - metric: ranking of B1 vs B2 on the 1B primary metrics
+      rule: the 1B ordering must reproduce; a flip means the 1B round was measuring noise
+            and the mixture decision goes back to the 1B stage with more seeds
+    - metric: scaling slope of MILU and HumanEval+ between 1B and 3B
+      rule: the protected lanes must improve at least as fast as the unprotected ones,
+            otherwise the floors are buying capability that does not scale
+  kill:
+    - same gradient-norm and lane-drift rules as the 1B round
+    - long-context stage: RULER-32k below 60% means the long-context lane is packed wrong,
+      not that it is sized wrong

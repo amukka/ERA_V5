@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Clean — Data Cleaning &amp; Deduplication Pipeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <div class="glow-bg"></div>
+
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <h1>Sovereign<span class="gradient-text">Clean</span></h1>
+            </div>
+            <div class="meta-badge">TSAI ERA V5 · Session 4</div>
+        </div>
+    </header>
+
+    <main class="app-container">
+        <section class="hero-section">
+            <h2>Data Cleaning &amp; Deduplication</h2>
+            <p class="subtitle">
+                Nine cleaning strategies applied to a real Indic web crawl —
+                <span class="gradient-text">ai4bharat/sangraha</span>. No synthetic dirt: every
+                number below is defect that was actually in the corpus.
+            </p>
+            <div class="stats-overview-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Raw Words In</span>
+                    <span id="stat-raw-words" class="stat-value">—</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Raw Documents</span>
+                    <span id="stat-raw-docs" class="stat-value">—</span>
+                </div>
+                <div class="stat-card highlight">
+                    <span class="stat-label">Clean Words Out</span>
+                    <span id="stat-clean-words" class="stat-value">—</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Word Survival</span>
+                    <span id="stat-survival" class="stat-value">—</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="workspace-card">
+            <div class="tab-header">
+                <button class="tab-btn active" data-tab="strategies">The 9 Strategies</button>
+                <button class="tab-btn" data-tab="dataset">Dataset</button>
+                <button class="tab-btn" data-tab="dedup">Dedup Deep-Dive</button>
+                <button class="tab-btn" data-tab="interactive">Before / After</button>
+                <button class="tab-btn" data-tab="concerns">Other Concerns</button>
+                <button class="tab-btn" data-tab="statistics">Final Statistics</button>
+            </div>
+
+            <!-- ---------------------------------------------------- strategies -->
+            <div class="tab-content active" id="tab-strategies">
+                <div class="pipeline-flow">
+                    <div class="pipeline-intro">
+                        <h3>Nine cleaning strategies</h3>
+                        <p>
+                            Session 4 lays out an <strong>ordered</strong> pipeline — not a menu. Each stage
+                            depends on the one before it, and each one fixes a named defect from the V4
+                            audit. Extraction (§2) is counted as Session 3 material and treated as given,
+                            which is why the count here is nine rather than ten.
+                        </p>
+                    </div>
+                    <div class="stages-grid" id="stages-container"></div>
+                </div>
+            </div>
+
+            <!-- ------------------------------------------------------- dataset -->
+            <div class="tab-content" id="tab-dataset">
+                <div class="dataset-details">
+                    <h3>Dataset picked: <span class="gradient-text">ai4bharat/sangraha</span> <span class="mono-dim">verified/</span></h3>
+                    <p class="dataset-desc" id="dataset-scale">—</p>
+
+                    <div class="why-picked-grid">
+                        <div class="reason-card">
+                            <h4>Why Sangraha, not an instruction set</h4>
+                            <p>
+                                Sangraha is a <strong>genuine web crawl</strong>, so near-duplicates,
+                                mislabeled languages, PII and encoding damage are actually present and can be
+                                measured. Cleaning a synthetic instruction set means measuring your regex
+                                against your own generator.
+                            </p>
+                        </div>
+                        <div class="reason-card">
+                            <h4>The sovereign thread, for real</h4>
+                            <p>
+                                Sessions 3 and 4 both run an Indic thread — ZWJ/ZWNJ joiners, English-tuned
+                                filter bias, Indic PII false positives. A Telugu slice exercises all three
+                                against real Brahmic text rather than injected samples.
+                            </p>
+                        </div>
+                        <div class="reason-card">
+                            <h4>Telugu + English side by side</h4>
+                            <p>
+                                Drawing both <span class="mono-dim">verified/tel</span> and
+                                <span class="mono-dim">verified/eng</span> lets stage 3 measure filter bias
+                                directly: the same rules, the same corpus, one script-aware and one not.
+                            </p>
+                        </div>
+                        <div class="reason-card">
+                            <h4>Multi-shard by design</h4>
+                            <p>
+                                The slice is drawn from several shards so stage 5 can show what the session
+                                calls the systems problem: every shard passing its own local dedup while
+                                cross-shard duplicates survive.
+                            </p>
+                        </div>
+                    </div>
+
+                    <h4 class="section-subhead">Shards loaded</h4>
+                    <div class="shard-table" id="shard-table"></div>
+                </div>
+            </div>
+
+            <!-- --------------------------------------------------------- dedup -->
+            <div class="tab-content" id="tab-dedup">
+                <div class="dataset-details">
+                    <h3>Deduplication: the mechanism, and why it needs one machine</h3>
+                    <p class="viewer-desc">
+                        Documents are shingled into word 5-grams, reduced to MinHash signatures, and bucketed
+                        by LSH bands. Only documents sharing a band are compared, and every candidate pair is
+                        verified with a true Jaccard score before anything is dropped.
+                    </p>
+
+                    <div class="param-grid" id="dedup-params"></div>
+
+                    <h4 class="section-subhead">Local passes vs. the global pass</h4>
+                    <p class="viewer-desc">
+                        Each shard was deduplicated on its own first — the way a student cleaning their own
+                        shard would. Then one global pass ran over the union of those already-clean shards.
+                    </p>
+                    <div class="dedup-compare" id="dedup-compare"></div>
+                    <div class="callout" id="dedup-callout"></div>
+
+                    <h4 class="section-subhead">Recall validation</h4>
+                    <p class="viewer-desc">
+                        Known near-duplicates, built by mutating real corpus documents, pushed through the
+                        same band-lookup and Jaccard-verification path the corpus pass uses.
+                    </p>
+                    <div class="shard-table" id="dedup-recall"></div>
+                </div>
+            </div>
+
+            <!-- --------------------------------------------------- interactive -->
+            <div class="tab-content" id="tab-interactive">
+                <div class="interactive-viewer">
+                    <h3>Before &amp; after, on real documents</h3>
+                    <p class="viewer-desc">
+                        Every excerpt below is a real document from the crawl, shown exactly as the pipeline
+                        received and emitted it.
+                    </p>
+                    <div class="selector-chips" id="diff-stage-selector"></div>
+                    <div class="diff-viewer-grid">
+                        <div class="diff-panel">
+                            <div class="panel-header">Raw crawl text</div>
+                            <div class="panel-body pre-wrap" id="diff-raw"></div>
+                        </div>
+                        <div class="diff-panel clean">
+                            <div class="panel-header">Cleaned output</div>
+                            <div class="panel-body pre-wrap" id="diff-cleaned"></div>
+                        </div>
+                    </div>
+                    <p class="viewer-desc" id="diff-note"></p>
+                </div>
+            </div>
+
+            <!-- ------------------------------------------------------ concerns -->
+            <div class="tab-content" id="tab-concerns">
+                <div class="dataset-details">
+                    <h3>Other strategies and concerns that came up</h3>
+                    <p class="viewer-desc">
+                        Things the pipeline had to handle that are not one of the nine numbered stages, or
+                        that the nine stages surfaced as judgement calls rather than mechanics.
+                    </p>
+                    <div class="concerns-grid" id="concerns-grid"></div>
+                </div>
+            </div>
+
+            <!-- ---------------------------------------------------- statistics -->
+            <div class="tab-content" id="tab-statistics">
+                <div class="stats-tab-content">
+                    <h3>Final statistics</h3>
+                    <div class="stats-layout">
+                        <div class="survival-funnel-card">
+                            <h4>Document survival funnel</h4>
+                            <div class="funnel-container" id="funnel-container"></div>
+                            <h4 class="section-subhead">Language breakdown (detected, not claimed)</h4>
+                            <div class="funnel-container" id="lang-container"></div>
+                        </div>
+                        <div class="manifest-card">
+                            <h4>Provenance manifest</h4>
+                            <div class="manifest-content">
+                                <pre id="manifest-viewer" class="manifest-pre"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>Sovereign Clean · TSAI ERA V5 Session 4 · corpus: ai4bharat/sangraha (CC-BY-4.0)</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

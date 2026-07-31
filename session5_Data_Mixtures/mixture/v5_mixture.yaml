@@ -1,0 +1,220 @@
+# V5 data mixture and curriculum — machine-readable specification
+# ERA V5 / Session 5. Every number in the README is derived from this file by
+# scripts/supply_check.py and scripts/curriculum_sim.py. If you change a number
+# here, re-run both scripts; the reports are generated, not hand-written.
+
+meta:
+  name: v5-mixture-v1
+  author: TSAI ERA V5 cohort submission
+  model_assumption:
+    params_b: 9.0            # dense; the mixture is scale-invariant, the budget is not
+    tokens_per_param: 278    # deliberately over-trained (inference-optimal, not Chinchilla)
+  seed: 42
+
+budget:
+  total_tokens_b: 2500       # 2.5T tokens end to end
+  main_tokens_b: 2400        # curriculum stages s0..s4
+  anneal_tokens_b: 100       # 4% of budget, LR -> 0, drawn ONLY from the reserve
+
+lanes:                        # one entry per capability slot
+  web:       {name: General web (non-Indic),        owns_benchmarks: [MMLU, MMLU-Pro, HellaSwag]}
+  code:      {name: Code,                            owns_benchmarks: [HumanEval+, MBPP+, LiveCodeBench, SWE-bench-Verified]}
+  math:      {name: Math and STEM,                   owns_benchmarks: [GSM8K, MATH-500, AIME, GPQA]}
+  reasoning: {name: Reasoning traces (long CoT),     owns_benchmarks: [AIME, MATH-500, GPQA, LiveCodeBench]}
+  indic:     {name: Indic languages,                 owns_benchmarks: [MILU, IndicGenBench, FLORES-200, IN22-Gen]}
+  agentic:   {name: Agentic trajectories,            owns_benchmarks: [SWE-bench-Verified, Terminal-Bench, BFCL-v3, tau-bench]}
+  longctx:   {name: Long context,                    owns_benchmarks: [RULER-128k, LongBench-v2, SWE-bench-Verified]}
+  instruct:  {name: Instruction / multi-turn chat,   owns_benchmarks: [IFEval, MT-Bench]}
+
+# ---------------------------------------------------------------------------
+# Curriculum. Stage weights are the mixture DURING that stage; the headline
+# run-average is computed from these, never asserted independently.
+# ---------------------------------------------------------------------------
+curriculum:
+  warmup_band_tokens_b: 20   # default blend length for any transition not listed below
+  # A transition's warmup band is sized by how far the distribution moves, not by a
+  # constant. Bands below are solved from the gradient-norm model in
+  # scripts/curriculum_sim.py so that no transition is predicted to exceed 2x the
+  # rolling-median gradient norm (the spec's WARN level, half its HALT level).
+  warmup_bands:
+    s0_seed->s1_foundation: 25
+    s1_foundation->s2_capability: 35
+    s2_capability->s3_longctx: 35
+    s3_longctx->s4_precool: 20
+    s4_precool->anneal: 30
+  stages:
+    - id: s0_seed
+      tokens_b: 50
+      seq_len: 4096
+      difficulty: {D1: 0.85, D2: 0.15, D3: 0.00, D4: 0.00}
+      weights: {web: 0.72, code: 0.08, math: 0.04, reasoning: 0.02, indic: 0.10, agentic: 0.03, longctx: 0.00, instruct: 0.01}
+      note: Establish script coverage and basic syntax. Indic enters at the floor from token 0 - it is never introduced mid-run.
+
+    - id: s1_foundation
+      tokens_b: 850
+      seq_len: 4096
+      difficulty: {D1: 0.45, D2: 0.40, D3: 0.15, D4: 0.00}
+      weights: {web: 0.56, code: 0.15, math: 0.09, reasoning: 0.02, indic: 0.11, agentic: 0.03, longctx: 0.03, instruct: 0.01}
+      note: Language, world knowledge, basic structure. Scarce lanes sit at or near their floors and spend Tier B/C supply only.
+
+    - id: s2_capability
+      tokens_b: 800
+      seq_len: 8192
+      difficulty: {D1: 0.15, D2: 0.40, D3: 0.35, D4: 0.10}
+      weights: {web: 0.35, code: 0.24, math: 0.18, reasoning: 0.03, indic: 0.12, agentic: 0.04, longctx: 0.03, instruct: 0.01}
+      note: The capability ramp. Web halves, code and math take the budget, reasoning traces begin in volume.
+
+    - id: s3_longctx
+      tokens_b: 450
+      seq_len: 32768
+      difficulty: {D1: 0.05, D2: 0.30, D3: 0.45, D4: 0.20}
+      weights: {web: 0.23, code: 0.22, math: 0.12, reasoning: 0.03, indic: 0.13, agentic: 0.05, longctx: 0.20, instruct: 0.02}
+      note: RoPE base extended, repo-level packing, full agentic trajectories stop being truncated.
+
+    - id: s4_precool
+      tokens_b: 250
+      seq_len: 32768
+      difficulty: {D1: 0.00, D2: 0.20, D3: 0.45, D4: 0.35}
+      weights: {web: 0.19, code: 0.22, math: 0.15, reasoning: 0.05, indic: 0.19, agentic: 0.06, longctx: 0.12, instruct: 0.02}
+      note: Bridge stage. Moves the distribution most of the way to the anneal mixture so the final transition is small.
+
+anneal:
+  tokens_b: 100
+  seq_len: 131072
+  lr: cosine-to-zero
+  difficulty: {D1: 0.00, D2: 0.10, D3: 0.40, D4: 0.50}
+  weights: {web: 0.12, code: 0.20, math: 0.15, reasoning: 0.15, indic: 0.20, agentic: 0.13, longctx: 0.05, instruct: 0.00}
+  note: Tier A only. Every token here comes from the reserve below and has never been seen during the main run.
+
+# ---------------------------------------------------------------------------
+# Protected floors: the fraction of EVERY batch the OPUS selector may not touch.
+# V4 ran one always-on lane (Indic, 8%). V5 protects three.
+# ---------------------------------------------------------------------------
+protected_floors:
+  indic: 0.10
+  agentic: 0.03
+  reasoning: 0.02
+  # total = 15% of every batch. Selection still operates WITHIN a protected lane
+  # (best Indic beats worst Indic); it simply cannot drive the lane to zero.
+  intra_lane_selection: true
+  score_normalisation: per_lane_zscore   # V5 change vs V4 global scoring
+
+selector:
+  name: OPUS
+  keep_fraction: 0.40        # V4 production setting
+  claimed_effective_token_multiplier: 6.0
+  compute_overhead_frac: 0.03
+  proxy_refresh_steps: 2000
+  guard: floors above are applied AFTER scoring and BEFORE the batch is formed
+
+# ---------------------------------------------------------------------------
+# Anneal reserve: fenced at manifest level, excluded from main-run sampling.
+# ---------------------------------------------------------------------------
+reserve:
+  policy: fenced_by_manifest_flag   # shard manifests carry reserve=anneal; the main sampler filters them out
+  tokens_b:
+    indic: 22
+    code: 21
+    math: 16
+    reasoning: 16
+    agentic: 14
+    longctx: 6
+    web: 13
+    instruct: 0
+  selection_rule: >
+    Highest quality-score decile within Tier A, deduplicated against the main run,
+    decontaminated against every eval in benchmarks.yaml, and never sampled before
+    the anneal begins.
+
+# ---------------------------------------------------------------------------
+# Indic lane internals. The headline "12%" means nothing without this.
+# ---------------------------------------------------------------------------
+indic_tiers:
+  # fractions of the Indic lane's MAIN-RUN token demand
+  main_run:
+    verified:   0.159   # native, human-verified, OCR/transcribed  (Sangraha Verified)
+    unverified: 0.164   # perplexity-filtered web                  (Sangraha Unverified)
+    translated: 0.440   # EN->Indic translation + romanisation     (Sangraha Synthetic, IndicAlign-translated)
+    synthetic:  0.237   # generated by us                          (PLANNED)
+  anneal:
+    verified:   0.80
+    unverified: 0.05
+    translated: 0.00
+    synthetic:  0.15    # only synthetic that passed native-speaker spot review
+  caps:
+    translated_max_frac_of_lane: 0.45   # translationese guard
+    romanised_max_frac_of_translated: 0.25
+  language_split:       # fractions of the Indic lane
+    hin: 0.24
+    ben: 0.12
+    tel: 0.12
+    tam: 0.11
+    mar: 0.09
+    guj: 0.07
+    kan: 0.07
+    mal: 0.06
+    ori: 0.03
+    pan: 0.03
+    urd: 0.03
+    asm: 0.02
+    npi: 0.01
+  note: >
+    tel is held one notch above its speaker share because the cohort's own cleaned
+    shards (Session 4) are Telugu and give us native-speaker review capacity there.
+
+# ---------------------------------------------------------------------------
+# Repetition policy. Epoch caps follow Muennighoff et al. 2023 (Scaling
+# Data-Constrained Language Models): up to ~4 epochs is close to fresh data,
+# beyond that the return collapses.
+# ---------------------------------------------------------------------------
+repetition:
+  max_epochs_by_tier: {A: 4.0, B: 3.0, C: 1.5}
+  hard_cap_any_lane: 4.0
+
+# ---------------------------------------------------------------------------
+# Reasoning-length bands. Reserving "4% reasoning" is meaningless without a
+# length distribution: a model only obeys a reasoning-effort dial if it saw the
+# whole range.
+# ---------------------------------------------------------------------------
+reasoning_bands:
+  R0: {max_tokens: 0,     share: 0.30, label: direct answer, no trace}
+  R1: {max_tokens: 256,   share: 0.30, label: short justification}
+  R2: {max_tokens: 1024,  share: 0.22, label: multi-step worked solution}
+  R3: {max_tokens: 4096,  share: 0.13, label: explores alternatives, verifies intermediates}
+  R4: {max_tokens: 16384, share: 0.05, label: ultra - self-correction, restarts, proof-checking}
+  anneal_shift: {R0: 0.15, R1: 0.20, R2: 0.25, R3: 0.25, R4: 0.15}
+
+difficulty_bands:
+  D1: readable by a beginner; single concept
+  D2: standard practitioner material; one hop of inference
+  D3: multi-step, domain-specific, requires holding state
+  D4: research/production grade; long-horizon, adversarial edge cases
+
+# ---------------------------------------------------------------------------
+# Loss masking. This is a data-format decision, not a training detail, so it
+# belongs in the mixture spec.
+# ---------------------------------------------------------------------------
+loss_mask:
+  web: all_tokens
+  code: all_tokens
+  math: all_tokens
+  longctx: all_tokens
+  reasoning: response_and_trace_only
+  instruct: response_only
+  indic: all_tokens
+  agentic: model_turns_only    # plan + tool call + final answer get loss; user turn and TOOL OBSERVATIONS never do
+
+stability:
+  warmup_band_tokens_b: see curriculum.warmup_bands (20-35B, sized per transition)
+  freeze_embeddings: false     # V4's 150x gradient-norm spike came from a Hindi share jump into frozen embeddings
+  gradnorm_kill_rule:
+    metric: gradnorm / rolling_median_gradnorm(1000 steps)
+    warn_at: 2.0
+    halt_at: 4.0
+    # Amended after the smoke run: the bare ratio fired 34 times across three arms
+    # that all finished cleanly (reports/smoke_run.md). A single-step excursion is
+    # noise, not divergence, and the rolling median is only meaningful once a step
+    # covers enough tokens to be stable. Both qualifiers must hold to halt.
+    min_consecutive_steps: 200
+    min_tokens_per_step: 1000000
+    action: halt, rollback to last checkpoint, re-enter transition with a 2x longer warmup band

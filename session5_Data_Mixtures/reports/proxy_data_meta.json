@@ -1,0 +1,108 @@
+{
+  "lanes": {
+    "web": {
+      "train_tokens": 8081069,
+      "holdout_tokens": 164919,
+      "trained_token_frac": 1.0
+    },
+    "indic": {
+      "train_tokens": 21560719,
+      "holdout_tokens": 440014,
+      "trained_token_frac": 1.0
+    },
+    "code": {
+      "train_tokens": 5900122,
+      "holdout_tokens": 120410,
+      "trained_token_frac": 1.0
+    },
+    "math": {
+      "train_tokens": 2940063,
+      "holdout_tokens": 60001,
+      "trained_token_frac": 1.0
+    },
+    "reasoning": {
+      "train_tokens": 2940048,
+      "holdout_tokens": 60000,
+      "trained_token_frac": 0.6197619902804308
+    },
+    "agentic": {
+      "train_tokens": 2940268,
+      "holdout_tokens": 60005,
+      "trained_token_frac": 0.543858587040365
+    }
+  },
+  "tokenizer": "ERA V5 S2 byte-level BPE (10k)",
+  "seed": 1234,
+  "samples": {
+    "reasoning": {
+      "text": "<|user|> A depot receives 11 crates on Monday and 27 on Tuesday. Each crate holds 12 units. How many units?\n<|think|> (11+27)*12 = 456.\n<|answer|> 456\n",
+      "segments": [
+        {
+          "trained": false,
+          "text": "<|user|> A depot receives 11 crates on Monday and 27 on Tuesday. Each crate holds 12 units. How many units?\n"
+        },
+        {
+          "trained": true,
+          "text": "<|think|> (11+27)*12 = 456.\n"
+        },
+        {
+          "trained": true,
+          "text": "<|answer|> 456\n"
+        }
+      ]
+    },
+    "agentic": {
+      "text": "<|user|> Find US grants funding confocal imaging and say which labs could buy a 866k instrument for it.\n<|plan|> I will search grants for confocal imaging, then pull the awardee records, then check equipment budgets.\n<|call|> search_grants({\"query\": \"confocal imaging\", \"page\": 1})\n<|obs|> {\"results\": [{\"id\": \"G19494\", \"inst\": \"UT Austin\", \"amount\": 3563000}]}\n<|call|> web_search({\"query\": \"confocal imaging\", \"page\": 2})\n<|obs|> {\"results\": [{\"id\": \"G22337\", \"inst\": \"UT Austin\", \"amount\": 1697000}]}\n<|call|> fetch_record({\"id\": \"G86387\"})\n<|obs|> {\"error\": \"record not found\", \"status\": 404}\n<|plan|> That record is missing. I will fall back to the awardee index and match on institution instead.\n<|call|> list_labs({\"inst\": \"UT Austin\"})\n<|obs|> {\"labs\": [\"UT Austin Core Facility\", \"UT Austin Structural Biology\"]}\n<|answer|> UT Austin Core Facility holds a confocal imaging award large enough to fund the instrument; UT Austin Structural Biology does not.\n",
+      "segments": [
+        {
+          "trained": false,
+          "text": "<|user|> Find US grants funding confocal imaging and say which labs could buy a 866k instrument for it.\n"
+        },
+        {
+          "trained": true,
+          "text": "<|plan|> I will search grants for confocal imaging, then pull the awardee records, then check equipment budgets.\n"
+        },
+        {
+          "trained": true,
+          "text": "<|call|> search_grants({\"query\": \"confocal imaging\", \"page\": 1})\n"
+        },
+        {
+          "trained": false,
+          "text": "<|obs|> {\"results\": [{\"id\": \"G19494\", \"inst\": \"UT Austin\", \"amount\": 3563000}]}\n"
+        },
+        {
+          "trained": true,
+          "text": "<|call|> web_search({\"query\": \"confocal imaging\", \"page\": 2})\n"
+        },
+        {
+          "trained": false,
+          "text": "<|obs|> {\"results\": [{\"id\": \"G22337\", \"inst\": \"UT Austin\", \"amount\": 1697000}]}\n"
+        },
+        {
+          "trained": true,
+          "text": "<|call|> fetch_record({\"id\": \"G86387\"})\n"
+        },
+        {
+          "trained": false,
+          "text": "<|obs|> {\"error\": \"record not found\", \"status\": 404}\n"
+        },
+        {
+          "trained": true,
+          "text": "<|plan|> That record is missing. I will fall back to the awardee index and match on institution instead.\n"
+        },
+        {
+          "trained": true,
+          "text": "<|call|> list_labs({\"inst\": \"UT Austin\"})\n"
+        },
+        {
+          "trained": false,
+          "text": "<|obs|> {\"labs\": [\"UT Austin Core Facility\", \"UT Austin Structural Biology\"]}\n"
+        },
+        {
+          "trained": true,
+          "text": "<|answer|> UT Austin Core Facility holds a confocal imaging award large enough to fund the instrument; UT Austin Structural Biology does not.\n"
+        }
+      ]
+    }
+  }
+}

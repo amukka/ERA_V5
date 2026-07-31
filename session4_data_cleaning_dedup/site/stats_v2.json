@@ -1,0 +1,277 @@
+{
+  "stages": {
+    "normalization": {
+      "html_entities_unescaped": 21,
+      "control_chars_removed": 108,
+      "indic_joiners_kept": 17,
+      "docs_touched_entities": 6,
+      "docs_touched_control": 38,
+      "docs_with_indic_joiners": 3,
+      "remaining_docs": 55778
+    },
+    "format_unification": {
+      "docs_with_ghost_markers": 0,
+      "by_marker_type": {},
+      "canonical_format": "<|im_start|>role ... <|im_end|> (reserved as real special tokens)",
+      "remaining_docs": 55778
+    },
+    "quality_filtering": {
+      "dropped_by_reason": {
+        "too_short": 1445,
+        "no_stopwords": 2591,
+        "duplicate_lines": 68,
+        "mean_word_length": 6
+      },
+      "total_dropped": 4110,
+      "filter_bias_probe": {
+        "telugu_docs": 46812,
+        "dropped_by_english_only_filter": 46314,
+        "dropped_by_script_aware_filter": 3848
+      },
+      "remaining_docs": 51668
+    },
+    "exact_dedup": {
+      "dropped_exact_duplicates": 0,
+      "remaining_docs": 51668
+    },
+    "near_dedup": {
+      "method": "MinHash 128 perms, LSH 16 bands x 8 rows",
+      "lsh_threshold_implied": 0.707,
+      "jaccard_verify_threshold": 0.7,
+      "local_pass_dropped": 3,
+      "local_pass_detail": [
+        {
+          "shard": "verified/tel/data-0.parquet",
+          "in": 14424,
+          "dropped_locally": 0,
+          "out": 14424
+        },
+        {
+          "shard": "verified/tel/data-1.parquet",
+          "in": 14328,
+          "dropped_locally": 0,
+          "out": 14328
+        },
+        {
+          "shard": "verified/tel/data-2.parquet",
+          "in": 14271,
+          "dropped_locally": 0,
+          "out": 14271
+        },
+        {
+          "shard": "verified/eng/data-0.parquet",
+          "in": 8645,
+          "dropped_locally": 3,
+          "out": 8642
+        }
+      ],
+      "global_pass_dropped_additional": 1,
+      "cross_shard_duplicates_missed_by_local": 1,
+      "index_footprint_mb": 52.9,
+      "recall_validation": {
+        "why": "The verified split was deduplicated upstream, so a low drop count could mean a clean corpus or a broken detector. Planted near-duplicates derived from real documents separate the two. Probes are scored and discarded; none enter the corpus.",
+        "planted_total": 200,
+        "caught_total": 134,
+        "recall": 0.67,
+        "by_mutation": {
+          "appended_boilerplate": {
+            "planted": 67,
+            "caught": 67
+          },
+          "changed_header": {
+            "planted": 67,
+            "caught": 67
+          },
+          "reworded_5pct": {
+            "planted": 66,
+            "caught": 0
+          }
+        }
+      },
+      "remaining_docs": 51664
+    },
+    "language_id": {
+      "detector": "langdetect (Nakatani port), seeded for determinism",
+      "detected_distribution": {
+        "te": 42846,
+        "en": 8683,
+        "id": 31,
+        "tl": 21,
+        "sw": 18,
+        "ta": 9,
+        "hr": 8,
+        "hi": 8,
+        "tr": 6,
+        "so": 5,
+        "af": 4,
+        "no": 4
+      },
+      "mismatched_vs_claimed_path": 297,
+      "undetectable": 0,
+      "iso_code_bug": {
+        "description": "folder path uses ISO-639-2 'tel'; detector returns ISO-639-1 'te'. Comparing them directly flags every document as a mismatch.",
+        "false_mismatches_if_uncorrected": 51664,
+        "true_mismatches_after_mapping": 297
+      },
+      "mismatch_examples": [
+        {
+          "claimed_path_code": "tel",
+          "detected": "ta",
+          "excerpt": "22. యూదా రాజు నగరులో శేషించియున్న స్త్రీలందరు బబులోను అధిపతులయొద్దకు కొనిపోబడెదరు, ఆలాగు జరుగగా ఆ స్త్రీలు నిన్ను చూచినీ ప్రియస్నేహితులు నిన్ను మోసపుచ్చి నీ పైని విజయము పొందియున్నారు, నీ పాదములు బురదల"
+        },
+        {
+          "claimed_path_code": "tel",
+          "detected": "en",
+          "excerpt": "Tirupati, 06 October 2022: TTD JEO for Health and Education Smt Sada Bhargavi on Friday said that TTD would support and also assist its students to scale new heights in their academic studies.\nEarlier"
+        },
+        {
+          "claimed_path_code": "tel",
+          "detected": "en",
+          "excerpt": "Nulla enim magna differentia est inter centrum machinationis traditum CNC et CNC centrum machinationis altae velocitatis.Praesertim ex apparitione instrumenti machinae nihil interest inter centrum mac"
+        },
+        {
+          "claimed_path_code": "tel",
+          "detected": "en",
+          "excerpt": "ఈ ఐకాన్ క్లిక్ చేసి, మీ నోటిఫికేషన్ మ్యానేజ్ చేయండి.\n To Start receiving timely alerts please follow the below steps:\nClick on the Menu icon of the browser, it opens up a list of options.\n Click on th"
+        },
+        {
+          "claimed_path_code": "tel",
+          "detected": "en",
+          "excerpt": "The Andhra Pradesh Land Revenue (Surcharge) Rules, 1958\n18th December, 1958\n(i) by delivering it or tendering it to the person concerned or to his agent or to any adult member of his family;\n(ii) by t"
+        }
+      ],
+      "remaining_docs": 51664
+    },
+    "pii_removal": {
+      "redactions_by_type": {
+        "email": 58,
+        "url_credentials": 0,
+        "govt_id": 2,
+        "phone_in": 113,
+        "phone_intl": 1,
+        "ipv4": 34
+      },
+      "total_redactions": 208,
+      "docs_touched": 146,
+      "precision_note": {
+        "issue": "IPv4 pattern also matches dotted version strings; a name-based scrubber over-masks common Indic given names that double as nouns.",
+        "version_string_false_positive_candidates": 3,
+        "mitigation": "structured identifiers only (regex layer); no name-model layer applied to Indic text without a reviewed allow-list."
+      },
+      "remaining_docs": 51664
+    },
+    "decontamination": {
+      "eval_documents_held_out": 280,
+      "eval_ngram_fingerprints": 12045,
+      "ngram_size": 13,
+      "dropped_contaminated_docs": 797,
+      "canaries_planted": 50,
+      "canary_leaks_detected_in_train": 0,
+      "remaining_docs": 50867
+    }
+  },
+  "notes": {},
+  "corpus": {
+    "repo": "ai4bharat/sangraha",
+    "splits": [
+      "verified/tel/data-0.parquet",
+      "verified/tel/data-1.parquet",
+      "verified/tel/data-2.parquet",
+      "verified/eng/data-0.parquet"
+    ],
+    "raw_documents": 56058,
+    "raw_words": 16001339,
+    "per_shard": [
+      {
+        "shard": "verified/tel/data-0.parquet",
+        "docs": 15805,
+        "words": 4000035
+      },
+      {
+        "shard": "verified/tel/data-1.parquet",
+        "docs": 15718,
+        "words": 4000120
+      },
+      {
+        "shard": "verified/tel/data-2.parquet",
+        "docs": 15622,
+        "words": 4000786
+      },
+      {
+        "shard": "verified/eng/data-0.parquet",
+        "docs": 8913,
+        "words": 4000398
+      }
+    ]
+  },
+  "manifest": {
+    "shard_id": "tsai-era-v5-s4-1ae20bb16023",
+    "source_dataset": "ai4bharat/sangraha",
+    "source_splits": [
+      "verified/tel/data-0.parquet",
+      "verified/tel/data-1.parquet",
+      "verified/tel/data-2.parquet",
+      "verified/eng/data-0.parquet"
+    ],
+    "license": "CC-BY-4.0 (AI4Bharat Sangraha)",
+    "contributor": "TSAI ERA V5 - Session 4 assignment",
+    "cleaning_script": "clean_pipeline_v2.py",
+    "cleaning_script_sha256": "d757dd60054230a72e2a6ab5d7712fbc477e8910850eb8d7bf4d9940167975bf",
+    "corpus_content_hash": "1ae20bb16023b1dd251491261960b1080d2694864cc596dc17b2bbde77f84b46",
+    "document_count": 50867,
+    "word_count": 15182923,
+    "language_breakdown": {
+      "te": 42178,
+      "en": 8554,
+      "id": 31,
+      "tl": 21,
+      "sw": 18,
+      "ta": 9,
+      "hr": 8,
+      "hi": 8,
+      "tr": 6,
+      "so": 5
+    },
+    "determinism_check": {
+      "same_input_same_hash": true,
+      "identifier_scheme": "sha256(content)[:16] - content-derived, stable across runs"
+    },
+    "pipeline_parameters": {
+      "minhash_perms": 128,
+      "lsh_bands": 16,
+      "lsh_rows": 8,
+      "jaccard_threshold": 0.7,
+      "shingle_k": 5,
+      "ngram_contamination": 13,
+      "seed": 42
+    }
+  },
+  "summary": {
+    "raw_documents": 56058,
+    "raw_words": 16001339,
+    "final_documents": 50867,
+    "final_words": 15182923,
+    "document_survival_rate": 0.9074,
+    "word_survival_rate": 0.9489,
+    "wall_clock_seconds": 130.7
+  },
+  "samples": {
+    "normalization": {
+      "before": "యాంకరింగ్‏ తో కెరీర్ స్టార్ట్ చేసిన మెగా డాటర్ నిహారిక వెబ్ సిరీస్ లు, సినిమాలతో నటిగా, నిర్మాతగా సత్తా చాటుతోంది. మెగా డాటర్ గా పరిచయమై తనకంటూ ప్రత్యేక గుర్తింపు తెచ్చుకున్న నిహారిక గత డిసెంబర్‏ లో వ్యాపారవేత్త జొన్నలగడ్డ చైతన్యను వివాహం చేసుకుంది. అయితే ఇప్పుడొక వివా",
+      "after": "యాంకరింగ్ తో కెరీర్ స్టార్ట్ చేసిన మెగా డాటర్ నిహారిక వెబ్ సిరీస్ లు, సినిమాలతో నటిగా, నిర్మాతగా సత్తా చాటుతోంది. మెగా డాటర్ గా పరిచయమై తనకంటూ ప్రత్యేక గుర్తింపు తెచ్చుకున్న నిహారిక గత డిసెంబర్ లో వ్యాపారవేత్త జొన్నలగడ్డ చైతన్యను వివాహం చేసుకుంది. అయితే ఇప్పుడొక వివాదం",
+      "ideal": false,
+      "control_chars_removed": 6,
+      "html_entities": 0,
+      "indic_joiners_kept": 0
+    },
+    "near_duplicate": {
+      "jaccard": 0.845,
+      "doc_a": "నల్లగొండ జిల్లాఃనకిరేకల్ అసెంబ్లీ నియోజకవర్గ బీఆర్ఎస్ పార్టీ రాజకీయాల్లో సిట్టింగ్ ఎమ్మెల్యే చిరుమర్తి లింగయ్య,మాజీ ఎమ్మెల్యే వేముల వీరేశంకు(VEMULA VEERESHAM ) సాగుతున్న ఆధిపత్య పోరులో మరో కీలక పరిణామానికి వేముల జన్మదిన వేడుకలు వేదికగా మారనున్నాయా అంటే అవుననే పరిస్థితులే కనిపిస్తున్నాయి. జూన్ 1న తన జన్మదిన వేడుకల సందర్భంగా వేముల వీరేశం నియోజకవర్గంలో తనకున్న ప్రజాబలం చాటాలని నిర్ణయించుకొని, నకిరేకల",
+      "doc_b": "అంటే అవుననే పరిస్థితులే కనిపిస్తున్నాయి.\n జూన్ 1న తన జన్మదిన వేడుకల సందర్భంగా వేముల వీరేశం నియోజకవర్గంలో తనకున్న ప్రజాబలం చాటాలని నిర్ణయించుకొని, నకిరేకల్ పట్టణంలో నిర్వహించ తలపెట్టిన జన్మదిన వేడుకలకు భారీ స్థాయిలో ప్రజలను ఆహ్వానిస్తూ ఏకంగా 30 వేల మందికి భోజనం వసతికి ఏర్పాటు చేస్తున్నట్లు తెలుస్తుంది.\n గత ఎన్నికల్లో కాంగ్రెస్ అభ్యర్థిగా పోటీ చేసిన లింగయ్యతో సాగిన ముఖాముఖి పోరులో ఓటమిపాలైన వీరేశం ర"
+    },
+    "pii": {
+      "before": ", 2011 6:34 AMకి\\nplz read for information\\nవిరిబోణి2జులై, 2011 8:40 AMకి\\nవిరిబోణి2జులై, 2011 8:41 AMకి\\ncan you please send this pdf to my email id viribonie@gmail.com\\nరాజశేఖరుని విజయ్ శర్మ 15 అక్టోబర్, 2012 8:24 PMకి\\nఈ క్రింది లింకులో మీరు డౌన్ లోడ్ చేసుకోవచ్చు.",
+      "after": ", 2011 6:34 AMకి\\nplz read for information\\nవిరిబోణి2జులై, 2011 8:40 AMకి\\nవిరిబోణి2జులై, 2011 8:41 AMకి\\ncan you please send this pdf to my email id [EMAIL]\\nరాజశేఖరుని విజయ్ శర్మ 15 అక్టోబర్, 2012 8:24 PMకి\\nఈ క్రింది లింకులో మీరు డౌన్ లోడ్ చేసుకోవచ్చు."
+    }
+  }
+}

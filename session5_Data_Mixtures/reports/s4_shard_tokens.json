@@ -1,0 +1,273 @@
+{
+  "corpus": "session4_data_cleaning_dedup/cleaned_corpus.jsonl",
+  "tokenizer": "ERA V5 Session 2 byte-level BPE, vocab 10000",
+  "sample_docs_per_language": 600,
+  "seed": 42,
+  "languages": {
+    "te": {
+      "docs": 42178,
+      "words": 11323208,
+      "chars": 89811712,
+      "sampled_docs": 600,
+      "sampled_words": 175187,
+      "sampled_tokens": 634885,
+      "measured_fertility_tokens_per_word": 3.624,
+      "estimated_tokens": 41035778
+    },
+    "en": {
+      "docs": 8554,
+      "words": 3977187,
+      "chars": 23725810,
+      "sampled_docs": 600,
+      "sampled_words": 315522,
+      "sampled_tokens": 678906,
+      "measured_fertility_tokens_per_word": 2.1517,
+      "estimated_tokens": 8557679
+    },
+    "hi": {
+      "docs": 8,
+      "words": 27760,
+      "chars": 148920,
+      "sampled_docs": 8,
+      "sampled_words": 27760,
+      "sampled_tokens": 55012,
+      "measured_fertility_tokens_per_word": 1.9817,
+      "estimated_tokens": 55012
+    },
+    "id": {
+      "docs": 31,
+      "words": 17893,
+      "chars": 114937,
+      "sampled_docs": 31,
+      "sampled_words": 17893,
+      "sampled_tokens": 64462,
+      "measured_fertility_tokens_per_word": 3.6026,
+      "estimated_tokens": 64462
+    },
+    "tl": {
+      "docs": 21,
+      "words": 11855,
+      "chars": 72804,
+      "sampled_docs": 21,
+      "sampled_words": 11855,
+      "sampled_tokens": 40608,
+      "measured_fertility_tokens_per_word": 3.4254,
+      "estimated_tokens": 40608
+    },
+    "sw": {
+      "docs": 18,
+      "words": 10427,
+      "chars": 58328,
+      "sampled_docs": 18,
+      "sampled_words": 10427,
+      "sampled_tokens": 36185,
+      "measured_fertility_tokens_per_word": 3.4703,
+      "estimated_tokens": 36185
+    },
+    "ta": {
+      "docs": 9,
+      "words": 4886,
+      "chars": 37436,
+      "sampled_docs": 9,
+      "sampled_words": 4886,
+      "sampled_tokens": 49782,
+      "measured_fertility_tokens_per_word": 10.1887,
+      "estimated_tokens": 49782
+    },
+    "hr": {
+      "docs": 8,
+      "words": 4549,
+      "chars": 29558,
+      "sampled_docs": 8,
+      "sampled_words": 4549,
+      "sampled_tokens": 17020,
+      "measured_fertility_tokens_per_word": 3.7415,
+      "estimated_tokens": 17020
+    },
+    "et": {
+      "docs": 2,
+      "words": 4393,
+      "chars": 22480,
+      "sampled_docs": 2,
+      "sampled_words": 4393,
+      "sampled_tokens": 16320,
+      "measured_fertility_tokens_per_word": 3.715,
+      "estimated_tokens": 16320
+    },
+    "so": {
+      "docs": 5,
+      "words": 4198,
+      "chars": 27955,
+      "sampled_docs": 5,
+      "sampled_words": 4198,
+      "sampled_tokens": 18606,
+      "measured_fertility_tokens_per_word": 4.4321,
+      "estimated_tokens": 18606
+    },
+    "tr": {
+      "docs": 6,
+      "words": 2666,
+      "chars": 18067,
+      "sampled_docs": 6,
+      "sampled_words": 2666,
+      "sampled_tokens": 12779,
+      "measured_fertility_tokens_per_word": 4.7933,
+      "estimated_tokens": 12779
+    },
+    "gu": {
+      "docs": 2,
+      "words": 2033,
+      "chars": 11295,
+      "sampled_docs": 2,
+      "sampled_words": 2033,
+      "sampled_tokens": 13262,
+      "measured_fertility_tokens_per_word": 6.5234,
+      "estimated_tokens": 13262
+    },
+    "af": {
+      "docs": 4,
+      "words": 2015,
+      "chars": 11860,
+      "sampled_docs": 4,
+      "sampled_words": 2015,
+      "sampled_tokens": 6024,
+      "measured_fertility_tokens_per_word": 2.9896,
+      "estimated_tokens": 6024
+    },
+    "hu": {
+      "docs": 2,
+      "words": 1598,
+      "chars": 8393,
+      "sampled_docs": 2,
+      "sampled_words": 1598,
+      "sampled_tokens": 5197,
+      "measured_fertility_tokens_per_word": 3.2522,
+      "estimated_tokens": 5197
+    },
+    "mr": {
+      "docs": 2,
+      "words": 1489,
+      "chars": 9026,
+      "sampled_docs": 2,
+      "sampled_words": 1489,
+      "sampled_tokens": 4632,
+      "measured_fertility_tokens_per_word": 3.1108,
+      "estimated_tokens": 4632
+    },
+    "no": {
+      "docs": 4,
+      "words": 1109,
+      "chars": 6329,
+      "sampled_docs": 4,
+      "sampled_words": 1109,
+      "sampled_tokens": 3417,
+      "measured_fertility_tokens_per_word": 3.0812,
+      "estimated_tokens": 3417
+    },
+    "sl": {
+      "docs": 2,
+      "words": 826,
+      "chars": 4461,
+      "sampled_docs": 2,
+      "sampled_words": 826,
+      "sampled_tokens": 2450,
+      "measured_fertility_tokens_per_word": 2.9661,
+      "estimated_tokens": 2450
+    },
+    "nl": {
+      "docs": 2,
+      "words": 804,
+      "chars": 6032,
+      "sampled_docs": 2,
+      "sampled_words": 804,
+      "sampled_tokens": 2970,
+      "measured_fertility_tokens_per_word": 3.694,
+      "estimated_tokens": 2970
+    },
+    "pt": {
+      "docs": 1,
+      "words": 628,
+      "chars": 3291,
+      "sampled_docs": 1,
+      "sampled_words": 628,
+      "sampled_tokens": 1755,
+      "measured_fertility_tokens_per_word": 2.7946,
+      "estimated_tokens": 1755
+    },
+    "kn": {
+      "docs": 2,
+      "words": 518,
+      "chars": 3501,
+      "sampled_docs": 2,
+      "sampled_words": 518,
+      "sampled_tokens": 2043,
+      "measured_fertility_tokens_per_word": 3.944,
+      "estimated_tokens": 2042
+    },
+    "ar": {
+      "docs": 1,
+      "words": 517,
+      "chars": 2940,
+      "sampled_docs": 1,
+      "sampled_words": 517,
+      "sampled_tokens": 2824,
+      "measured_fertility_tokens_per_word": 5.4623,
+      "estimated_tokens": 2824
+    },
+    "sq": {
+      "docs": 1,
+      "words": 407,
+      "chars": 2252,
+      "sampled_docs": 1,
+      "sampled_words": 407,
+      "sampled_tokens": 1197,
+      "measured_fertility_tokens_per_word": 2.941,
+      "estimated_tokens": 1197
+    },
+    "ne": {
+      "docs": 1,
+      "words": 366,
+      "chars": 2218,
+      "sampled_docs": 1,
+      "sampled_words": 366,
+      "sampled_tokens": 2987,
+      "measured_fertility_tokens_per_word": 8.1612,
+      "estimated_tokens": 2987
+    },
+    "es": {
+      "docs": 1,
+      "words": 332,
+      "chars": 2686,
+      "sampled_docs": 1,
+      "sampled_words": 332,
+      "sampled_tokens": 1496,
+      "measured_fertility_tokens_per_word": 4.506,
+      "estimated_tokens": 1496
+    },
+    "ca": {
+      "docs": 1,
+      "words": 104,
+      "chars": 537,
+      "sampled_docs": 1,
+      "sampled_words": 104,
+      "sampled_tokens": 340,
+      "measured_fertility_tokens_per_word": 3.2692,
+      "estimated_tokens": 340
+    },
+    "lv": {
+      "docs": 1,
+      "words": 80,
+      "chars": 524,
+      "sampled_docs": 1,
+      "sampled_words": 80,
+      "sampled_tokens": 331,
+      "measured_fertility_tokens_per_word": 4.1375,
+      "estimated_tokens": 331
+    }
+  },
+  "total_docs": 50867,
+  "total_words": 15401848,
+  "total_estimated_tokens": 49955156,
+  "total_estimated_tokens_b": 0.049955,
+  "measure_seconds": 1.8
+}

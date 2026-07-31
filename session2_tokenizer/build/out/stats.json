@@ -1,0 +1,86 @@
+{
+  "generated": "2026-07-19T13:49:28Z",
+  "method": "Byte-level BPE (minbpe-compatible). Base = 256 bytes shared across all languages; 9744 merges allocated so English fertility hits the 1.2 cap and the remaining budget water-fills Hindi/Telugu/Kannada to minimize the fertility spread. Fertility = len(encode(page)) / len(page.split()). decode(encode(text)) == text is verified on every page and on ASCII/mixed samples.",
+  "vocab_total": 10000,
+  "base_alphabet": 256,
+  "merges_used": 9619,
+  "vocab_used": 9875,
+  "english_cap": 1.2,
+  "english_constraint_ok": true,
+  "roundtrip_ok": true,
+  "roundtrip_samples": [
+    "India's population is 1,428,627,663.",
+    "भारत एक देश है।",
+    "భారతదేశం ఒక దేశం.",
+    "ಭಾರತ ಒಂದು ದೇಶ.",
+    "Mixed: भारत/India 2024\tno\nloss."
+  ],
+  "languages": {
+    "en": {
+      "name": "English",
+      "script": "Latin",
+      "words": 10121,
+      "tokens": 12143,
+      "fertility": 1.199782630174884,
+      "merges": 5925,
+      "revid": 1362789340,
+      "title": "India",
+      "url": "https://en.wikipedia.org/w/index.php?oldid=1362789340"
+    },
+    "hi": {
+      "name": "Hindi",
+      "script": "Devanagari",
+      "words": 8078,
+      "tokens": 15979,
+      "fertility": 1.9780886358009409,
+      "merges": 819,
+      "revid": 6579409,
+      "title": "भारत",
+      "url": "https://hi.wikipedia.org/w/index.php?oldid=6579409"
+    },
+    "te": {
+      "name": "Telugu",
+      "script": "Telugu",
+      "words": 2511,
+      "tokens": 4994,
+      "fertility": 1.9888490641178813,
+      "merges": 1950,
+      "revid": 4848340,
+      "title": "భారతదేశం",
+      "url": "https://te.wikipedia.org/w/index.php?oldid=4848340"
+    },
+    "kn": {
+      "name": "Kannada",
+      "script": "Kannada",
+      "words": 1019,
+      "tokens": 2009,
+      "fertility": 1.971540726202159,
+      "merges": 1050,
+      "revid": 1373694,
+      "title": "ಭಾರತ",
+      "url": "https://kn.wikipedia.org/w/index.php?oldid=1373694"
+    }
+  },
+  "sorted": [
+    {
+      "l": "en",
+      "f": 1.199782630174884
+    },
+    {
+      "l": "kn",
+      "f": 1.971540726202159
+    },
+    {
+      "l": "hi",
+      "f": 1.9780886358009409
+    },
+    {
+      "l": "te",
+      "f": 1.9888490641178813
+    }
+  ],
+  "Xmax": 1.9888490641178813,
+  "Xmin": 1.199782630174884,
+  "spread": 0.7890664339429974,
+  "score": 1267.3204143318567
+}

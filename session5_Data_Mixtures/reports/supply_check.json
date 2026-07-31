@@ -1,0 +1,153 @@
+{
+  "lanes": [
+    {
+      "lane": "web",
+      "demand_b": 1016.075,
+      "anneal_b": 12.0,
+      "existing_unique_b": 4930.0,
+      "planned_synth_b": 0.0,
+      "epochs_existing": 0.20610040567951318,
+      "epochs_with_synth": 0.20610040567951318,
+      "tier_a_b": 20.0,
+      "epoch_cap": 3.004056795131846,
+      "reserve_b": 13.0,
+      "status": "OK (under one epoch)"
+    },
+    {
+      "lane": "code",
+      "demand_b": 576.025,
+      "anneal_b": 20.0,
+      "existing_unique_b": 633.25,
+      "planned_synth_b": 0.0,
+      "epochs_existing": 0.9096328464271615,
+      "epochs_with_synth": 0.9096328464271615,
+      "tier_a_b": 0.45,
+      "epoch_cap": 3.0007106198183973,
+      "reserve_b": 21.0,
+      "status": "OK (under one epoch)"
+    },
+    {
+      "lane": "math",
+      "demand_b": 346.45,
+      "anneal_b": 15.0,
+      "existing_unique_b": 518.1500000000001,
+      "planned_synth_b": 0.0,
+      "epochs_existing": 0.6686287754511241,
+      "epochs_with_synth": 0.6686287754511241,
+      "tier_a_b": 0.0,
+      "epoch_cap": 2.9999999999999996,
+      "reserve_b": 16.0,
+      "status": "OK (under one epoch)"
+    },
+    {
+      "lane": "reasoning",
+      "demand_b": 83.0,
+      "anneal_b": 15.0,
+      "existing_unique_b": 12.922999999999998,
+      "planned_synth_b": 55.0,
+      "epochs_existing": 6.422657277721892,
+      "epochs_with_synth": 1.2219719388130676,
+      "tier_a_b": 0.05,
+      "epoch_cap": 2.7164509812581894,
+      "reserve_b": 16.0,
+      "status": "REPEAT x1.22 (cap 2.7)"
+    },
+    {
+      "lane": "indic",
+      "demand_b": 337.95,
+      "anneal_b": 20.0,
+      "existing_unique_b": 237.034,
+      "planned_synth_b": 72.0,
+      "epochs_existing": 1.4257448298556326,
+      "epochs_with_synth": 1.0935689924086023,
+      "tier_a_b": 53.45,
+      "epoch_cap": 2.152221114828789,
+      "reserve_b": 22.0,
+      "status": "REPEAT x1.09 (cap 2.2)"
+    },
+    {
+      "lane": "agentic",
+      "demand_b": 109.5,
+      "anneal_b": 13.0,
+      "existing_unique_b": 74.49600000000001,
+      "planned_synth_b": 13.0,
+      "epochs_existing": 1.4698775773195873,
+      "epochs_with_synth": 1.2514857822071865,
+      "tier_a_b": 1.65,
+      "epoch_cap": 1.9225678888177742,
+      "reserve_b": 14.0,
+      "status": "REPEAT x1.25 (cap 1.9)"
+    },
+    {
+      "lane": "longctx",
+      "demand_b": 174.5,
+      "anneal_b": 5.0,
+      "existing_unique_b": 438.8,
+      "planned_synth_b": 20.0,
+      "epochs_existing": 0.39767547857793983,
+      "epochs_with_synth": 0.38034001743679163,
+      "tier_a_b": 2.0,
+      "epoch_cap": 2.278350515463918,
+      "reserve_b": 6.0,
+      "status": "OK (under one epoch) \u2014 view lane"
+    },
+    {
+      "lane": "instruct",
+      "demand_b": 31.0,
+      "anneal_b": 0.0,
+      "existing_unique_b": 5.518,
+      "planned_synth_b": 18.0,
+      "epochs_existing": 5.617977528089888,
+      "epochs_with_synth": 1.3181392975593162,
+      "tier_a_b": 0.0,
+      "epoch_cap": 1.8233693341270514,
+      "reserve_b": 0.0,
+      "status": "REPEAT x1.32 (cap 1.8)"
+    }
+  ],
+  "indic_tiers": [
+    {
+      "tier": "verified",
+      "share_of_lane": 0.159,
+      "main_run_need_b": 47.7795,
+      "available_unique_b": 29.5,
+      "epochs": 1.6196440677966102,
+      "cap": 4.0
+    },
+    {
+      "tier": "unverified",
+      "share_of_lane": 0.164,
+      "main_run_need_b": 49.282000000000004,
+      "available_unique_b": 21.87,
+      "epochs": 2.253406492912666,
+      "cap": 3.0
+    },
+    {
+      "tier": "translated",
+      "share_of_lane": 0.44,
+      "main_run_need_b": 132.22,
+      "available_unique_b": 154.19,
+      "epochs": 0.8575134574226604,
+      "cap": 1.5
+    },
+    {
+      "tier": "synthetic",
+      "share_of_lane": 0.237,
+      "main_run_need_b": 71.21849999999999,
+      "available_unique_b": 72.0,
+      "epochs": 0.9891458333333332,
+      "cap": 1.5
+    }
+  ],
+  "run_average_main": {
+    "web": 0.3929166666666667,
+    "code": 0.19895833333333332,
+    "math": 0.13083333333333333,
+    "reasoning": 0.028333333333333332,
+    "indic": 0.12520833333333334,
+    "agentic": 0.04020833333333333,
+    "longctx": 0.070625,
+    "instruct": 0.012916666666666667
+  },
+  "problems": []
+}

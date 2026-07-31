@@ -1,0 +1,112 @@
+# THE experiment. Six arms at 1B parameters / 30B tokens each decide whether the
+# mixture in mixture/v5_mixture.yaml survives contact with a real run.
+#
+# Cost, computed rather than guessed:
+#   6 * N * D = 6 * 1e9 * 30e9 = 1.8e20 FLOPs per arm
+#   8xH100 at ~400 TFLOP/s achieved  => ~15.6 h per arm
+#   6 arms                            => ~4 node-days, plus ~10% for evaluation
+#
+# Arms are paired so each one isolates a single claim. If an arm's pre-registered
+# metric misses its threshold, the corresponding number in the plan changes before
+# the full run — that is the whole point of spending four node-days here.
+name: proxy_1b
+seed: 1337
+device: auto
+vocab_size: 131072          # production tokenizer, not the S2 teaching tokenizer
+
+lanes: [web, code, math, reasoning, indic, agentic, longctx, instruct]
+
+model:
+  n_layer: 24
+  n_head: 16
+  n_embd: 2048
+  block_size: 4096
+  dropout: 0.0
+
+train:
+  total_tokens: 30000000000
+  batch_size: 512           # sequences, via grad accumulation across the node
+  lr: 0.0003
+  weight_decay: 0.1
+  grad_clip: 1.0
+  warmup_steps: 2000
+  evals: 15
+
+selector:
+  enabled: true
+  candidates: 8
+  score_tokens: 512
+  reference_lanes: [web, code]
+  reference_steps: 4000
+
+arms:
+  - id: A1_proposed
+    description: the plan as written - full curriculum, floors on, OPUS on, per-lane scoring
+    floors: true
+    selector: true
+
+  - id: A2_web_heavy_baseline
+    description: naive 70% web preset, no floors - the control this session exists to beat
+    floors: false
+    selector: true
+    fixed_mixture: {web: 0.70, code: 0.15, math: 0.05, reasoning: 0.02, indic: 0.05,
+                    agentic: 0.01, longctx: 0.01, instruct: 0.01}
+
+  - id: A3_no_floors
+    description: proposed mixture, protected floors removed - isolates what the floors buy
+    floors: false
+    selector: true
+
+  - id: A4_indic_verified_heavy
+    description: >
+      same 12.5% Indic lane, but tiers reweighted to verified 40 / unverified 25 /
+      translated 20 / synthetic 15 instead of 16/16/44/24. Tests whether translated
+      bulk or verified scarcity carries MILU and IndicGenBench.
+    floors: true
+    selector: true
+    indic_tier_override: {verified: 0.40, unverified: 0.25, translated: 0.20, synthetic: 0.15}
+
+  - id: A5_agentic_tierA_only
+    description: >
+      agentic lane cut from 4.0% to 1.5% and restricted to execution-verified data.
+      Tests whether 112B tokens of execution-free 1.7B-model rollouts are worth their
+      budget or actively teach the model to hallucinate tool observations.
+    floors: true
+    selector: true
+    lane_override: {agentic: 0.015}
+    agentic_tier_filter: A
+
+  - id: A6_no_anneal
+    description: >
+      identical to A1 but the anneal reserve is spent uniformly through the run instead
+      of being held back. Tests the single most expensive scheduling claim in the plan.
+    floors: true
+    selector: true
+    disable_reserve: true
+
+# Pre-registered decision rules. Written before the run, not after it.
+acceptance:
+  primary:
+    - metric: MILU-te + MILU-hi (5-shot avg)
+      rule: A1 >= A2 + 3.0 points
+      meaning: the Indic lane is buying measurable Indic capability
+    - metric: MMLU (5-shot)
+      rule: A1 >= A2 - 1.5 points
+      meaning: it is not buying it with an unacceptable amount of general knowledge
+    - metric: HumanEval+ pass@1
+      rule: A1 >= A2 - 1.0 points
+      meaning: the code lane is not being crowded out
+  secondary:
+    - metric: tool-observation hallucination rate (generated <|obs|> tokens per trajectory)
+      rule: A1 <= 0.05; A5 - A1 tells us whether Tier C rollouts cause it
+    - metric: BFCL-v3 AST accuracy
+      rule: A1 >= A5, else cut the agentic lane to Tier A only and re-plan the reserve
+    - metric: FLORES-200 en->te chrF++
+      rule: A4 - A1 > 2.0 means shift the Indic tier split toward verified and buy less translation
+    - metric: anneal delta (final 4% of tokens)
+      rule: A1 - A6 >= 2.0 points averaged over MILU, HumanEval+, GSM8K, else the reserve
+            is not worth the scheduling complexity
+  kill:
+    - gradient norm above 4x the 1000-step rolling median for more than 200 steps
+    - any lane's realised share drifting more than 2 points from its target for 1B tokens
+    - held-out loss on any protected lane rising for two consecutive evaluations

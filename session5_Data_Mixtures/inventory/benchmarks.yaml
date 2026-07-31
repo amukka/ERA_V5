@@ -1,0 +1,190 @@
+# Every benchmark V5 intends to be judged on, and the training shape that buys it.
+#
+# The mixture is composed backward from this file. A lane exists because something
+# here requires it; a share is defended by pointing at what it wins. `loss_on` is
+# the part of the training sequence that receives gradient — get it wrong and the
+# lane teaches the opposite of what it is for.
+
+agentic_and_tool_use:
+  - id: SWE-bench-Verified
+    measures: resolve a real GitHub issue in a real repo; patch must pass the repo's tests
+    scoring: pass/fail on hidden tests, % resolved
+    sample_task: "django/django issue 15467 - Model.save() ignores update_fields for deferred fields"
+    training_shape: multi-step trajectory - read files, run tests, edit, re-run
+    loss_on: model turns only (plan, tool call, patch, final message)
+    never_loss_on: file contents returned by the tool, test output, user issue text
+    lanes: [agentic, code, longctx]
+    v5_target: ">= 40% after RL (Sessions 17-18); >= 12% from the base model alone"
+
+  - id: Terminal-Bench
+    measures: complete a task in a real shell with no human in the loop
+    scoring: task-level pass/fail against an environment checker
+    sample_task: "set up a postgres container, load this dump, and report the row count"
+    training_shape: command -> stdout/stderr -> next command, including recovery from errors
+    loss_on: commands the model issues
+    never_loss_on: shell output
+    lanes: [agentic, code]
+    v5_target: ">= 25%"
+
+  - id: BFCL-v3
+    measures: emit the correct function name and arguments, including when NOT to call
+    scoring: AST match on the call; abstention accuracy on irrelevance subsets
+    sample_task: "get_weather(location='Hyderabad', unit='celsius')"
+    training_shape: short prompt -> single JSON/function call
+    loss_on: the emitted call only
+    never_loss_on: the tool schema, the user turn
+    lanes: [agentic, instruct]
+    v5_target: ">= 85% AST accuracy"
+
+  - id: tau-bench
+    measures: multi-turn tool use against a simulated user with a policy to obey
+    scoring: end-state correctness plus policy compliance
+    sample_task: "cancel the customer's order and refund only the eligible items"
+    training_shape: long dialogue interleaving user turns, tool calls, observations
+    loss_on: assistant turns and calls
+    never_loss_on: simulated user turns, tool observations
+    lanes: [agentic, instruct, longctx]
+    v5_target: ">= 45% on retail split"
+
+coding:
+  - id: HumanEval+ / MBPP+
+    measures: write a correct function from a docstring
+    scoring: pass@1 against expanded test suites
+    sample_task: "def rolling_max(numbers: List[int]) -> List[int]"
+    training_shape: docstring/signature -> body
+    loss_on: the generated body
+    lanes: [code]
+    v5_target: ">= 70% HumanEval+ pass@1"
+
+  - id: LiveCodeBench
+    measures: competitive programming on problems published after the training cutoff
+    scoring: pass@1, contamination-resistant by construction
+    sample_task: "Codeforces Div2 C, published last month"
+    training_shape: problem statement -> reasoning -> program
+    loss_on: reasoning trace and program
+    lanes: [code, reasoning, math]
+    v5_target: ">= 30% pass@1 on the easy+medium split"
+
+  - id: Aider / patch-format validity
+    measures: can the model emit a diff that applies cleanly
+    scoring: % of generated patches that apply without fuzz
+    sample_task: "produce a unified diff that adds a null check to line 88"
+    training_shape: file context + instruction -> unified diff
+    loss_on: the diff
+    never_loss_on: the file context
+    lanes: [code, agentic]
+    v5_target: ">= 95% apply rate (this is a formatting capability, and it is cheap)"
+
+reasoning_and_math:
+  - id: GSM8K
+    measures: grade-school multi-step arithmetic word problems
+    scoring: exact match on the final number
+    sample_task: "Natalia sold clips to 48 friends in April and half as many in May..."
+    training_shape: question -> short worked solution -> answer
+    loss_on: solution and answer
+    lanes: [math, reasoning]
+    v5_target: ">= 80%"
+
+  - id: MATH-500
+    measures: competition mathematics
+    scoring: exact match modulo equivalent forms
+    sample_task: "Find the number of ordered pairs (a,b) of integers with a^2+b^2 <= 25"
+    training_shape: question -> medium/long trace -> boxed answer
+    loss_on: trace and answer
+    lanes: [math, reasoning]
+    v5_target: ">= 45% base, >= 65% after reasoning RL"
+
+  - id: AIME
+    measures: hard olympiad problems where the model must verify itself
+    scoring: exact match, integer answer 0-999
+    sample_task: "AIME 2024 I Problem 12"
+    training_shape: question -> long trace with backtracking and verification -> answer
+    loss_on: trace and answer
+    lanes: [reasoning]
+    v5_target: ">= 20% after RL; the base model is not expected to be good at this"
+
+  - id: GPQA-Diamond
+    measures: graduate-level science that resists retrieval
+    scoring: multiple choice accuracy
+    sample_task: "which term dominates the decay width of ..."
+    training_shape: question -> reasoning -> choice
+    loss_on: reasoning and choice
+    lanes: [reasoning, math, web]
+    v5_target: ">= 35%"
+
+  - id: MMLU / MMLU-Pro
+    measures: breadth of world knowledge
+    scoring: multiple choice accuracy
+    sample_task: "In which year was the Treaty of Westphalia signed?"
+    training_shape: plain pretraining text; no special format
+    loss_on: all tokens
+    lanes: [web, math]
+    v5_target: ">= 65% MMLU - this is the number the Indic lane is allowed to cost us against"
+
+indic:
+  - id: MILU
+    measures: India-centric knowledge and understanding across 11 Indic languages
+    scoring: multiple choice accuracy, ~85k questions, 8 domains, 41 subjects
+    sample_task: "తెలుగు సాహిత్యంలో 'కవిత్రయం' అని ఎవరిని అంటారు?"
+    training_shape: native Indic pretraining text - regional exams, history, law, arts
+    loss_on: all tokens
+    lanes: [indic]
+    why_it_needs_verified_data: >
+      MILU is drawn from regional and state-level examinations. Translated English
+      Wikipedia does not contain the answers, which is precisely why the verified
+      tier cannot be swapped for the translated tier at equal token cost.
+    v5_target: ">= 55% averaged over te and hi"
+
+  - id: IndicGenBench
+    measures: generation across 29 Indic languages - summarisation, QA, translation
+    scoring: chrF++ / ROUGE against references
+    sample_task: "summarise this Telugu news article in Telugu"
+    training_shape: native long-form Indic text; instruction pairs
+    loss_on: response only for the instruction slices
+    lanes: [indic, instruct]
+    v5_target: "chrF++ >= 45 on the te/hi generation splits"
+
+  - id: FLORES-200 / IN22-Gen
+    measures: translation quality into and out of Indic languages
+    scoring: spBLEU / chrF++
+    sample_task: "en->te sentence-level translation"
+    training_shape: parallel and comparable corpora
+    loss_on: target side
+    lanes: [indic]
+    v5_target: "en->te chrF++ >= 50"
+
+  - id: Indic tokenizer fertility (not a benchmark, a cost)
+    measures: tokens spent per Indic word
+    scoring: len(encode(text)) / len(text.split())
+    measured: >
+      Our own Session 2 tokenizer reports 1.99 on clean Telugu Wikipedia but
+      3.62 on the real Session 4 web corpus (reports/s4_shard_tokens.json).
+      Every Indic budget number in this plan is denominated in tokens measured
+      on real corpus text, not on Wikipedia.
+    lanes: [indic]
+
+long_context:
+  - id: RULER-128k
+    measures: retrieval and aggregation as context length grows
+    scoring: accuracy by context length band
+    sample_task: "which of the 200 documents above mentions the acquisition price"
+    training_shape: packed long documents and multi-doc tasks
+    loss_on: all tokens (native long docs), answer only (synthetic tasks)
+    lanes: [longctx]
+    v5_target: ">= 85% at 32k, >= 70% at 128k"
+
+  - id: LongBench-v2
+    measures: realistic long-document understanding
+    scoring: task-specific
+    lanes: [longctx, web]
+    v5_target: ">= 40%"
+
+instruction_following:
+  - id: IFEval
+    measures: obeying explicit formatting constraints
+    scoring: strict instruction-level accuracy
+    sample_task: "answer in exactly three bullet points, no capital letters"
+    training_shape: instruction -> compliant response
+    loss_on: response only
+    lanes: [instruct]
+    v5_target: ">= 75%"

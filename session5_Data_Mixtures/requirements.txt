@@ -1,0 +1,5 @@
+# supply_check.py, curriculum_sim.py, lib_mixture.py
+PyYAML>=6.0
+# proxy_run.py, prepare_proxy_data.py
+numpy>=1.26
+torch>=2.2

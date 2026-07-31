@@ -1,0 +1,34 @@
+{
+  "en": {
+    "title": "India",
+    "pageid": 14533,
+    "revid": 1362789340,
+    "chars": 65200,
+    "words": 10121,
+    "url": "https://en.wikipedia.org/w/index.php?oldid=1362789340"
+  },
+  "hi": {
+    "title": "भारत",
+    "pageid": 59,
+    "revid": 6579409,
+    "chars": 43712,
+    "words": 8078,
+    "url": "https://hi.wikipedia.org/w/index.php?oldid=6579409"
+  },
+  "te": {
+    "title": "భారతదేశం",
+    "pageid": 1294,
+    "revid": 4848340,
+    "chars": 19941,
+    "words": 2511,
+    "url": "https://te.wikipedia.org/w/index.php?oldid=4848340"
+  },
+  "kn": {
+    "title": "ಭಾರತ",
+    "pageid": 803,
+    "revid": 1373694,
+    "chars": 7692,
+    "words": 1019,
+    "url": "https://kn.wikipedia.org/w/index.php?oldid=1373694"
+  }
+}

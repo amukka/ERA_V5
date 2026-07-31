@@ -1,0 +1,14 @@
+# Local Netlify folder
+.netlify
+
+# Environments and caches
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Generated corpora and token shards. These are rebuilt by each session's own
+# scripts and are too large to track — cleaned_corpus.jsonl alone is 261MB,
+# over GitHub's 100MB per-file limit.
+session4_data_cleaning_dedup/cleaned_corpus.jsonl
+session5_Data_Mixtures/data/

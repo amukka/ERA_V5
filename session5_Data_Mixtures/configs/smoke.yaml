@@ -1,0 +1,50 @@
+# Laptop-scale smoke run. This is NOT the proxy experiment that decides the
+# mixture — it is the harness proving it runs end to end, on real Telugu and
+# English from our Session 4 corpus plus generated agentic/reasoning lanes.
+# Interpret its numbers as a check on the machinery, not as evidence about V5.
+name: smoke
+seed: 1337
+device: auto
+vocab_size: 10000          # ERA V5 Session 2 byte-level BPE
+
+lanes: [web, code, math, reasoning, indic, agentic]
+
+model:
+  n_layer: 4
+  n_head: 4
+  n_embd: 256
+  block_size: 256
+  dropout: 0.0
+
+train:
+  total_tokens: 12000000
+  batch_size: 16
+  lr: 0.001
+  weight_decay: 0.1
+  grad_clip: 1.0
+  warmup_steps: 60
+  evals: 4
+
+selector:
+  enabled: true
+  candidates: 4            # candidate batches scored per step
+  score_tokens: 128        # score on a truncated view, as production selectors do
+  reference_lanes: [web, code]     # deliberately English-heavy proxy direction
+  reference_steps: 250
+
+arms:
+  - id: A_proposed
+    description: V5 curriculum + protected floors + OPUS selection
+    floors: true
+    selector: true
+
+  - id: B_no_floors
+    description: same curriculum and selector, floors removed
+    floors: false
+    selector: true
+
+  - id: C_web_heavy
+    description: naive web-heavy mixture, no floors (the preset this session warns about)
+    floors: false
+    selector: true
+    fixed_mixture: {web: 0.70, code: 0.18, math: 0.05, reasoning: 0.02, indic: 0.04, agentic: 0.01}

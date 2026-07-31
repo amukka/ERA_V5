@@ -1,0 +1,50 @@
+lane,dataset,source,tokens_b,samples_m,license,tier,langs,overlap_frac,keep_frac,confidence,notes
+web,Nemotron-CC (unique real),https://arxiv.org/abs/2412.02595,4400,,Common Crawl ToU / NVIDIA open,B,en,0.00,1.00,high,6.3T total incl. 1.9T synthetic rephrasings; 4.4T unique real tokens
+web,DCLM-baseline,https://arxiv.org/abs/2406.11794,1000,,CC ToU,B,en,0.55,1.00,high,3.8T total / 1.0T unique; heavy overlap with Nemotron-CC source crawls
+web,FineWeb-Edu,https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu,200,,ODC-By 1.0,B,en,0.70,1.00,high,1.3T total / 0.2T unique; edu-classifier subset of FineWeb
+web,Wikipedia + curated reference (non-Indic),https://huggingface.co/datasets/wikimedia/wikipedia,25,,CC-BY-SA,A,en+mul,0.20,1.00,high,Tier A reference text; small but high value in anneal
+code,The Stack v2 (near-dedup),https://arxiv.org/abs/2402.19173,900,,permissive-only subset; per-file licenses,B,code,0.00,0.70,med,67.5TB raw over 600+ languages; token estimate is the widely cited ~900B for the dedup permissive slice
+code,StarCoder2 quality-filtered slice,https://arxiv.org/abs/2402.19173,600,,permissive,B,code,1.00,1.00,med,Subset of The Stack v2 after StarCoder2 filters; counted as quality view not new supply
+code,CommitPackFT,https://huggingface.co/datasets/bigcode/commitpackft,0.5,0.7,MIT (data per-repo),A,code,0.10,1.00,med,Filtered commit->diff pairs; the natural shape for patch-generation loss
+code,Jupyter / notebook + docs (Stack v2 subsets),https://huggingface.co/bigcode,40,,permissive,B,code,0.90,0.70,low,Mostly inside Stack v2 count
+math,MegaMath,https://arxiv.org/abs/2504.02807,371.6,,ODC-By,B,en,0.00,1.00,high,279B web + 28.1B code + 64.5B synthetic
+math,Nemotron-CC-Math,https://arxiv.org/abs/2508.15096,133,,NVIDIA open,B,en,0.35,1.00,high,133B-token math pretraining set; overlaps MegaMath-web on CC provenance
+math,FineMath,https://huggingface.co/datasets/HuggingFaceTB/finemath,54,,ODC-By,B,en,0.60,1.00,high,OWM-style pipeline over CC; substantial overlap with MegaMath-web
+math,Proof-Pile-2,https://arxiv.org/abs/2310.10631,55,,mixed (arXiv + permissive code),B,en,0.30,1.00,high,arXiv + OpenWebMath + AlgebraicStack
+math,OpenWebMath,https://arxiv.org/abs/2310.06786,14.7,,ODC-By,B,en,1.00,1.00,high,Fully contained in Proof-Pile-2 and MegaMath
+reasoning,Llama-Nemotron Post-Training,https://huggingface.co/datasets/nvidia/Llama-Nemotron-Post-Training-Dataset,12,3.9,NVIDIA open / CC-BY-4.0,C,en,0.00,0.60,low,3.9M samples with R1 reasoning traces; token count estimated at ~3.1k tok/sample
+reasoning,OpenThoughts3-1.2M,https://arxiv.org/abs/2506.04178,6,1.2,Apache-2.0,C,en,0.15,0.60,low,850k math + 250k code + 100k science; QwQ-32B traces; ~5k tok/sample
+reasoning,AM-DeepSeek-R1-Distill-1.4M,https://huggingface.co/datasets/a-m-team/AM-DeepSeek-R1-Distilled-1.4M,4.5,1.4,Apache-2.0,C,en,0.25,0.60,low,900k distilled from R1-671B + 500k cleaned from other sets
+reasoning,OpenR1-Math-220k,https://huggingface.co/datasets/open-r1/OpenR1-Math-220k,1.2,0.22,Apache-2.0,C,en,0.30,0.70,med,R1 traces on NuminaMath problems
+reasoning,s1K / LIMO / hand-curated,https://arxiv.org/abs/2501.19393,0.05,0.001,MIT,A,en,0.00,1.00,high,Tiny but Tier A; anneal-grade
+reasoning,V5 self-distilled reasoning traces (PLANNED),internal,55.0,,internal,B,en+indic,0.00,1.00,planned,Rejection-sampled from a 32B teacher on problems with checkable answers; ~4 samples kept 1; includes Indic-language traces
+agentic,SWE-ZERO-12M-trajectories,https://huggingface.co/datasets/AlienKevin/SWE-ZERO-12M-trajectories,112,12.3,Apache-2.0,C,code,0.00,0.50,high,112B tokens / 12.3M trajectories over 122908 PRs; EXECUTION-FREE rollouts from a 1.7B model at T=1.0 - no test ever run
+agentic,AgentTrove (open-thoughts),https://huggingface.co/open-thoughts,19.4,,Apache-2.0,C,code,0.25,0.60,med,Previous largest agent-trace corpus before SWE-ZERO
+agentic,NVIDIA SWE-Zero traces,https://huggingface.co/nvidia,8.9,,NVIDIA open,C,code,0.30,0.60,med,Overlaps SWE-ZERO repo pool
+agentic,mini-coder trajectories,https://huggingface.co/ricdomolm,5.3,,Apache-2.0,C,code,0.30,0.60,med,Same PR/repo universe as above
+agentic,Open-SWE-Traces,https://arxiv.org/abs/2606.16038,4.0,0.21,research release,C,code,0.20,0.60,low,207489 synthesized trajectories across 9 languages; token count estimated
+agentic,SWE-Gym (+ executed rollouts),https://arxiv.org/abs/2412.21139,0.3,0.0024,MIT,A,code,0.00,1.00,med,2.4k real tasks with runnable environments; only executed/verified rollouts count as Tier A
+agentic,R2E-Gym,https://arxiv.org/abs/2504.07164,0.5,0.008,Apache-2.0,A,code,0.10,1.00,low,Procedurally generated executable environments + hybrid verifiers
+agentic,Nemotron-RL-Agentic-SWE-Pivot-v1,https://huggingface.co/datasets/nvidia/Nemotron-RL-Agentic-SWE-Pivot-v1,1.0,,NVIDIA open,A,code,0.10,1.00,low,RL-grade agentic SWE data; token count unpublished at time of writing
+agentic,xLAM-function-calling-60k,https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k,0.06,0.06,CC-BY-NC-4.0,B,en,0.00,1.00,high,NON-COMMERCIAL license - usable for eval/proxy only not for the production run
+agentic,glaive-function-calling-v2,https://huggingface.co/datasets/glaiveai/glaive-function-calling-v2,0.1,0.113,Apache-2.0,B,en,0.00,1.00,high,112960 single/multi-turn function-calling samples
+agentic,ToolACE / APIGen-MT-5k / When2Call / BUTTONInstruct,https://arxiv.org/abs/2409.00920,0.08,0.039,Apache-2.0 (mixed),B,en,0.10,1.00,med,Short samples - large sample count but small token mass; the sample-vs-token trap in one row
+agentic,V5 self-generated execution-verified trajectories (PLANNED),internal,13.0,1.5,internal,A,code+en+indic,0.00,1.00,planned,Must be BUILT: ~1.5M rollouts x ~9k tok in containerised repos with tests as the verifier
+indic,Sangraha Verified (Indic only),https://huggingface.co/datasets/ai4bharat/sangraha,51.5,,CC-BY-4.0,A,22 Indic,0.00,1.00,high,64.3B verified total minus 12.8B eng; human-verified sites + OCR + transcription
+indic,Sangraha Unverified,https://huggingface.co/datasets/ai4bharat/sangraha,24.3,,CC-BY-4.0,B,22 Indic,0.00,0.90,high,Perplexity-filtered from multilingual corpora using n-gram LMs trained on Verified
+indic,Sangraha Synthetic (translated + romanised),https://huggingface.co/datasets/ai4bharat/sangraha,162.7,,CC-BY-4.0,C,14 Indic,0.00,0.85,high,WikiMedia EN translated into 14 languages + romanised transliterations
+indic,IndicCorp v2,https://arxiv.org/abs/2212.05409,20.9,,CC0/CC-BY,B,24 Indic,0.60,0.90,med,Large overlap with Sangraha Unverified sources
+indic,IndicAlign (IndicAlign-Instruct + Toxic + Anudesh),https://arxiv.org/abs/2403.06350,22.0,74.7,CC-BY-4.0,B/C,14 Indic,0.15,0.85,low,74.7M prompt-response pairs; token estimate ~300 tok/pair; mixed human (Anudesh) and translated
+indic,Wikipedia Indic + Varta + curated news,https://huggingface.co/datasets/wikimedia/wikipedia,3.0,,CC-BY-SA / research,A,22 Indic,0.35,1.00,med,Tier A native text; partly inside Sangraha Verified
+indic,TSAI S4 cleaned shard (tel+eng),./session4_data_cleaning_dedup,0.050,0.051,CC-BY-4.0,A,tel+eng,1.00,1.00,high,50867 docs / 15.4M words = 50.0M tokens MEASURED with our own S2 tokenizer; a documented subset of Sangraha verified/tel so it adds provenance not new tokens
+indic,V5 self-generated Indic (PLANNED),internal,72.0,,internal,C,10 Indic,0.00,1.00,planned,Instruction + reasoning + agentic + textbook-style generation and back-translation
+longctx,arXiv full papers (RedPajama),https://huggingface.co/datasets/togethercomputer/RedPajama-Data-1T,28,,arXiv non-exclusive,B,en,0.40,1.00,med,Long native documents; overlaps Proof-Pile-2 arXiv
+longctx,PG-19 / public-domain books,https://huggingface.co/datasets/deepmind/pg19,2,,public domain,A,en,0.00,1.00,high,Books3 deliberately EXCLUDED - unresolved licensing
+longctx,Repo-level packing view of The Stack v2,https://arxiv.org/abs/2402.19173,120,,permissive,B,code,1.00,1.00,med,A packing VIEW of the code lane not new tokens; repo-context ordering
+longctx,Long-document view of web+math lanes (>=8k tok),derived,300,,as parent lane,B,en+mul,1.00,1.00,med,A view not new supply; long-context supply is a length-distribution question
+longctx,V5 synthetic long-context tasks (PLANNED),internal,20,,internal,C,en+indic,0.00,1.00,planned,Multi-doc QA + repo-level tasks + needle/aggregation over our own shards
+instruct,Tulu-3 SFT mixture,https://arxiv.org/abs/2411.15124,1.5,0.94,ODC-By,B,en,0.00,1.00,high,Post-training mixture used here only as instruction-format exposure
+instruct,OpenHermes-2.5,https://huggingface.co/datasets/teknium/OpenHermes-2.5,0.8,1.0,mixed,C,en,0.20,0.70,med,Mixed provenance; keep out of anneal
+instruct,Nemotron post-training chat/safety subset,https://huggingface.co/datasets/nvidia/Llama-Nemotron-Post-Training-Dataset,3.0,,NVIDIA open,B,en,0.30,0.80,low,Chat + safety slices of the 3.9M-sample release
+instruct,FLAN-style templated NLP tasks,https://arxiv.org/abs/2301.13688,3.0,,Apache-2.0,B,en+mul,0.10,0.70,med,Cheap breadth; low marginal value late in the run
+instruct,V5 synthetic instruction (PLANNED),internal,18.0,,internal,C,en+indic,0.00,1.00,planned,Lowest-risk lane to cut if generation slips - SFT re-teaches this

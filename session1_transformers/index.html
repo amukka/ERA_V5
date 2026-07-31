@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Four Proofs · ERA V5 · Session 1</title>
+<meta name="description" content="Four claims about neural networks, each proved live in your browser: activations, depth, embeddings, and data." />
+<style>
+  :root{
+    --bg:#0b0b0d; --panel:#141418; --panel-2:#191920; --ink:#f4f4f2; --ink-2:#b8b7b0;
+    --muted:#89877f; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.14);
+    --blue:#3987e5; --violet:#9085e9; --orange:#eb6834; --aqua:#1baf7a; --green:#0ca30c;
+    --radius:16px; --maxw:1080px;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---- top nav ---- */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+    background:rgba(11,11,13,.72);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:20px;height:58px}
+  .brand{font-weight:700;letter-spacing:-.01em;font-size:15px;white-space:nowrap}
+  .brand .dot{color:var(--violet)}
+  nav ul{display:flex;gap:22px;margin:0 0 0 auto;padding:0;list-style:none;font-size:13.5px}
+  nav a{color:var(--ink-2)} nav a:hover{color:var(--ink)}
+  @media(max-width:720px){nav ul{display:none}}
+
+  /* ---- hero ---- */
+  header.hero{position:relative;padding:96px 0 64px;text-align:center;overflow:hidden}
+  header.hero::before{content:"";position:absolute;inset:-40% 0 auto 0;height:640px;
+    background:radial-gradient(60% 60% at 50% 0%,rgba(57,135,229,.20),transparent 70%),
+      radial-gradient(46% 46% at 78% 12%,rgba(144,133,233,.16),transparent 70%),
+      radial-gradient(40% 40% at 20% 16%,rgba(235,104,52,.10),transparent 70%);
+    filter:blur(6px);pointer-events:none;z-index:-1}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+    font-weight:600;margin-bottom:20px}
+  h1.title{font-size:clamp(38px,7vw,72px);line-height:1.02;letter-spacing:-.03em;margin:0;
+    font-weight:800;background:linear-gradient(120deg,#fff 20%,#a9c7f5 55%,var(--violet));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .subtitle{max-width:640px;margin:22px auto 0;color:var(--ink-2);font-size:18px}
+  .hero-cta{margin-top:34px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-2);
+    background:var(--panel-2);color:var(--ink);padding:11px 18px;border-radius:11px;
+    font:inherit;font-size:14.5px;font-weight:600;cursor:pointer;transition:.15s}
+  .btn:hover{border-color:rgba(255,255,255,.3);transform:translateY(-1px)}
+  .btn.primary{background:linear-gradient(120deg,var(--blue),var(--violet));border-color:transparent}
+  .btn:disabled{opacity:.5;cursor:default;transform:none}
+
+  /* summary claim cards under hero */
+  .claims{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:56px}
+  @media(max-width:860px){.claims{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:460px){.claims{grid-template-columns:1fr}}
+  .claim-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:18px 16px;text-align:left;transition:.15s}
+  .claim-card:hover{border-color:var(--line-2);background:var(--panel-2)}
+  .claim-card .n{font:700 12px/1 var(--mono);color:var(--violet);letter-spacing:.05em}
+  .claim-card h3{margin:10px 0 6px;font-size:15px;letter-spacing:-.01em}
+  .claim-card p{margin:0;font-size:13px;color:var(--muted)}
+
+  /* ---- proof sections ---- */
+  section.proof{padding:80px 0;border-top:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px}
+  .badge{font:700 13px/1 var(--mono);color:#fff;background:linear-gradient(120deg,var(--blue),var(--violet));
+    padding:7px 10px;border-radius:9px;letter-spacing:.02em}
+  .sec-head h2{margin:0;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;font-weight:800}
+  .claim-line{font-size:18px;color:var(--ink);max-width:760px;margin:14px 0 2px}
+  .claim-line b{color:#fff}
+  .build-line{font-size:14.5px;color:var(--muted);max-width:760px;margin:8px 0 28px}
+  .build-line code{font-family:var(--mono);font-size:13px;color:var(--ink-2);
+    background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
+  .controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+  .status{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  .plot-grid{display:grid;gap:18px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  @media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+  .plot{background:#0d0d10;border:1px solid var(--line);border-radius:12px;padding:14px;overflow:hidden}
+  .plot .cap{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .plot .cap .ttl{font-size:14px;font-weight:700}
+  .plot .cap .sub{font-size:12px;color:var(--muted)}
+  canvas{width:100%;aspect-ratio:1/1;display:block;border-radius:8px;background:#0d0d10}
+  canvas.wide{aspect-ratio:16/10}
+  .metric{display:flex;align-items:baseline;gap:8px;margin-top:12px}
+  .metric .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .metric .v{font:800 24px/1 var(--sans);font-variant-numeric:tabular-nums}
+  .v.blue{color:#7fb2f2}.v.orange{color:#f2926a}.v.violet{color:var(--violet)}.v.good{color:#4bd07a}
+
+  /* proof callout */
+  .money{margin-top:22px;display:flex;gap:14px;align-items:flex-start;
+    background:linear-gradient(120deg,rgba(57,135,229,.10),rgba(144,133,233,.08));
+    border:1px solid rgba(144,133,233,.28);border-radius:12px;padding:16px 18px}
+  .money .tag{font:700 11px/1 var(--mono);letter-spacing:.08em;color:var(--violet);
+    background:rgba(144,133,233,.14);padding:6px 8px;border-radius:6px;white-space:nowrap;margin-top:2px}
+  .money p{margin:0;font-size:14.5px;color:var(--ink-2)}
+  .money p b{color:#fff}
+
+  /* legend chips */
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+  .legend .chip{display:inline-flex;align-items:center;gap:7px}
+  .legend .sw{width:11px;height:11px;border-radius:50%;border:1px solid rgba(255,255,255,.6)}
+
+  /* collapse (S2) */
+  #s2-collapse{margin-top:20px}
+  .collapse-eq{font-family:var(--mono);font-size:14px;margin:6px 0;display:flex;gap:8px;
+    align-items:baseline;flex-wrap:wrap}
+  .ce-label{color:var(--ink-2)} .ce-mat{color:#7fb2f2;font-weight:700}
+  .ce-note{color:var(--muted);font-family:var(--sans);font-size:12.5px}
+  .ce-caption{font-family:var(--sans);font-size:14px;color:var(--ink-2);margin:12px 0 0;max-width:720px}
+  .ce-caption strong{color:#fff}
+
+  /* gap bars (S4) */
+  #s4-bars{margin-top:6px;display:flex;flex-direction:column;gap:12px}
+  .gapbar-row{display:grid;grid-template-columns:64px 1fr 52px;align-items:center;gap:12px}
+  .gapbar-label{font:600 13px/1 var(--mono);color:var(--ink-2)}
+  .gapbar-track{height:16px;background:rgba(255,255,255,.06);border-radius:8px;overflow:hidden}
+  .gapbar-fill{display:block;height:100%;border-radius:8px;
+    background:linear-gradient(90deg,var(--orange),#f2a883);transition:width .25s}
+  .gapbar-val{font:700 14px/1 var(--mono);color:#f2926a;text-align:right;font-variant-numeric:tabular-nums}
+
+  .grammar{font-family:var(--mono);font-size:13px;color:var(--ink-2);line-height:1.9}
+  .grammar .kw{color:var(--violet)} .grammar .an{color:#7fb2f2} .grammar .fr{color:#5fd3a5} .grammar .vb{color:#f2926a}
+
+  footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-size:13.5px}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+
+  .note{font-size:13px;color:var(--muted);margin-top:14px}
+  .two-col{display:grid;grid-template-columns:1fr 1.15fr;gap:24px;align-items:start}
+  @media(max-width:760px){.two-col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <span class="brand">ERA&nbsp;V5 <span class="dot">·</span> Session&nbsp;1</span>
+  <ul>
+    <li><a href="#s1">Activations</a></li>
+    <li><a href="#s2">Depth</a></li>
+    <li><a href="#s3">Embeddings</a></li>
+    <li><a href="#s4">Data</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Four claims · proved live in your browser</div>
+  <h1 class="title">Why neural networks<br/>actually work</h1>
+  <p class="subtitle">No videos, no pre-rendered charts. Every proof below trains a real neural
+    network in your browser, right now, and shows you the decision boundary as it forms.</p>
+  <div class="hero-cta">
+    <a class="btn primary" href="#s1">See the first proof ↓</a>
+    <a class="btn" href="#s4">Jump to “data is everything”</a>
+  </div>
+
+  <div class="claims">
+    <a class="claim-card" href="#s1"><div class="n">S1·1</div><h3>Activations exist for a reason</h3><p>One ReLU turns a useless straight line into a boundary that wraps a ring.</p></a>
+    <a class="claim-card" href="#s2"><div class="n">S1·2</div><h3>Depth without nonlinearity is a lie</h3><p>Five stacked linear layers are algebraically one layer.</p></a>
+    <a class="claim-card" href="#s3"><div class="n">S1·3</div><h3>Embeddings learn similarity from nothing</h3><p>Next-token prediction alone makes related words cluster.</p></a>
+    <a class="claim-card" href="#s4"><div class="n">S1·4</div><h3>Data closes the gap</h3><p>Memorization at 20 points; generalization at 1000.</p></a>
+  </div>
+</div></header>
+
+<!-- ============ S1-1 ============ -->
+<section class="proof" id="s1" data-run="s1"><div class="wrap">
+  <div class="sec-head"><span class="badge">S1·1</span><h2>Activations exist for a reason</h2></div>
+  <p class="claim-line"><b>Claim.</b> A model with no nonlinearity can only draw a straight boundary, so it
+    cannot separate two concentric rings. Add a single ReLU hidden layer and it can.</p>
+  <p class="build-line"><b>Build.</b> 300 noisy 2-D points — an <span style="color:#7fb2f2">inner ring (class 0)</span> and an
+    <span style="color:#f2926a">outer ring (class 1)</span>, not linearly separable. Train (a) <code>Linear(2→1) → sigmoid</code>
+    and (b) <code>Linear(2→16) → ReLU → Linear(16→1) → sigmoid</code>. Only the activation differs.</p>
+
+  <div class="panel">
+    <div class="controls">
+      <button class="btn primary" id="s1-run">▶ Re-run training</button>
+      <span class="status" id="s1-status">scroll in to train automatically…</span>
+      <span class="legend" style="margin-left:auto">
+        <span class="chip"><span class="sw" style="background:#3987e5"></span>class 0 (inner)</span>
+        <span class="chip"><span class="sw" style="background:#eb6834"></span>class 1 (outer)</span>
+      </span>
+    </div>
+    <div class="plot-grid g2">
+      <div class="plot">
+        <div class="cap"><span class="ttl">No activation — linear</span><span class="sub">1 layer</span></div>
+        <canvas id="s1-lin"></canvas>
+        <div class="metric"><span class="k">accuracy</span><span class="v blue" id="s1-acc-lin">—</span></div>
+      </div>
+      <div class="plot">
+        <div class="cap"><span class="ttl">One ReLU hidden layer</span><span class="sub">16 units</span></div>
+        <canvas id="s1-relu"></canvas>
+        <div class="metric"><span class="k">accuracy</span><span class="v orange" id="s1-acc-relu">—</span></div>
+      </div>
+    </div>
+    <div class="money"><span class="tag">MONEY SHOT</span>
+      <p>The linear model is a <b>straight line stuck near 50%</b> — it literally cannot bend around a ring.
+        The ReLU model <b>wraps the ring to ~99%</b>. Same data, same optimizer, same everything — the
+        <b>only</b> change is one activation function.</p></div>
+  </div>
+</div></section>
+
+<!-- ============ S1-2 ============ -->
+<section class="proof" id="s2" data-run="s2"><div class="wrap">
+  <div class="sec-head"><span class="badge">S1·2</span><h2>Depth without nonlinearity is a lie</h2></div>
+  <p class="claim-line"><b>Claim.</b> Five stacked linear layers collapse to a single linear map, so a 5-layer
+    linear net is no stronger than 1 layer. Both fail the ring identically; inserting ReLUs between the
+    <em>same</em> five layers suddenly solves it.</p>
+  <p class="build-line"><b>Build.</b> Same rings. Train <code>1 linear layer</code>, <code>5 linear layers (no activation)</code>,
+    then <code>5 layers + ReLU</code> — then multiply the five weight matrices numerically to expose the collapse.</p>
+
+  <div class="panel">
+    <div class="controls">
+      <button class="btn primary" id="s2-run">▶ Re-run training</button>
+      <span class="status" id="s2-status">scroll in to train automatically…</span>
+    </div>
+    <div class="plot-grid g3">
+      <div class="plot">
+        <div class="cap"><span class="ttl">1 linear layer</span></div>
+        <canvas id="s2-l1"></canvas>
+        <div class="metric"><span class="k">accuracy</span><span class="v blue" id="s2-acc-l1">—</span></div>
+      </div>
+      <div class="plot">
+        <div class="cap"><span class="ttl">5 linear layers</span><span class="sub">no activation</span></div>
+        <canvas id="s2-l5"></canvas>
+        <div class="metric"><span class="k">accuracy</span><span class="v blue" id="s2-acc-l5">—</span></div>
+      </div>
+      <div class="plot">
+        <div class="cap"><span class="ttl">5 layers + ReLU</span></div>
+        <canvas id="s2-r5"></canvas>
+        <div class="metric"><span class="k">accuracy</span><span class="v orange" id="s2-acc-r5">—</span></div>
+      </div>
+    </div>
+    <div id="s2-collapse"></div>
+    <div class="money"><span class="tag">MONEY SHOT</span>
+      <p>The 1-layer and 5-linear-layer boundaries are the <b>same straight line at the same accuracy</b> —
+        depth added nothing. Multiplying the five weight matrices proves why: they reduce to <b>one</b> 2×1 matrix.
+        ReLU between the layers is what breaks the tie.</p></div>
+  </div>
+</div></section>
+
+<!-- ============ S1-3 ============ -->
+<section class="proof" id="s3" data-run="s3"><div class="wrap">
+  <div class="sec-head"><span class="badge">S1·3</span><h2>Embeddings learn similarity from nothing but next-token</h2></div>
+  <p class="claim-line"><b>Claim.</b> Trained <em>only</em> to predict the next token in a tiny synthetic grammar,
+    the embedding table clusters related tokens — though similarity was never supplied as a label.</p>
+  <p class="build-line"><b>Build.</b> A toy language with categories and templates, so same-category tokens share
+    next-token distributions. Train a tiny <code>embedding → softmax</code> next-token model, then project the
+    learned 8-D embeddings to 2-D with PCA.</p>
+
+  <div class="panel">
+    <div class="controls">
+      <button class="btn primary" id="s3-run">▶ Re-run training</button>
+      <span class="status" id="s3-status">scroll in to train automatically…</span>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="plot" style="background:transparent;border:none;padding:0">
+          <div class="cap"><span class="ttl">The grammar</span><span class="sub">template</span></div>
+          <p class="grammar">
+            <span class="kw">the</span> <span class="an">ANIMAL</span> <span class="vb">VERB</span> <span class="kw">the</span> <span class="fr">FRUIT</span> <span style="color:#89877f">.</span><br/>
+            <span class="an">animals</span> = cat · dog · cow<br/>
+            <span class="fr">fruits</span> = apple · mango<br/>
+            <span class="vb">verbs</span> = eat · chase · see
+          </p>
+          <p class="note">Every animal is followed by a verb; every verb by “the”; every fruit by the
+            end token. So same-category words share a next-token distribution — the <em>only</em> signal the
+            model ever sees.</p>
+          <div class="metric"><span class="k">nearest-neighbour is same category</span><span class="v good" id="s3-nn">—</span></div>
+          <div class="legend" style="margin-top:14px">
+            <span class="chip"><span class="sw" style="background:#3987e5"></span>animal</span>
+            <span class="chip"><span class="sw" style="background:#1baf7a"></span>fruit</span>
+            <span class="chip"><span class="sw" style="background:#eb6834"></span>verb</span>
+            <span class="chip"><span class="sw" style="background:#9085e9"></span>the</span>
+            <span class="chip"><span class="sw" style="background:#89877f"></span>end</span>
+          </div>
+        </div>
+      </div>
+      <div class="plot">
+        <div class="cap"><span class="ttl">Learned embeddings → PCA(2-D)</span><span class="sub">live</span></div>
+        <canvas id="s3-canvas" class="wide"></canvas>
+      </div>
+    </div>
+    <div class="money"><span class="tag">MONEY SHOT</span>
+      <p>Watch the tokens start scattered and <b>drift into category clusters</b> as training proceeds.
+        Animals land with animals, verbs with verbs, fruits with fruits — <b>emergent similarity</b> that
+        no one ever labeled.</p></div>
+  </div>
+</div></section>
+
+<!-- ============ S1-4 ============ -->
+<section class="proof" id="s4" data-run="s4"><div class="wrap">
+  <div class="sec-head"><span class="badge">S1·4</span><h2>Memorization vs generalization — and data closes the gap</h2></div>
+  <p class="claim-line"><b>Claim.</b> A high-capacity model on tiny data drives train loss to ~0 while held-out
+    loss stays high. Growing the dataset closes the gap.</p>
+  <p class="build-line"><b>Build.</b> A learnable noisy 2-class problem (two interleaving moons) with a fixed held-out
+    test set. Train the <em>same</em> over-parameterized net <code>2→48→48→1</code> at train sizes
+    <code>20</code>, <code>200</code>, <code>1000</code>.</p>
+
+  <div class="panel">
+    <div class="controls">
+      <button class="btn primary" id="s4-run">▶ Re-run training</button>
+      <span class="status" id="s4-status">scroll in to train automatically…</span>
+    </div>
+    <div class="plot-grid g3">
+      <div class="plot">
+        <div class="cap"><span class="ttl">N = 20</span><span class="sub">tiny</span></div>
+        <canvas id="s4-cv-20"></canvas>
+        <div class="metric"><span class="k">train</span><span class="v blue" id="s4-tr-20">—</span>
+          <span class="k" style="margin-left:8px">test</span><span class="v orange" id="s4-te-20">—</span></div>
+        <div class="metric"><span class="k">loss gap</span><span class="v" id="s4-gap-20" style="color:#f2926a">—</span></div>
+      </div>
+      <div class="plot">
+        <div class="cap"><span class="ttl">N = 200</span><span class="sub">more</span></div>
+        <canvas id="s4-cv-200"></canvas>
+        <div class="metric"><span class="k">train</span><span class="v blue" id="s4-tr-200">—</span>
+          <span class="k" style="margin-left:8px">test</span><span class="v orange" id="s4-te-200">—</span></div>
+        <div class="metric"><span class="k">loss gap</span><span class="v" id="s4-gap-200" style="color:#f2926a">—</span></div>
+      </div>
+      <div class="plot">
+        <div class="cap"><span class="ttl">N = 1000</span><span class="sub">lots</span></div>
+        <canvas id="s4-cv-1000"></canvas>
+        <div class="metric"><span class="k">train</span><span class="v blue" id="s4-tr-1000">—</span>
+          <span class="k" style="margin-left:8px">test</span><span class="v orange" id="s4-te-1000">—</span></div>
+        <div class="metric"><span class="k">loss gap</span><span class="v" id="s4-gap-1000" style="color:#f2926a">—</span></div>
+      </div>
+    </div>
+    <div style="margin-top:26px">
+      <div class="plot" style="background:transparent;border:none;padding:0">
+        <div class="cap"><span class="ttl">Generalization gap&nbsp; (test loss − train loss)</span><span class="sub">shorter = better</span></div>
+        <div id="s4-bars"></div>
+      </div>
+    </div>
+    <div class="money"><span class="tag">MONEY SHOT</span>
+      <p>At <b>N=20</b> the net memorizes — train accuracy hits <b>100%</b> while the held-out loss stays high;
+        the boundary carves noisy islands around individual points. As data grows to <b>1000</b>, the gap
+        collapses and the boundary smooths out. <b>Data is everything.</b></p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span>ERA V5 · Session 1 — four proofs, trained live in-browser. No servers, no pre-baked results.</span>
+  <span>Built with a ~450-line vanilla-JS neural-net engine · <a href="nn.js">nn.js</a></span>
+</div></footer>
+
+<script src="nn.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

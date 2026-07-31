@@ -1,0 +1,72 @@
+{
+  "total_raw": 10000,
+  "stages": {
+    "normalization": {
+      "removed_html_entities": 334,
+      "removed_control_chars": 17608,
+      "kept_indic_joiners": 668,
+      "remaining_docs": 10000
+    },
+    "format_unification": {
+      "unified_formats": 445,
+      "remaining_docs": 10000
+    },
+    "quality_filtering": {
+      "dropped_too_short": 0,
+      "dropped_high_symbol_ratio": 8,
+      "dropped_no_stopwords": 21,
+      "remaining_docs": 9971
+    },
+    "deduplication": {
+      "dropped_near_duplicates": 1,
+      "remaining_docs": 9970
+    },
+    "language_id": {
+      "mismatched_or_routed_languages": 0,
+      "remaining_docs": 9970
+    },
+    "pii_removal": {
+      "scrubbed_emails": 884,
+      "scrubbed_phones": 36,
+      "remaining_docs": 9970
+    },
+    "decontamination": {
+      "dropped_contaminated_docs": 201,
+      "remaining_docs": 9769
+    }
+  },
+  "manifest": {
+    "dataset_source": "tatsu-lab/alpaca",
+    "cleaning_script_hash": "3ce45e652365c11ff9cd80b31b3d9d3f2e5d118215f4c36e2887d4bc11e0697c",
+    "provenance": {
+      "license": "Apache 2.0 (Alpaca / HuggingFace)",
+      "creator": "Tatsu Lab & TSAI Student pipeline",
+      "clean_ratio": 0.9769
+    },
+    "shards": [
+      {
+        "file_path": "cleaned_dataset.json",
+        "token_count": 594062,
+        "document_count": 9769,
+        "language_breakdown": {
+          "en": 9769,
+          "te": 0
+        }
+      }
+    ]
+  },
+  "samples": {
+    "normalization": {
+      "before": "What is the capital of France? \u0c24\u0c46\u0c32\u0c41\u0c17\u0c41 \u0c2d\u0c3e\u0c37\u0c32\u0c4b \u0c38\u0c2e\u0c3e\u0c27\u0c3e\u0c28\u0c02 \u0c07\u0c35\u0c4d\u0c35\u0c02\u0c21\u0c3f: ### Instruction:\n\ufeff\u200bGive three tips for staying healthy. &amp; check if it is &lt; 100 &gt; &quot;true&quot; \u202e reverse text (Examples: \u0c32\u0c15\u0c4d\u0c37\u0c4d\u0c2e\u0c3f \u200d and \u0c28\u0c3f\u0c36\u0c4d\u0c36\u0c2c\u0c4d\u0c26 \u200c)\n### Response:\n1.Eat a balanced diet and make sure to include plenty of fruits and vegetables. \n2. Exercise regularly to keep your body active and strong. \n3. Get enough sleep and maintain a consistent sleep schedule. Contact developer at contact0@ai-school.edu or call +1-555-019-00.",
+      "after": "What is the capital of France? \u0c24\u0c46\u0c32\u0c41\u0c17\u0c41 \u0c2d\u0c3e\u0c37\u0c32\u0c4b \u0c38\u0c2e\u0c3e\u0c27\u0c3e\u0c28\u0c02 \u0c07\u0c35\u0c4d\u0c35\u0c02\u0c21\u0c3f: ### Instruction:Give three tips for staying healthy. & check if it is < 100 > \"true\" reverse text (Examples: \u0c32\u0c15\u0c4d\u0c37\u0c4d\u0c2e\u0c3f \u200d and \u0c28\u0c3f\u0c36\u0c4d\u0c36\u0c2c\u0c4d\u0c26 \u200c)### Response:1.Eat a balanced diet and make sure to include plenty of fruits and vegetables. 2. Exercise regularly to keep your body active and strong. 3. Get enough sleep and maintain a consistent sleep schedule. Contact developer at contact0@ai-school.edu or call +1-555-019-00."
+    },
+    "format_unification": {
+      "before": "[User]: Propose an ethical solution to the problem of data privacy[Assistant]: One ethical solution to the problem of data privacy is to implement an opt-in data collection policy. This means that companies cannot collect and use personal data without the explicit permission of the data owners. This approach gives users the power to determine which data companies can use and for what purpose. Companies should also be transparent about how they use the collected data, so that users can make informed decisions and have control over their own data.",
+      "after": "<|im_start|>user\nPropose an ethical solution to the problem of data privacy<|im_end|>\n<|im_start|>assistant\nOne ethical solution to the problem of data privacy is to implement an opt-in data collection policy. This means that companies cannot collect and use personal data without the explicit permission of the data owners. This approach gives users the power to determine which data companies can use and for what purpose. Companies should also be transparent about how they use the collected data, so that users can make informed decisions and have control over their own data.\nOne ethical solution to the problem of data privacy is to implement an opt-in data collection policy. This means that companies cannot collect and use personal data without the explicit permission of the data owners. This approach gives users the power to determine which data companies can use and for what purpose. Companies should also be transparent about how they use the collected data, so that users can make informed decisions and have control over their own data.<|im_end|>"
+    },
+    "pii": {
+      "before": "Generate a list of random words. Contact developer at contact22@ai-school.edu or call +1-555-019-22.",
+      "after": "Generate a list of random words. Contact developer at [EMAIL] or call +1-555-019-22."
+    }
+  }
+}

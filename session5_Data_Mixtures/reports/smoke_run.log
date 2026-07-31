@@ -1,0 +1,23 @@
+device=mps config=smoke.yaml
+lanes: web(8.1M tok, 2.80 B/tok), code(5.9M tok, 1.57 B/tok), math(2.9M tok, 2.00 B/tok), reasoning(2.9M tok, 2.22 B/tok), indic(21.6M tok, 6.02 B/tok), agentic(2.9M tok, 1.93 B/tok)
+training selector reference on ['web', 'code'] for 250 steps
+  reference ready (loss 6.285)
+  arm A_proposed: V5 curriculum + protected floors + OPUS selection
+    [A_proposed] step 732/2929 loss=5.829 web:2.891 code:3.613 math:3.951 reasoning:2.683 indic:1.368 agentic:2.939
+    [A_proposed] step 1464/2929 loss=5.148 web:2.612 code:3.150 math:2.865 reasoning:1.761 indic:1.231 agentic:1.516
+    [A_proposed] step 2196/2929 loss=2.669 web:2.487 code:2.868 math:2.678 reasoning:1.399 indic:1.176 agentic:0.702
+    [A_proposed] step 2928/2929 loss=4.907 web:2.449 code:2.779 math:2.000 reasoning:1.152 indic:1.150 agentic:0.470
+    [A_proposed] step 2929/2929 loss=4.819 web:2.449 code:2.779 math:2.000 reasoning:1.151 indic:1.151 agentic:0.471
+  arm B_no_floors: same curriculum and selector, floors removed
+    [B_no_floors] step 732/2929 loss=3.470 web:2.768 code:3.493 math:4.277 reasoning:3.662 indic:1.494 agentic:3.914
+    [B_no_floors] step 1464/2929 loss=5.748 web:2.553 code:3.078 math:3.284 reasoning:2.951 indic:1.388 agentic:3.612
+    [B_no_floors] step 2196/2929 loss=2.362 web:2.416 code:2.753 math:3.433 reasoning:3.111 indic:1.322 agentic:3.262
+    [B_no_floors] step 2928/2929 loss=5.237 web:2.370 code:2.625 math:2.784 reasoning:2.485 indic:1.261 agentic:2.712
+    [B_no_floors] step 2929/2929 loss=4.767 web:2.370 code:2.630 math:2.783 reasoning:2.484 indic:1.260 agentic:2.713
+  arm C_web_heavy: naive web-heavy mixture, no floors (the preset this session warns about)
+    [C_web_heavy] step 732/2929 loss=3.441 web:2.808 code:3.518 math:4.152 reasoning:3.755 indic:1.529 agentic:4.173
+    [C_web_heavy] step 1464/2929 loss=2.823 web:2.569 code:3.135 math:3.806 reasoning:3.303 indic:1.413 agentic:3.344
+    [C_web_heavy] step 2196/2929 loss=4.860 web:2.421 code:2.843 math:3.486 reasoning:3.114 indic:1.354 agentic:3.420
+    [C_web_heavy] step 2928/2929 loss=2.898 web:2.363 code:2.693 math:3.473 reasoning:3.160 indic:1.326 agentic:3.420
+    [C_web_heavy] step 2929/2929 loss=2.345 web:2.363 code:2.691 math:3.474 reasoning:3.158 indic:1.327 agentic:3.418
+wrote reports/smoke_results.json

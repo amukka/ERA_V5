@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BPE Tokenizer · India · 4 languages · ERA V5 S2</title>
+<meta name="description" content="A 10k-vocab multilingual BPE tokenizer for India's Wikipedia page in English, Hindi, Telugu and Kannada — fertility, score, and downloadable vocab, computed live in-browser." />
+<style>
+  :root{
+    --bg:#0b0b0d;--panel:#141418;--panel-2:#191920;--ink:#f4f4f2;--ink-2:#b8b7b0;--muted:#89877f;
+    --line:rgba(255,255,255,.09);--line-2:rgba(255,255,255,.14);
+    --blue:#3987e5;--violet:#9085e9;--orange:#eb6834;--aqua:#1baf7a;--good:#0ca30c;--bad:#e34948;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--maxw:1000px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .mono{font-family:var(--mono)}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:middle;border:1px solid rgba(255,255,255,.5)}
+
+  header.hero{position:relative;padding:70px 0 40px;overflow:hidden}
+  header.hero::before{content:"";position:absolute;inset:-40% 0 auto 0;height:520px;
+    background:radial-gradient(50% 60% at 30% 0%,rgba(57,135,229,.18),transparent 70%),
+      radial-gradient(46% 50% at 80% 8%,rgba(144,133,233,.15),transparent 70%),
+      radial-gradient(40% 40% at 60% 12%,rgba(27,175,122,.10),transparent 70%);filter:blur(4px);z-index:-1}
+  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-size:clamp(30px,5vw,50px);line-height:1.05;letter-spacing:-.02em;margin:14px 0 0;font-weight:800;
+    background:linear-gradient(120deg,#fff 30%,#a9c7f5 60%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{max-width:660px;color:var(--ink-2);font-size:16.5px;margin-top:14px}
+
+  .kpis{display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px;margin-top:30px}
+  @media(max-width:640px){.kpis{grid-template-columns:1fr 1fr}}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .kpi .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .kpi .v{font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:6px}
+  .kpi.score .v{font-size:44px;background:linear-gradient(120deg,#7fe0b0,#7fb2f2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .kpi .v.small{font-size:26px}
+  .chip{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:8px;border:1px solid var(--line-2)}
+  .chip.ok{color:#7fe0a0;border-color:rgba(12,163,12,.5);background:rgba(12,163,12,.12)}
+  .chip.bad{color:#f2a0a0;border-color:rgba(227,73,72,.5);background:rgba(227,73,72,.12)}
+
+  section{padding:40px 0;border-top:1px solid var(--line)}
+  h2{font-size:22px;letter-spacing:-.01em;margin:0 0 4px;font-weight:800}
+  .lead{color:var(--ink-2);font-size:14.5px;margin:0 0 22px;max-width:720px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+
+  /* scoreboard */
+  .fhead,.frow{display:grid;grid-template-columns:150px 1fr 78px 78px 120px;gap:12px;align-items:center}
+  .fhead{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:0 0 10px;border-bottom:1px solid var(--line)}
+  .fhead .r{text-align:right}
+  .frow{padding:13px 0;border-bottom:1px solid var(--line)}
+  .frow:last-child{border-bottom:none}
+  .fname{font-weight:700;font-size:14.5px}
+  .fname .script{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-left:17px}
+  .fbar{height:12px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden}
+  .fbar-fill{display:block;height:100%;border-radius:6px}
+  .fnum{text-align:right;font-family:var(--mono);font-size:13.5px;color:var(--ink-2)}
+  .ffert{text-align:right;font-family:var(--mono);font-size:15px;font-weight:700}
+  .tag{display:inline-block;font:700 10px/1 var(--mono);padding:3px 5px;border-radius:5px;margin-left:6px;vertical-align:middle}
+  .tag.max{background:rgba(227,73,72,.18);color:#f2a0a0}
+  .tag.min{background:rgba(12,163,12,.18);color:#7fe0a0}
+  .calc{margin-top:18px;padding:14px 16px;background:#0d0d10;border:1px solid var(--line);border-radius:11px;
+    font-family:var(--mono);font-size:14px;color:var(--ink-2)}
+  .calc b{color:#7fe0b0;font-size:16px}
+  .livebadge{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);margin-bottom:16px}
+  .livebadge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--aqua);box-shadow:0 0 0 3px rgba(27,175,122,.25)}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em}
+  td.mono,th.mono{font-family:var(--mono)}
+
+  .note{font-size:13.5px;color:var(--ink-2);margin:16px 0 0}
+  code.cmd{display:block;background:#0d0d10;border:1px solid var(--line);border-radius:9px;padding:12px 14px;
+    font-family:var(--mono);font-size:12.5px;color:#a9c7f5;overflow-x:auto;white-space:pre;margin-top:10px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+
+  /* playground */
+  textarea{width:100%;min-height:92px;background:#0d0d10;border:1px solid var(--line-2);border-radius:11px;
+    color:var(--ink);font-family:var(--sans);font-size:15px;padding:12px 14px;resize:vertical}
+  .btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-2);background:var(--panel-2);
+    color:var(--ink);padding:8px 13px;border-radius:9px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+  .btn:hover{border-color:rgba(255,255,255,.32)}
+  .btn.primary{background:linear-gradient(120deg,var(--blue),var(--violet));border-color:transparent}
+  .samples{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  #pg-lang{font:700 12px/1 var(--sans);color:#fff;padding:5px 9px;border-radius:7px}
+  #pg-tokens{margin-top:14px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;min-height:34px}
+  .tok{background:color-mix(in srgb,var(--tc) 22%,#0d0d10);border:1px solid color-mix(in srgb,var(--tc) 55%,transparent);
+    color:#fff;padding:3px 7px;border-radius:6px;font-family:var(--mono);font-size:13px}
+  .wgap{width:10px;display:inline-block}
+  #pg-stat{margin-top:14px;color:var(--ink-2);font-size:14px}
+  #pg-stat b{color:#fff}
+
+  /* roundtrip */
+  .rtrow{display:flex;align-items:center;gap:11px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .rtrow:last-child{border-bottom:none}
+  .rtmark{flex:none;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-weight:800;font-size:13px}
+  .rtmark.ok{background:rgba(12,163,12,.16);color:#7fe0a0}
+  .rtmark.bad{background:rgba(227,73,72,.16);color:#f2a0a0}
+  .rtlabel{font-family:var(--mono);color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  /* explorer */
+  .exp-top{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+  input[type=search]{flex:1;min-width:180px;background:#0d0d10;border:1px solid var(--line-2);border-radius:9px;
+    color:var(--ink);font-family:var(--mono);font-size:13.5px;padding:9px 12px}
+  #vocab-list{display:flex;flex-wrap:wrap;gap:6px;max-height:340px;overflow-y:auto;padding:4px;
+    background:#0d0d10;border:1px solid var(--line);border-radius:11px}
+  .vtok{font-family:var(--mono);font-size:12.5px;background:var(--panel-2);border:1px solid var(--line);
+    padding:2px 6px;border-radius:5px;color:var(--ink-2)}
+  .vmore{width:100%;color:var(--muted);font-size:12.5px;padding:8px 4px}
+  .dl{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+  footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">ERA V5 · Session 2 · Tokenizer assignment</div>
+  <h1>One 10k-token BPE tokenizer<br/>for India, in four languages</h1>
+  <p class="sub">A single <b>byte-level</b> Byte-Pair-Encoding vocabulary (≤ 10,000 tokens) trained on India's
+    Wikipedia page in English, Hindi, Telugu and Kannada. It has real <span class="mono">encode</span> /
+    <span class="mono">decode</span> and a faithful roundtrip — <span class="mono">decode(encode(text)) == text</span>
+    for any input. Every number below is computed <b>live in your browser</b> with the exact shipped tokenizer.</p>
+
+  <div class="kpis">
+    <div class="kpi score"><div class="k">Self score = 1000 / (X<sub>max</sub> − X<sub>min</sub>)</div>
+      <div class="v" id="score-val">…</div>
+      <span class="chip ok" id="en-check">…</span></div>
+    <div class="kpi"><div class="k">Fertility spread</div><div class="v small" id="spread-val">…</div></div>
+    <div class="kpi"><div class="k">Vocabulary size</div><div class="v small"><span id="vocab-val">…</span> <span style="color:var(--muted);font-size:15px">/ 10k</span></div></div>
+  </div>
+</div></header>
+
+<section id="scores"><div class="wrap">
+  <h2>Fertility per language</h2>
+  <p class="lead">Fertility X = (total tokens) / (total whitespace words) on that language's India page. Lower = better
+    compression. The score rewards a small gap between the best and worst language.</p>
+  <div class="panel">
+    <div class="livebadge">computed live in your browser · tokenizer.json + pinned Wikipedia pages</div>
+    <div class="fhead"><div>Language</div><div>fertility (relative)</div><div class="r">words</div><div class="r">tokens</div><div class="r">fertility X</div></div>
+    <div id="score-rows"></div>
+    <div class="calc" id="calc-line"></div>
+  </div>
+</div></section>
+
+<section id="roundtrip"><div class="wrap">
+  <h2>Faithful roundtrip gate</h2>
+  <p class="lead">The grading gate: a tokenizer is only accepted if <span class="mono">decode(encode(text))</span>
+    returns the same text. Because this is byte-level BPE, every token is an exact byte string and decoding
+    concatenates them — so the roundtrip is lossless for <b>any</b> input, including whitespace. Verified live below.</p>
+  <div class="panel">
+    <div style="margin-bottom:14px"><span class="chip" id="rt-badge">…</span></div>
+    <div id="rt-rows"></div>
+  </div>
+</div></section>
+
+<section id="playground"><div class="wrap">
+  <h2>Try the tokenizer</h2>
+  <p class="lead">Type or paste any text — it's tokenized live with the actual shipped tokenizer. Language is auto-detected by script.</p>
+  <div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px">
+      <span style="font-size:13px;color:var(--muted)">detected:</span><span id="pg-lang">…</span>
+    </div>
+    <textarea id="pg-input" spellcheck="false"></textarea>
+    <div class="samples">
+      <span style="font-size:12.5px;color:var(--muted);align-self:center">samples:</span>
+      <button class="btn" data-sample="en">English</button>
+      <button class="btn" data-sample="hi">हिन्दी</button>
+      <button class="btn" data-sample="te">తెలుగు</button>
+      <button class="btn" data-sample="kn">ಕನ್ನಡ</button>
+    </div>
+    <div id="pg-tokens"></div>
+    <div id="pg-stat"></div>
+    <div style="margin-top:14px"><span class="chip" id="pg-roundtrip">…</span></div>
+  </div>
+</div></section>
+
+<section id="explorer"><div class="wrap">
+  <h2>The tokenizer · <span id="vocab-count" class="mono"></span> tokens</h2>
+  <p class="lead">The full vocabulary: 256 base bytes plus learned merges. A leading space inside a token is shown
+    as ␣ (byte-level tokens absorb the leading space, GPT-2 style); partial-byte tokens appear as &lt;0x..&gt;.
+    Search, or download the complete tokenizer.</p>
+  <div class="panel">
+    <div class="exp-top">
+      <input type="search" id="vocab-search" placeholder="filter tokens (e.g. tion, भा, ంద, the) …" />
+      <span style="font-size:12.5px;color:var(--muted)">showing <span id="vocab-shown" class="mono"></span></span>
+    </div>
+    <div id="vocab-list"></div>
+    <div class="dl">
+      <a class="btn primary" href="vocab.txt" download>⬇ vocab.txt (all tokens)</a>
+      <a class="btn" href="tokenizer.model" download>⬇ tokenizer.model (minbpe)</a>
+      <a class="btn" href="tokenizer.py" download>⬇ tokenizer.py (encode/decode)</a>
+      <a class="btn" href="tokenizer.json" download>⬇ tokenizer.json</a>
+      <a class="btn" href="stats.json" download>⬇ stats.json</a>
+    </div>
+  </div>
+</div></section>
+
+<section id="method"><div class="wrap">
+  <h2>Method &amp; reproducibility</h2>
+  <p class="lead">The grader can re-run this exactly. Everything is pinned and self-contained.</p>
+  <div class="grid2">
+    <div class="panel">
+      <table>
+        <thead><tr><th>Language</th><th>Article</th><th class="mono">words</th><th class="mono">merges</th></tr></thead>
+        <tbody id="lang-meta"></tbody>
+      </table>
+      <p class="note">Vocab = <b id="base-size">256</b> base bytes (shared by all four scripts) + <b id="merge-size">…</b> merges.</p>
+    </div>
+    <div class="panel">
+      <p class="note" style="margin-top:0"><b>How the 10k budget is split.</b> English is given the minimum merges to reach
+        fertility ≤ 1.2 (the assignment's English constraint); adding the other languages' merges only lowers it further,
+        so the cap always holds. The remaining budget is water-filled across Hindi, Telugu and Kannada to pull their
+        fertilities down to the lowest common level the budget allows — minimizing the max−min gap that drives the score.</p>
+      <p class="note"><b>Word &amp; fertility definition.</b> A “word” is a whitespace-delimited token (<span class="mono">len(text.split())</span>);
+        fertility = <span class="mono">len(encode(text)) / words</span>. This is <b>byte-level</b> BPE: base = 256 bytes,
+        so <span class="mono">decode(encode(text)) == text</span> losslessly for any input. Fertility is measured on these pinned pages only.</p>
+      <p class="note"><b>Verify locally</b> — the same check a grader runs:</p>
+      <code class="cmd">python3 verify.py   # loads tokenizer.model, asserts the
+                    # roundtrip, prints X1..X4 + score</code>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  ERA V5 · Session 2 — multilingual BPE tokenizer. Trained on India's Wikipedia page (en/hi/te/kn) at pinned
+  revisions; all metrics computed in-browser from the shipped tokenizer. Score = 1000 / (X<sub>max</sub> − X<sub>min</sub>).
+</div></footer>
+
+<script src="bpe.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
