@@ -1,0 +1,218 @@
+{
+  "hardest_tokens": [
+    {
+      "doc_id": "wiki.train.00082",
+      "loss": 11.57988,
+      "perplexity": 106924.969,
+      "position": 28,
+      "preview": " Kuala",
+      "segment": 0,
+      "shard_id": "train-wiki-0001",
+      "token_id": 48880
+    },
+    {
+      "doc_id": "wiki.train.00082",
+      "loss": 11.53765,
+      "perplexity": 102503.773,
+      "position": 33,
+      "preview": " marketing",
+      "segment": 0,
+      "shard_id": "train-wiki-0001",
+      "token_id": 7124
+    },
+    {
+      "doc_id": "wiki.train.00082",
+      "loss": 11.51704,
+      "perplexity": 100412.133,
+      "position": 123,
+      "preview": " enabled",
+      "segment": 0,
+      "shard_id": "train-wiki-0001",
+      "token_id": 9343
+    },
+    {
+      "doc_id": "code.train.00317",
+      "loss": 11.49349,
+      "perplexity": 98075.43,
+      "position": 31,
+      "preview": "errors",
+      "segment": 0,
+      "shard_id": "train-code-0005",
+      "token_id": 48277
+    },
+    {
+      "doc_id": "code.train.00358",
+      "loss": 11.48068,
+      "perplexity": 96826.562,
+      "position": 26,
+      "preview": "Trans",
+      "segment": 0,
+      "shard_id": "train-code-0005",
+      "token_id": 8291
+    },
+    {
+      "doc_id": "dialog.train.00282",
+      "loss": 11.47686,
+      "perplexity": 96457.719,
+      "position": 11,
+      "preview": " halls",
+      "segment": 0,
+      "shard_id": "train-dialog-0004",
+      "token_id": 24350
+    },
+    {
+      "doc_id": "code.train.00317",
+      "loss": 11.46945,
+      "perplexity": 95745.516,
+      "position": 29,
+      "preview": "ignore",
+      "segment": 0,
+      "shard_id": "train-code-0005",
+      "token_id": 46430
+    },
+    {
+      "doc_id": "code.train.00317",
+      "loss": 11.46775,
+      "perplexity": 95583.211,
+      "position": 24,
+      "preview": "errors",
+      "segment": 0,
+      "shard_id": "train-code-0005",
+      "token_id": 48277
+    },
+    {
+      "doc_id": "code.train.00358",
+      "loss": 11.46089,
+      "perplexity": 94929.32,
+      "position": 55,
+      "preview": "nexpected",
+      "segment": 0,
+      "shard_id": "train-code-0005",
+      "token_id": 42072
+    },
+    {
+      "doc_id": "code.train.00317",
+      "loss": 11.44278,
+      "perplexity": 93225.602,
+      "position": 22,
+      "preview": "ignore",
+      "segment": 0,
+      "shard_id": "train-code-0005",
+      "token_id": 46430
+    },
+    {
+      "doc_id": "wiki.train.00473",
+      "loss": 11.42959,
+      "perplexity": 92004.094,
+      "position": 29,
+      "preview": " regulate",
+      "segment": 0,
+      "shard_id": "train-wiki-0007",
+      "token_id": 16697
+    },
+    {
+      "doc_id": "wiki.train.00082",
+      "loss": 11.42528,
+      "perplexity": 91608.789,
+      "position": 118,
+      "preview": " management",
+      "segment": 0,
+      "shard_id": "train-wiki-0001",
+      "token_id": 4542
+    },
+    {
+      "doc_id": "wiki.train.00532",
+      "loss": 11.41979,
+      "perplexity": 91106.688,
+      "position": 69,
+      "preview": " lifetime",
+      "segment": 0,
+      "shard_id": "train-wiki-0008",
+      "token_id": 10869
+    },
+    {
+      "doc_id": "wiki.train.00473",
+      "loss": 11.40402,
+      "perplexity": 89681.289,
+      "position": 5,
+      "preview": " motion",
+      "segment": 0,
+      "shard_id": "train-wiki-0007",
+      "token_id": 6268
+    },
+    {
+      "doc_id": "code.train.00358",
+      "loss": 11.40242,
+      "perplexity": 89537.977,
+      "position": 60,
+      "preview": "import",
+      "segment": 0,
+      "shard_id": "train-code-0005",
+      "token_id": 11748
+    },
+    {
+      "doc_id": "wiki.train.00532",
+      "loss": 11.39817,
+      "perplexity": 89158.203,
+      "position": 85,
+      "preview": " fragments",
+      "segment": 0,
+      "shard_id": "train-wiki-0008",
+      "token_id": 21441
+    },
+    {
+      "doc_id": "dialog.train.00143",
+      "loss": 11.38516,
+      "perplexity": 88006.016,
+      "position": 22,
+      "preview": " realize",
+      "segment": 0,
+      "shard_id": "train-dialog-0002",
+      "token_id": 6537
+    },
+    {
+      "doc_id": "dialog.train.00338",
+      "loss": 11.38345,
+      "perplexity": 87855.406,
+      "position": 25,
+      "preview": " Hold",
+      "segment": 0,
+      "shard_id": "train-dialog-0005",
+      "token_id": 9340
+    },
+    {
+      "doc_id": "wiki.train.00082",
+      "loss": 11.38029,
+      "perplexity": 87578.852,
+      "position": 29,
+      "preview": " Lumpur",
+      "segment": 0,
+      "shard_id": "train-wiki-0001",
+      "token_id": 49001
+    },
+    {
+      "doc_id": "wiki.train.00532",
+      "loss": 11.37709,
+      "perplexity": 87298.336,
+      "position": 44,
+      "preview": " continental",
+      "segment": 0,
+      "shard_id": "train-wiki-0008",
+      "token_id": 29843
+    }
+  ],
+  "mean_loss_by_step": {
+    "0": 10.858735,
+    "15": 10.232347,
+    "30": 9.750177,
+    "45": 8.952791
+  },
+  "trace_events": 32,
+  "traced_steps": [
+    0,
+    15,
+    30,
+    45
+  ],
+  "traced_tokens": 3830
+}

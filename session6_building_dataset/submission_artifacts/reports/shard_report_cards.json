@@ -1,0 +1,419 @@
+{
+  "by_lane": {
+    "code": {
+      "loss_delta": 3.524221,
+      "loss_tokens": 14738,
+      "mean_loss_delta": 3.524221,
+      "shards": 1,
+      "verdicts": {
+        "useful": 1
+      }
+    },
+    "dialog": {
+      "loss_delta": 16.328656,
+      "loss_tokens": 12978,
+      "mean_loss_delta": 2.332665,
+      "shards": 7,
+      "verdicts": {
+        "neutral": 1,
+        "useful": 6
+      }
+    },
+    "wiki": {
+      "loss_delta": 18.998194,
+      "loss_tokens": 30352,
+      "mean_loss_delta": 2.11091,
+      "shards": 9,
+      "verdicts": {
+        "useful": 9
+      }
+    }
+  },
+  "cards": [
+    {
+      "exposures": 60,
+      "first_mean_loss": 10.75504,
+      "first_seen_step": 0,
+      "grad_norm_max": 1.779319,
+      "grad_norm_median": 1.221496,
+      "lane": "code",
+      "last_mean_loss": 7.230819,
+      "last_seen_step": 59,
+      "loss_delta": 3.524221,
+      "loss_tokens": 14738,
+      "max_repeat_pass": 2,
+      "mean_loss_by_phase": {
+        "early": 10.056363,
+        "late": 8.040654,
+        "mid": 9.093622
+      },
+      "opus_candidates": 567,
+      "opus_score_mean": 0.843129,
+      "shard_id": "train-code-0005",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 14,
+      "first_mean_loss": 10.820009,
+      "first_seen_step": 0,
+      "grad_norm_max": 1.760733,
+      "grad_norm_median": 1.264468,
+      "lane": "dialog",
+      "last_mean_loss": 8.068843,
+      "last_seen_step": 55,
+      "loss_delta": 2.751166,
+      "loss_tokens": 1636,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.348128,
+        "late": 8.468227,
+        "mid": 9.308381
+      },
+      "opus_candidates": 20,
+      "opus_score_mean": 0.770024,
+      "shard_id": "train-dialog-0000",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 13,
+      "first_mean_loss": 10.564377,
+      "first_seen_step": 5,
+      "grad_norm_max": 1.708894,
+      "grad_norm_median": 1.222587,
+      "lane": "dialog",
+      "last_mean_loss": 8.067546,
+      "last_seen_step": 59,
+      "loss_delta": 2.496831,
+      "loss_tokens": 1311,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.257829,
+        "late": 8.360295,
+        "mid": 9.130255
+      },
+      "opus_candidates": 18,
+      "opus_score_mean": 0.756331,
+      "shard_id": "train-dialog-0001",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 22,
+      "first_mean_loss": 10.79163,
+      "first_seen_step": 1,
+      "grad_norm_max": 1.779319,
+      "grad_norm_median": 1.229128,
+      "lane": "dialog",
+      "last_mean_loss": 7.990604,
+      "last_seen_step": 58,
+      "loss_delta": 2.801026,
+      "loss_tokens": 3054,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.326186,
+        "late": 8.368196,
+        "mid": 9.335601
+      },
+      "opus_candidates": 34,
+      "opus_score_mean": 0.799572,
+      "shard_id": "train-dialog-0002",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 17,
+      "first_mean_loss": 10.729567,
+      "first_seen_step": 2,
+      "grad_norm_max": 1.779319,
+      "grad_norm_median": 1.044454,
+      "lane": "dialog",
+      "last_mean_loss": 7.926586,
+      "last_seen_step": 59,
+      "loss_delta": 2.802981,
+      "loss_tokens": 1851,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.299576,
+        "late": 8.296618,
+        "mid": 9.306931
+      },
+      "opus_candidates": 26,
+      "opus_score_mean": 0.756501,
+      "shard_id": "train-dialog-0003",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 22,
+      "first_mean_loss": 10.676263,
+      "first_seen_step": 4,
+      "grad_norm_max": 1.760733,
+      "grad_norm_median": 1.129806,
+      "lane": "dialog",
+      "last_mean_loss": 7.855803,
+      "last_seen_step": 57,
+      "loss_delta": 2.82046,
+      "loss_tokens": 2666,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.254579,
+        "late": 8.389527,
+        "mid": 9.18134
+      },
+      "opus_candidates": 31,
+      "opus_score_mean": 0.785413,
+      "shard_id": "train-dialog-0004",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 19,
+      "first_mean_loss": 10.730726,
+      "first_seen_step": 2,
+      "grad_norm_max": 1.593284,
+      "grad_norm_median": 1.220404,
+      "lane": "dialog",
+      "last_mean_loss": 8.074534,
+      "last_seen_step": 53,
+      "loss_delta": 2.656192,
+      "loss_tokens": 2408,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.422686,
+        "late": 8.518411,
+        "mid": 9.171965
+      },
+      "opus_candidates": 26,
+      "opus_score_mean": 0.814968,
+      "shard_id": "train-dialog-0005",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 1,
+      "first_mean_loss": 9.383236,
+      "first_seen_step": 31,
+      "grad_norm_max": 1.216492,
+      "grad_norm_median": 1.216492,
+      "lane": "dialog",
+      "last_mean_loss": 9.383236,
+      "last_seen_step": 31,
+      "loss_delta": 0.0,
+      "loss_tokens": 52,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "mid": 9.383236
+      },
+      "opus_candidates": 3,
+      "opus_score_mean": 0.58403,
+      "shard_id": "train-dialog-0006",
+      "usefulness": "neutral"
+    },
+    {
+      "exposures": 17,
+      "first_mean_loss": 10.845189,
+      "first_seen_step": 0,
+      "grad_norm_max": 1.646746,
+      "grad_norm_median": 1.161126,
+      "lane": "wiki",
+      "last_mean_loss": 8.675702,
+      "last_seen_step": 57,
+      "loss_delta": 2.169487,
+      "loss_tokens": 2735,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.489574,
+        "late": 8.832232,
+        "mid": 9.890991
+      },
+      "opus_candidates": 22,
+      "opus_score_mean": 0.941407,
+      "shard_id": "train-wiki-0000",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 22,
+      "first_mean_loss": 10.763151,
+      "first_seen_step": 3,
+      "grad_norm_max": 1.708894,
+      "grad_norm_median": 0.974919,
+      "lane": "wiki",
+      "last_mean_loss": 8.508987,
+      "last_seen_step": 59,
+      "loss_delta": 2.254164,
+      "loss_tokens": 3302,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.524941,
+        "late": 8.98412,
+        "mid": 9.689268
+      },
+      "opus_candidates": 26,
+      "opus_score_mean": 0.954231,
+      "shard_id": "train-wiki-0001",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 24,
+      "first_mean_loss": 10.746669,
+      "first_seen_step": 3,
+      "grad_norm_max": 1.779319,
+      "grad_norm_median": 1.229713,
+      "lane": "wiki",
+      "last_mean_loss": 8.831418,
+      "last_seen_step": 54,
+      "loss_delta": 1.915251,
+      "loss_tokens": 3487,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.321119,
+        "late": 9.015706,
+        "mid": 9.56529
+      },
+      "opus_candidates": 30,
+      "opus_score_mean": 0.941017,
+      "shard_id": "train-wiki-0002",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 22,
+      "first_mean_loss": 10.865701,
+      "first_seen_step": 0,
+      "grad_norm_max": 1.760733,
+      "grad_norm_median": 1.129806,
+      "lane": "wiki",
+      "last_mean_loss": 8.713029,
+      "last_seen_step": 59,
+      "loss_delta": 2.152672,
+      "loss_tokens": 3810,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.550619,
+        "late": 8.932287,
+        "mid": 9.576007
+      },
+      "opus_candidates": 31,
+      "opus_score_mean": 0.951935,
+      "shard_id": "train-wiki-0003",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 19,
+      "first_mean_loss": 10.854638,
+      "first_seen_step": 0,
+      "grad_norm_max": 1.627258,
+      "grad_norm_median": 0.990085,
+      "lane": "wiki",
+      "last_mean_loss": 8.540979,
+      "last_seen_step": 58,
+      "loss_delta": 2.313659,
+      "loss_tokens": 2921,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.475017,
+        "late": 8.73648,
+        "mid": 9.695421
+      },
+      "opus_candidates": 23,
+      "opus_score_mean": 0.952391,
+      "shard_id": "train-wiki-0004",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 24,
+      "first_mean_loss": 10.822608,
+      "first_seen_step": 1,
+      "grad_norm_max": 1.627258,
+      "grad_norm_median": 1.289852,
+      "lane": "wiki",
+      "last_mean_loss": 8.69697,
+      "last_seen_step": 58,
+      "loss_delta": 2.125638,
+      "loss_tokens": 3302,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.536118,
+        "late": 8.931414,
+        "mid": 9.525963
+      },
+      "opus_candidates": 27,
+      "opus_score_mean": 0.929176,
+      "shard_id": "train-wiki-0005",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 17,
+      "first_mean_loss": 10.765779,
+      "first_seen_step": 2,
+      "grad_norm_max": 1.779319,
+      "grad_norm_median": 1.08385,
+      "lane": "wiki",
+      "last_mean_loss": 8.816307,
+      "last_seen_step": 52,
+      "loss_delta": 1.949472,
+      "loss_tokens": 2667,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.555698,
+        "late": 9.014587,
+        "mid": 9.659941
+      },
+      "opus_candidates": 23,
+      "opus_score_mean": 0.931487,
+      "shard_id": "train-wiki-0006",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 27,
+      "first_mean_loss": 10.850638,
+      "first_seen_step": 0,
+      "grad_norm_max": 1.760733,
+      "grad_norm_median": 1.044454,
+      "lane": "wiki",
+      "last_mean_loss": 9.083171,
+      "last_seen_step": 57,
+      "loss_delta": 1.767467,
+      "loss_tokens": 3937,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.471827,
+        "late": 9.012663,
+        "mid": 9.634936
+      },
+      "opus_candidates": 32,
+      "opus_score_mean": 0.949844,
+      "shard_id": "train-wiki-0007",
+      "usefulness": "useful"
+    },
+    {
+      "exposures": 29,
+      "first_mean_loss": 10.822546,
+      "first_seen_step": 1,
+      "grad_norm_max": 1.779319,
+      "grad_norm_median": 1.216492,
+      "lane": "wiki",
+      "last_mean_loss": 8.472162,
+      "last_seen_step": 59,
+      "loss_delta": 2.350384,
+      "loss_tokens": 4191,
+      "max_repeat_pass": 0,
+      "mean_loss_by_phase": {
+        "early": 10.378817,
+        "late": 8.949661,
+        "mid": 9.685114
+      },
+      "opus_candidates": 36,
+      "opus_score_mean": 0.928638,
+      "shard_id": "train-wiki-0008",
+      "usefulness": "useful"
+    }
+  ],
+  "feedback_for_next_corpus": [
+    "code: loss fell across exposures (mean delta +3.524) -- keep and extend",
+    "dialog: loss fell across exposures (mean delta +2.333) -- keep and extend",
+    "wiki: loss fell across exposures (mean delta +2.111) -- keep and extend"
+  ],
+  "report_hash": "53d4d543a8f7405cb13a7a59dfaa827a6cea48619d50994b2f1da7eb62430ad1",
+  "shard_count": 17,
+  "verdict_counts": {
+    "harmful": 0,
+    "needs_warmup": 0,
+    "neutral": 1,
+    "useful": 16
+  }
+}

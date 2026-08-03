@@ -1,0 +1,273 @@
+==============================================================================
+TRAINING DATA EXECUTION SYSTEM -- Session 6
+==============================================================================
+run_id      s6-tdes
+config      config/config.yaml  sha256=730aecc6ea8d9d37
+seed        1337   device=cpu   steps=60
+python      3.14.5   torch=2.13.0   numpy=2.5.1
+
+==============================================================================
+PHASE 01_corpus :: documents: three real corpora, one planted eval leak
+==============================================================================
+[PASS] corpus_reused  chars=13034500  documents=1570  spec_hash=812d93802cb4
+[INFO] corpus_split  chars=11530552  documents=1380  split=train
+[INFO] corpus_split  chars=730786  documents=100  split=validation
+[INFO] corpus_split  chars=773162  documents=90  split=eval
+
+==============================================================================
+PHASE 02_tokenizer :: the frozen tokenizer: the root of trust for every hash
+==============================================================================
+[PASS] tokenizer_frozen_reused  hf_id=gpt2  tokenizer_hash=1fe93b6152957cf9  vocab_size=50257
+[PASS] tokenizer_hash_verified  source=gpt2  tokenizer_hash=1fe93b6152957cf9
+    vocab=50257  eos=50256  pad=50256  files=2
+
+==============================================================================
+PHASE 03_shards :: documents become immutable, hashed, tokenized shards
+==============================================================================
+[PASS] shards_created  samples=1449  shards=3  split=eval  tokens=179108
+[PASS] shards_created  samples=21272  shards=25  split=train  tokens=2626330
+[PASS] shards_created  samples=1354  shards=3  split=validation  tokens=166258
+    31 shards, 2971696 tokens, 24075 packable samples
+
+==============================================================================
+PHASE 04_admission :: verify bytes, scan for contamination, run the gate
+==============================================================================
+[PASS] manifests_validated  failing=0  shards=31
+[PASS] contamination_scan  contaminated_docs=15  contaminated_shards=8  fingerprint_ngrams=176319  rule=run>=48 windows  scanned=25
+    longest verbatim run in a clean shard: 30 windows (threshold 48) -- incidental overlap does not reach the rule
+[PASS] eval_overlap_blocked  documents=["code.train.00009", "code.train.00059"]  longest_run=21  shard=train-code-0000
+[PASS] eval_overlap_blocked  documents=["code.train.00094"]  longest_run=19  shard=train-code-0001
+[PASS] eval_overlap_blocked  documents=["code.train.00123", "code.train.00151", "code.train.00155"]  longest_run=21  shard=train-code-0002
+[PASS] eval_overlap_blocked  documents=["code.train.00201", "code.train.00220", "code.train.00236"]  longest_run=45  shard=train-code-0003
+[PASS] eval_overlap_blocked  documents=["code.train.00241", "code.train.00249"]  longest_run=72  shard=train-code-0004
+[PASS] eval_overlap_blocked  documents=["code.train.00379", "code.train.00387"]  longest_run=57  shard=train-code-0006
+[PASS] eval_overlap_blocked  documents=["wiki.train.00574"]  longest_run=55  shard=train-wiki-0009
+[PASS] eval_overlap_blocked  documents=["wiki.train.90000"]  longest_run=2801  shard=train-wiki-0010
+[PASS] admission_gate  admitted=17  admitted_tokens=2182539  blocked=14
+[PASS] shard_blocked  reason=contamination  shards=14
+[PASS] shard_blocked  reason=never_train_flag  shards=3
+[PASS] shard_blocked  reason=permission  shards=6
+[PASS] shard_blocked  reason=split_not_trainable  shards=6
+[PASS] manifests_written  index_hash=0c38ab744dfcba2f  shards=31
+    trainable shards: 17 of 31
+
+==============================================================================
+PHASE 05_firewall :: attack the evaluation firewall before training starts
+==============================================================================
+[PASS] eval_shard_blocked  attempts=15  blocked=14  eval_shards=3  leaked=0
+[PASS] validation_read_only_enforced  validation_shards=3
+[PASS] forged_manifest_blocked  detected_by=unknown_shard_id+content_hash_matches:eval-code-0000
+[PASS] contaminated_shard_blocked  shard=train-code-0000
+[PASS] contaminated_shard_blocked  shard=train-code-0001
+[PASS] contaminated_shard_blocked  shard=train-code-0002
+[PASS] contaminated_shard_blocked  shard=train-code-0003
+[PASS] contaminated_shard_blocked  shard=train-code-0004
+[PASS] contaminated_shard_blocked  shard=train-code-0006
+[PASS] contaminated_shard_blocked  shard=train-wiki-0009
+[PASS] contaminated_shard_blocked  shard=train-wiki-0010
+[PASS] validation_batch_built  batch_hash=79812bc1df888a3f  bins=4  permission=eval_read_only  shards=3
+
+==============================================================================
+PHASE 06_mixture :: compile Session 5's curriculum into per-step quotas
+==============================================================================
+[PASS] mixture_compiled  lanes=3  overall={"code":0.25,"dialog":0.25,"wiki":0.5}  plan_hash=5629576d3ce278d1  steps=60
+    stage1_foundation      steps [0,30) shares={'wiki': 0.6, 'dialog': 0.25, 'code': 0.15} floors={'code': 0.1}
+    stage2_midtrain        steps [30,60) shares={'wiki': 0.35, 'dialog': 0.25, 'code': 0.4} floors={'dialog': 0.15, 'code': 0.1}
+[PASS] lane_supply  available=25564  demand=15360  lane=code  repetition=0.6008
+[PASS] lane_supply  available=57828  demand=15360  lane=dialog  repetition=0.2656
+[PASS] lane_supply  available=2099147  demand=30720  lane=wiki  repetition=0.0146
+
+==============================================================================
+PHASE 07_index :: index every trainable sample and compare packing policies
+==============================================================================
+[PASS] sample_index_built  index_hash=26d260a266fcde29  lanes={"code":230,"dialog":604,"wiki":16763}  samples=17597
+[INFO] packing_policy  bins=2453  open_bins=unbounded  padding_pct=0.2379  policy=first_fit_decreasing  utilisation=0.997621
+[INFO] packing_policy  bins=2454  open_bins=unbounded  padding_pct=0.2786  policy=best_fit  utilisation=0.997214
+[INFO] packing_policy  bins=2455  open_bins=unbounded  padding_pct=0.3192  policy=first_fit  utilisation=0.996808
+[INFO] packing_policy  bins=2463  open_bins=bounded  padding_pct=0.643  policy=best_fit_decreasing  utilisation=0.99357
+[INFO] packing_policy  bins=2500  open_bins=unbounded  padding_pct=2.1134  policy=pad_only  utilisation=0.978866
+[PASS] packing_policy_selected  best_unbounded=first_fit_decreasing  bins=2463  open_bins=bounded at 8  policy=best_fit_decreasing  utilisation=0.99357
+    note: first_fit_decreasing reaches 0.997621 against 0.993570 here, but it keeps every open bin until the dataset ends. The configured policy caps open bins at 8 so batches can be emitted while the stream is still arriving -- 0.41pp of utilisation is the price of bounded memory.
+
+==============================================================================
+PHASE 08_train :: consume the stream, record it, and crash on purpose
+==============================================================================
+    model parameters: 3,324,736  seq_len=128  bins/step=8
+[PASS] checkpoint_saved  branch=main  checkpoint_id=ca78ed648a0b15a2  consumption_events=0  consumption_offset=0  next_batch_id=main/step00000  step=0
+    step    0  stage=stage1_foundation    loss=10.8330  ppl= 50666.16  bins=8  util=0.979  loss_tok=994   gnorm=1.306  lanes={'dialog': 2, 'wiki': 5, 'code': 1}
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=1
+    step    5  stage=stage1_foundation    loss=10.5629  ppl= 38672.66  bins=8  util=0.977  loss_tok=992   gnorm=0.902  lanes={'wiki': 5, 'code': 1, 'dialog': 2}
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=9
+[PASS] checkpoint_saved  branch=main  checkpoint_id=a84031c5366f9c6f  consumption_events=90  consumption_offset=109230  next_batch_id=main/step00010  step=10
+    step   10  stage=stage1_foundation    loss=10.3797  ppl= 32199.20  bins=8  util=1.000  loss_tok=1016  gnorm=0.896  lanes={'wiki': 5, 'code': 1, 'dialog': 2}
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=11
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=15
+    step   15  stage=stage1_foundation    loss=10.2139  ppl= 27279.74  bins=8  util=0.970  loss_tok=985   gnorm=0.771  lanes={'dialog': 2, 'wiki': 5, 'code': 1}
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=18
+[PASS] validation_pass  gradient_bearing=False  loss=9.55215  perplexity=14074.9  shards=1  step=19
+[PASS] checkpoint_saved  branch=main  checkpoint_id=2751eb841a2eba19  consumption_events=180  consumption_offset=218690  next_batch_id=main/step00020  step=20
+    step   20  stage=stage1_foundation    loss=9.8896  ppl= 19723.28  bins=8  util=0.954  loss_tok=969   gnorm=0.990  lanes={'code': 1, 'wiki': 5, 'dialog': 2}
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=23
+    step   25  stage=stage1_foundation    loss=9.7062  ppl= 16419.48  bins=8  util=0.985  loss_tok=1001  gnorm=0.887  lanes={'code': 1, 'wiki': 5, 'dialog': 2}
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=26
+[INFO] crash_simulated  branch=main  consumption_events=243  last_checkpoint=2751eb841a2eba19  step=27
+        !! deliberate crash at step 27
+        the process would now be gone; everything below is recovery
+
+==============================================================================
+PHASE 09_resume :: restore the checkpoint, roll the ledgers back, continue
+==============================================================================
+[PASS] checkpoint_verified  checkpoint_id=ca78ed648a0b15a2  state_file_ok=True  step=0
+[PASS] checkpoint_verified  checkpoint_id=a84031c5366f9c6f  state_file_ok=True  step=10
+[PASS] checkpoint_verified  checkpoint_id=2751eb841a2eba19  state_file_ok=True  step=20
+    the crashed run consumed steps 0..26; the last checkpoint is step 20
+[PASS] expected_next_batch_identified  batch_hash=af2787e371cb47a7  batch_id=main/step00020  source=consumption ledger, before truncation  step=20
+[PASS] ledger_rolled_back  bytes_discarded=76631  events_discarded=63  events_now=180  ledger=consumption
+[PASS] ledger_rolled_back  bytes_discarded=0  events_discarded=0  events_now=19  ledger=firewall
+[PASS] ledger_rolled_back  bytes_discarded=12829  events_discarded=7  events_now=21  ledger=learning
+[PASS] ledger_rolled_back  bytes_discarded=69508  events_discarded=86  events_now=262  ledger=opus
+[PASS] ledger_rolled_back  bytes_discarded=0  events_discarded=0  events_now=16  ledger=token_trace
+[PASS] ledgers_truncated_to_checkpoint  note=events for steps the resumed run will redo are physically gone  total_events_discarded=156
+[PASS] resume_next_batch_matched  bins=8  expected_batch_id=main/step00020  expected_hash=af2787e371cb47a7  resumed_batch_id=main/step00020  resumed_hash=af2787e371cb47a7
+[PASS] resume_bin_hashes_matched  bins=8
+    step   20  stage=stage1_foundation    loss=9.8896  ppl= 19723.28  bins=8  util=0.954  loss_tok=969   gnorm=0.990  lanes={'code': 1, 'wiki': 5, 'dialog': 2}
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=23
+    step   25  stage=stage1_foundation    loss=9.7062  ppl= 16419.48  bins=8  util=0.985  loss_tok=1001  gnorm=0.887  lanes={'code': 1, 'wiki': 5, 'dialog': 2}
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=26
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=28
+[PASS] protected_floor_override  actual={"code":1,"dialog":2,"wiki":5}  lanes=["code"]  quota={"code":1,"dialog":2,"wiki":5}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=29
+[PASS] checkpoint_saved  branch=main  checkpoint_id=b32a02750815fcc4  consumption_events=270  consumption_offset=328158  next_batch_id=main/step00030  step=30
+    step   30  stage=stage2_midtrain      loss=9.3746  ppl= 11785.45  bins=8  util=0.932  loss_tok=944   gnorm=1.242  lanes={'wiki': 3, 'code': 3, 'dialog': 2}
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=35
+    step   35  stage=stage2_midtrain      loss=9.0040  ppl=  8135.33  bins=8  util=0.938  loss_tok=952   gnorm=1.597  lanes={'wiki': 3, 'code': 3, 'dialog': 2}
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=37
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=38
+[PASS] validation_pass  gradient_bearing=False  loss=8.57537  perplexity=5299.53  shards=1  step=39
+[PASS] checkpoint_saved  branch=main  checkpoint_id=baa7daedceae5c8e  consumption_events=360  consumption_offset=438133  next_batch_id=main/step00040  step=40
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=40
+    step   40  stage=stage2_midtrain      loss=8.8601  ppl=  7045.46  bins=8  util=1.000  loss_tok=1016  gnorm=1.556  lanes={'dialog': 2, 'wiki': 3, 'code': 3}
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=42
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=3  step=45
+    step   45  stage=stage2_midtrain      loss=8.8248  ppl=  6800.51  bins=8  util=0.894  loss_tok=907   gnorm=1.386  lanes={'dialog': 2, 'wiki': 3, 'code': 3}
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=47
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=2  step=49
+[PASS] checkpoint_saved  branch=main  checkpoint_id=c6ee05e7c4e44b41  consumption_events=450  consumption_offset=547320  next_batch_id=main/step00050  step=50
+    step   50  stage=stage2_midtrain      loss=8.4333  ppl=  4597.45  bins=8  util=0.940  loss_tok=955   gnorm=1.476  lanes={'wiki': 3, 'code': 3, 'dialog': 2}
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=3  step=51
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=53
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=2  step=55
+    step   55  stage=stage2_midtrain      loss=8.3202  ppl=  4105.80  bins=8  util=1.000  loss_tok=1016  gnorm=1.401  lanes={'wiki': 3, 'dialog': 2, 'code': 3}
+[PASS] protected_floor_override  actual={"code":3,"dialog":2,"wiki":3}  lanes=["code"]  quota={"code":3,"dialog":2,"wiki":3}  reason=the proxy rejected the lane below its floor  rescued_bins=2  step=58
+[PASS] validation_pass  gradient_bearing=False  loss=7.63959  perplexity=2078.89  shards=1  step=59
+[PASS] run_resumed  from_step=20  seconds=5.5886  steps=40  to_step=60
+[PASS] no_skipped_or_repeated_batches  branch=main  duplicated=0  expected=60  missing=0  recorded=60
+[PASS] resumed_batch_matches_pre_crash_record  hash=af2787e371cb47a7  step=20
+[PASS] redone_steps_are_byte_identical  count=7  mismatches=[]  note=the crashed attempt and the resumed attempt consumed the same data  steps=[20,27)
+[PASS] ledger_hash_chains_verified  consumption=540  firewall=19  learning=63  opus=975  token_trace=32
+
+==============================================================================
+PHASE 10_replay :: rebuild a historical interval two independent ways
+==============================================================================
+[PASS] replay_hash_matched  interval=[5,10)  microbatches=40  mismatches=0  mode=from_ledger
+[PASS] replay_replan_matched  from_checkpoint=0  interval=[5,10)  mismatches=0  mode=replan  steps=5
+    replay [5,10): 40 microbatches rebuilt from ledger spans, 5 steps re-planned from the step-0 checkpoint -- all hashes identical
+
+==============================================================================
+PHASE 11_fork :: branch from an old checkpoint into a new data stream
+==============================================================================
+    fork mixture: {'wiki': 0.2, 'dialog': 0.3, 'code': 0.5} floors={'code': 0.25} lr=0.0012 (parent lr 0.0006)
+[PASS] branch_forked  branch=fork_b  from_step=10  parent=main  parent_checkpoint=a84031c5366f9c6f
+[PASS] checkpoint_saved  branch=fork_b  checkpoint_id=9bc2756e170c9e32  consumption_events=1  consumption_offset=613  next_batch_id=fork_b/step00010  step=10
+    step   10  stage=fork_anneal          loss=10.1985  ppl= 26861.52  bins=8  util=0.926  loss_tok=940   gnorm=1.885  lanes={'dialog': 2, 'wiki': 2, 'code': 4}
+[PASS] protected_floor_override  actual={"code":4,"dialog":2,"wiki":2}  lanes=["code"]  quota={"code":4,"dialog":2,"wiki":2}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=11
+[PASS] protected_floor_override  actual={"code":4,"dialog":2,"wiki":2}  lanes=["code"]  quota={"code":4,"dialog":2,"wiki":2}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=13
+[PASS] protected_floor_override  actual={"code":4,"dialog":2,"wiki":2}  lanes=["code"]  quota={"code":4,"dialog":2,"wiki":2}  reason=the proxy rejected the lane below its floor  rescued_bins=1  step=14
+    step   15  stage=fork_anneal          loss=9.7507  ppl= 17166.96  bins=8  util=0.938  loss_tok=952   gnorm=1.836  lanes={'dialog': 2, 'wiki': 2, 'code': 4}
+[PASS] protected_floor_override  actual={"code":4,"dialog":2,"wiki":2}  lanes=["code"]  quota={"code":4,"dialog":2,"wiki":2}  reason=the proxy rejected the lane below its floor  rescued_bins=4  step=17
+[PASS] fork_stream_diverges_from_parent  divergence_step=10  identical_steps=[]  note=a fork must not silently receive the parent's data stream
+
+==============================================================================
+PHASE 12_audit :: query the ledgers: what trained this, and what preceded it
+==============================================================================
+[PASS] audit_completed  audit_hash=8cff11ad5c0ab139  interval=[5,10)  lanes=3  shards_identified=13  spikes=0  step_of_interest=9
+    audit: steps [5,10) touched 13 shards; top shard train-wiki-0001 (762 tokens)
+[PASS] no_nontrainable_data_in_loss_bearing_batches  blocked_consumed=0  consumed_shards=17  eval_consumed=0  validation_consumed=0
+
+==============================================================================
+PHASE 13_learning :: turn the run into a signal for the next corpus
+==============================================================================
+[PASS] learning_ledger_summarised  lanes=3  shards=17  verdicts={"harmful":0,"needs_warmup":0,"neutral":1,"useful":16}
+    V6 feedback: code: loss fell across exposures (mean delta +3.524) -- keep and extend
+    V6 feedback: dialog: loss fell across exposures (mean delta +2.333) -- keep and extend
+    V6 feedback: wiki: loss fell across exposures (mean delta +2.111) -- keep and extend
+[PASS] opus_audit_trail  by_status={"accepted":484,"deferred":66,"rejected":425}  candidates=975  mean_score=0.858171  overrides=28
+[PASS] mixture_compliance  max_deviation=0  tolerance=0.06
+[PASS] protected_floors_respected
+[INFO] lane_share  actual=0.125  floor=0.1  lane=code  ok=True  planned=0.125  stage=stage1_foundation
+[INFO] lane_share  actual=0.25  floor=0  lane=dialog  ok=True  planned=0.25  stage=stage1_foundation
+[INFO] lane_share  actual=0.625  floor=0  lane=wiki  ok=True  planned=0.625  stage=stage1_foundation
+[INFO] lane_share  actual=0.375  floor=0.1  lane=code  ok=True  planned=0.375  stage=stage2_midtrain
+[INFO] lane_share  actual=0.25  floor=0.15  lane=dialog  ok=True  planned=0.25  stage=stage2_midtrain
+[INFO] lane_share  actual=0.375  floor=0  lane=wiki  ok=True  planned=0.375  stage=stage2_midtrain
+[PASS] token_trace_written  events=32  steps=[0, 15, 30, 45]  tokens=3830
+    hardest tokens: ' Kuala'(ppl=106925, train-wiki-0001), ' marketing'(ppl=102504, train-wiki-0001), ' enabled'(ppl=100412, train-wiki-0001), 'errors'(ppl=98075, train-code-0005), 'Trans'(ppl=96827, train-code-0005)
+
+==============================================================================
+PHASE 14_performance :: useful loss-bearing tokens per second, not raw tokens
+==============================================================================
+[PASS] performance_measured  accepted_tok_s=5442.85  cache_hit_rate=0.976023  packing_util=0.952995  raw_tok_s=5703.64  useful_fraction=0.946406  useful_tok_s=5397.96
+    packing: best_fit_decreasing reached 0.9936 utilisation vs 0.9789 for pad_only (37 fewer bins for the same samples)
+
+==============================================================================
+PHASE 15_tests :: run the invariant suite against the artifacts just produced
+==============================================================================
+[PASS] automated_tests_passed  command=-m unittest discover -s tests -t . -v  failed=0  tests=74
+    test_every_row_of_the_attention_mask_has_something_to_attend_to (tests.test_units.TestPacking.test_every_row_of_the_attention_mask_has_something_to_attend_to) ... ok
+    test_every_sample_is_placed_exactly_once (tests.test_units.TestPacking.test_every_sample_is_placed_exactly_once) ... ok
+    test_loss_mask_never_crosses_a_sample_boundary (tests.test_units.TestPacking.test_loss_mask_never_crosses_a_sample_boundary) ... ok
+    test_no_bin_overflows_the_context_window (tests.test_units.TestPacking.test_no_bin_overflows_the_context_window) ... ok
+    test_packing_is_order_independent_for_the_same_sample_set (tests.test_units.TestPacking.test_packing_is_order_independent_for_the_same_sample_set) ... ok
+    test_padding_never_bears_loss (tests.test_units.TestPacking.test_padding_never_bears_loss) ... ok
+    test_position_ids_restart_for_each_packed_sample (tests.test_units.TestPacking.test_position_ids_restart_for_each_packed_sample) ... ok
+    
+    ----------------------------------------------------------------------
+    Ran 74 tests in 0.210s
+    
+    OK (skipped=2)
+
+==============================================================================
+PHASE 16_evidence :: regenerate every claim from the artifacts on disk
+==============================================================================
+[PASS] evidence_end_to_end  checks=3  failed=[]
+[PASS] evidence_shards_manifests  checks=7  failed=[]
+[PASS] evidence_packing_masks  checks=7  failed=[]
+[PASS] evidence_mixture_opus  checks=8  failed=[]
+[PASS] evidence_ledgers  checks=7  failed=[]
+[PASS] evidence_recovery  checks=11  failed=[]
+[PASS] evidence_firewall  checks=7  failed=[]
+[PASS] evidence_throughput  checks=5  failed=[]
+[PASS] evidence_tests_docs  checks=4  failed=[]
+[PASS] evidence_bundle_complete  checks=59  evidence_hash=613e44ce3b4f028f  passed=9  requirements=9
+[PASS] stream_fingerprint  fork_stream=d5b489a40cf14399  main_stream=cdc25b5f830c1f46  opus_stream=7e12e16bc10e6a82  stream_hash=f46a7d019c1154ef
+    run this demonstration twice: stream_hash must be identical, while evidence_hash may differ because it includes throughput
+
+==============================================================================
+PHASE done :: summary
+==============================================================================
+    events        118 PASS   0 FAIL   31 INFO
+    requirements  9/9 passed  (59/59 checks)
+    points        1000/1000
+    wall clock    17.3228s
+    artifacts     submission_artifacts/
+
+      submission_artifacts/run.log
+      submission_artifacts/evidence.json
+      submission_artifacts/evidence.md
+      submission_artifacts/performance.json
+      submission_artifacts/manifests/  (33 files)
+      submission_artifacts/ledgers/  (10 files)
+      submission_artifacts/checkpoints/  (14 files)
+      submission_artifacts/shards/  (31 files)
+      submission_artifacts/reports/  (15 files)
+
+RESULT: ALL REQUIREMENTS PASS

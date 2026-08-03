@@ -1,0 +1,76 @@
+{
+  "branch_id": "main",
+  "checkpoint_id": "ca78ed648a0b15a297aab6218218770e715dd514825da33043a3aa6db3faa309",
+  "checkpoint_version": 1,
+  "config_hash": "730aecc6ea8d9d374c0f7690f9d086d100353bef6d3a747bd0c438619c63243b",
+  "created_at": "2026-08-03T14:05:57Z",
+  "extra": {
+    "lr": 0.0006,
+    "model_age_tokens": 0,
+    "parent_branch": null,
+    "run_id": "s6-tdes",
+    "shard_index_hash": "0c38ab744dfcba2f3a93ccd46299c0a6df65b8761054e503c1a7b4d0dcbb6815"
+  },
+  "ledger_offsets": {
+    "consumption": {
+      "bytes": 0,
+      "count": 0,
+      "tail_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "firewall": {
+      "bytes": 9396,
+      "count": 19,
+      "tail_hash": "cf720a17a5028c0aeaf6da097f0f6d371957100e9d91bbcabd251f83ab2a1767"
+    },
+    "learning": {
+      "bytes": 0,
+      "count": 0,
+      "tail_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "opus": {
+      "bytes": 0,
+      "count": 0,
+      "tail_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "token_trace": {
+      "bytes": 0,
+      "count": 0,
+      "tail_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "next_batch_id": "main/step00000",
+  "next_step": 0,
+  "plan_hash": "5629576d3ce278d12892b724b7cc8ac982396495dd8cf5a9d0ea25cd438b4455",
+  "planner_state": {
+    "buffer": {
+      "code": [],
+      "dialog": [],
+      "wiki": []
+    },
+    "cursor": {
+      "code": 0,
+      "dialog": 0,
+      "wiki": 0
+    },
+    "deferred": {
+      "code": [],
+      "dialog": [],
+      "wiki": []
+    },
+    "epoch": {
+      "code": 0,
+      "dialog": 0,
+      "wiki": 0
+    },
+    "opus": {
+      "counters": {},
+      "recent": [],
+      "seen_token_hashes": []
+    },
+    "step": 0
+  },
+  "sample_index_hash": "26d260a266fcde29235cca53040e6abacb4a9f13926ed959cb6d6db63cfb0f79",
+  "state_file_sha256": "c51a695edfd82041490053e77a997d5d3851e26379a4d75eadc017165c7a218e",
+  "step": 0,
+  "tokenizer_hash": "1fe93b6152957cf9cfd6d89002467f789ce8b3f3e000b3a2edf27c808ddd0b9e"
+}

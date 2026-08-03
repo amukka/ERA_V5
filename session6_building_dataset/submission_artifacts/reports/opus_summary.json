@@ -1,0 +1,51 @@
+{
+  "acceptance_rate": 0.49641,
+  "by_lane": {
+    "code": {
+      "accepted": 121,
+      "deferred": 54,
+      "rejected": 392
+    },
+    "dialog": {
+      "accepted": 123,
+      "deferred": 12,
+      "rejected": 23
+    },
+    "wiki": {
+      "accepted": 240,
+      "rejected": 10
+    }
+  },
+  "by_reason": {
+    "borderline_proxy_score": 16,
+    "deferred_reconsidered(score_above_threshold)": 2,
+    "deferred_reconsidered_accepted": 62,
+    "duplicate_token_span": 50,
+    "low_lane_affinity": 29,
+    "low_length_fit": 3,
+    "protected_floor_override(was:symbol_heavy_content)": 28,
+    "score_above_threshold": 392,
+    "symbol_heavy_content": 393
+  },
+  "by_status": {
+    "accepted": 484,
+    "deferred": 66,
+    "rejected": 425
+  },
+  "candidates": 975,
+  "deferral_rate": 0.067692,
+  "mean_score": 0.858171,
+  "protected_floor_overrides": 28,
+  "proxy_version": "opus-proxy-v1",
+  "rejection_rate": 0.435897,
+  "thresholds": {
+    "accept": 0.68,
+    "defer": 0.6
+  },
+  "weights": {
+    "lane_affinity": 0.1,
+    "length_fit": 0.15,
+    "novelty": 0.3,
+    "utilisation": 0.45
+  }
+}

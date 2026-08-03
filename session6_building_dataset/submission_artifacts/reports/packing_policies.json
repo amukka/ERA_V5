@@ -1,0 +1,66 @@
+{
+  "best_policy": "first_fit_decreasing",
+  "best_streamable_policy": "best_fit_decreasing",
+  "note": "unbounded policies may hold every open bin until the dataset ends; only the bounded ones can serve a live training stream",
+  "rows": [
+    {
+      "bins": 2453,
+      "content_tokens": 313237,
+      "open_bins": "unbounded",
+      "padding_pct": 0.2379,
+      "padding_tokens": 747,
+      "policy": "first_fit_decreasing",
+      "positions": 313984,
+      "streamable": false,
+      "utilisation": 0.997621
+    },
+    {
+      "bins": 2454,
+      "content_tokens": 313237,
+      "open_bins": "unbounded",
+      "padding_pct": 0.2786,
+      "padding_tokens": 875,
+      "policy": "best_fit",
+      "positions": 314112,
+      "streamable": false,
+      "utilisation": 0.997214
+    },
+    {
+      "bins": 2455,
+      "content_tokens": 313237,
+      "open_bins": "unbounded",
+      "padding_pct": 0.3192,
+      "padding_tokens": 1003,
+      "policy": "first_fit",
+      "positions": 314240,
+      "streamable": false,
+      "utilisation": 0.996808
+    },
+    {
+      "bins": 2463,
+      "content_tokens": 313237,
+      "open_bins": "bounded",
+      "padding_pct": 0.643,
+      "padding_tokens": 2027,
+      "policy": "best_fit_decreasing",
+      "positions": 315264,
+      "streamable": true,
+      "utilisation": 0.99357
+    },
+    {
+      "bins": 2500,
+      "content_tokens": 313237,
+      "open_bins": "unbounded",
+      "padding_pct": 2.1134,
+      "padding_tokens": 6763,
+      "policy": "pad_only",
+      "positions": 320000,
+      "streamable": true,
+      "utilisation": 0.978866
+    }
+  ],
+  "sample_count": 2500,
+  "sampled_from": 17597,
+  "seq_len": 128,
+  "token_total": 310737
+}

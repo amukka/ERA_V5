@@ -1,0 +1,74 @@
+{
+  "floors_respected": true,
+  "max_deviation": 0.0,
+  "rows": [
+    {
+      "actual_bins": 30,
+      "actual_share": 0.125,
+      "deviation": 0.0,
+      "floor": 0.1,
+      "floor_respected": true,
+      "lane": "code",
+      "planned_bins": 30,
+      "planned_share": 0.125,
+      "stage": "stage1_foundation"
+    },
+    {
+      "actual_bins": 60,
+      "actual_share": 0.25,
+      "deviation": 0.0,
+      "floor": 0.0,
+      "floor_respected": true,
+      "lane": "dialog",
+      "planned_bins": 60,
+      "planned_share": 0.25,
+      "stage": "stage1_foundation"
+    },
+    {
+      "actual_bins": 150,
+      "actual_share": 0.625,
+      "deviation": 0.0,
+      "floor": 0.0,
+      "floor_respected": true,
+      "lane": "wiki",
+      "planned_bins": 150,
+      "planned_share": 0.625,
+      "stage": "stage1_foundation"
+    },
+    {
+      "actual_bins": 90,
+      "actual_share": 0.375,
+      "deviation": 0.0,
+      "floor": 0.1,
+      "floor_respected": true,
+      "lane": "code",
+      "planned_bins": 90,
+      "planned_share": 0.375,
+      "stage": "stage2_midtrain"
+    },
+    {
+      "actual_bins": 60,
+      "actual_share": 0.25,
+      "deviation": 0.0,
+      "floor": 0.15,
+      "floor_respected": true,
+      "lane": "dialog",
+      "planned_bins": 60,
+      "planned_share": 0.25,
+      "stage": "stage2_midtrain"
+    },
+    {
+      "actual_bins": 90,
+      "actual_share": 0.375,
+      "deviation": 0.0,
+      "floor": 0.0,
+      "floor_respected": true,
+      "lane": "wiki",
+      "planned_bins": 90,
+      "planned_share": 0.375,
+      "stage": "stage2_midtrain"
+    }
+  ],
+  "tolerance": 0.06,
+  "within_tolerance": true
+}

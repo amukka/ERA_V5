@@ -1,0 +1,142 @@
+# Training Data Execution System -- single source of truth for the demonstration.
+# Everything downstream (shards, plan, batches, checkpoints, evidence) is a
+# function of this file plus the frozen tokenizer and the immutable shards.
+# The SHA256 of this file is recorded in every checkpoint and in evidence.json.
+
+run:
+  run_id: s6-tdes
+  branch_id: main
+  seed: 1337
+  device: cpu          # cpu keeps the demonstration bit-reproducible
+  total_steps: 60
+
+corpus:
+  # Real Hugging Face sources. `daily_dialog` itself is a legacy *script*
+  # dataset and datasets>=3 refuses to execute it, so the dialog lane uses the
+  # parquet conversion of the same DailyDialog corpus.
+  sources:
+    wiki:
+      hf_id: Salesforce/wikitext
+      hf_config: wikitext-2-raw-v1
+      license: cc-by-sa-3.0
+      train_docs: 700
+      valid_docs: 40
+      eval_docs: 40
+    dialog:
+      hf_id: pixelsandpointers/better_daily_dialog
+      hf_config: null
+      license: cc-by-nc-sa-4.0
+      train_docs: 400
+      valid_docs: 30
+      eval_docs: 30
+    code:
+      hf_id: code-search-net/code_search_net
+      hf_config: python
+      license: mit-and-various
+      train_docs: 400
+      valid_docs: 30
+      eval_docs: 30
+  min_chars: 200          # documents shorter than this are dropped as noise
+  max_chars: 6000         # long documents are truncated at a line boundary
+  plant_leak: true        # copy one eval doc into the train pool; the
+                          # contamination scanner must find it unaided
+
+tokenizer:
+  hf_id: gpt2
+  frozen_dir: tokenizer   # tokenizer.json + tokenizer_freeze.json live here
+
+shards:
+  docs_per_shard: 60      # a shard is an immutable, hashed token blob
+  dtype: uint16           # GPT-2 vocab is 50257 -> does not fit; see note
+  # NOTE: 50257 > 65535 is false (50257 < 65536), so uint16 is exact here.
+
+packing:
+  policy: best_fit_decreasing   # BFD: sort by length desc, then best fit
+  seq_len: 128                  # == model n_positions
+  eos_between_samples: true
+  block_diagonal_attention: true  # packed samples cannot attend across bins
+  reset_position_ids: true        # each packed sample restarts at position 0
+  max_open_bins: 8                # bins considered by the best-fit search
+
+model:
+  # Deliberately tiny. The model exists so that loss, gradient norms and
+  # per-token perplexity are real numbers attached to real data -- every
+  # guarantee this system makes is about the data path and is independent of
+  # model size. Width is 64 because a checkpoint stores weights *and* both AdamW
+  # moments, and the tied 50257-row embedding dominates all three: at width 128
+  # each checkpoint was 82 MB, which is a silly thing to carry in a repository.
+  n_layer: 2
+  n_head: 2
+  n_embd: 64
+  n_positions: 128
+
+train:
+  batch_size: 8           # packed bins per optimizer step
+  lr: 0.0006
+  weight_decay: 0.01
+  grad_clip: 1.0
+  log_every: 5
+  checkpoint_every: 10
+  validate_every: 20
+  token_trace_every: 15   # steps at which a full token-level loss trace is kept
+
+mixture:
+  # Curriculum stages in *steps*. Shares are fractions of the packed bins in a
+  # step; protected floors are enforced after OPUS has had its say.
+  stages:
+    - name: stage1_foundation
+      step_start: 0
+      step_end: 30
+      shares: {wiki: 0.60, dialog: 0.25, code: 0.15}
+      protected_floors: {code: 0.10}
+    - name: stage2_midtrain
+      step_start: 30
+      step_end: 60
+      shares: {wiki: 0.35, dialog: 0.25, code: 0.40}
+      protected_floors: {dialog: 0.15, code: 0.10}
+  tolerance: 0.06         # allowed |planned - actual| lane share deviation
+
+opus:
+  proxy_version: opus-proxy-v1
+  # A candidate sample is scored from content-derived features only, never from
+  # model state -- that is what makes the stream replayable without the model.
+  weights:
+    utilisation: 0.45     # fraction of the sample that will bear loss
+    novelty: 0.30         # 1 - overlap with recently accepted 8-gram sketches
+    length_fit: 0.15      # how well the sample fills a bin
+    lane_affinity: 0.10   # lane share in the current stage
+  accept_threshold: 0.68
+  defer_threshold: 0.60   # [defer, accept) -> defer to the deferral pool
+  # Quality screen standing in for the junk/toxicity filter a real OPUS runs:
+  # the share of characters that are neither alphanumeric nor ordinary
+  # punctuation. It is deliberately blunt, and the consequence is visible in the
+  # audit trail -- at 0.03 it rejects ~79% of the code lane and ~0% of prose,
+  # because code is punctuation. That is proxy bias against a capability, and it
+  # is why `code` carries a protected floor: the floor rescues the lane the
+  # selector would otherwise erase. See reports/opus_summary.json.
+  symbol_reject_ratio: 0.03
+  duplicate_action: defer
+  # Candidates the selector may score per lane per bin it owes. A real loader
+  # cannot scan the corpus to fill one batch, and this budget is what turns a
+  # high rejection rate into an actual shortfall the floor has to cover.
+  draws_per_bin: 8
+  min_draws_per_lane: 6
+
+recovery:
+  crash_at_step: 27           # deliberate crash, after the step-20 checkpoint
+  replay_interval: [5, 10]    # inclusive-exclusive range of steps to replay
+  fork_from_step: 10
+  fork_steps: 8
+  fork:
+    branch_id: fork_b
+    lr: 0.0012
+    shares: {wiki: 0.20, dialog: 0.30, code: 0.50}   # anneal-style mixture
+    protected_floors: {code: 0.25}
+
+paths:
+  corpus_dir: corpus
+  shards_dir: submission_artifacts/shards
+  manifests_dir: submission_artifacts/manifests
+  ledgers_dir: submission_artifacts/ledgers
+  checkpoints_dir: submission_artifacts/checkpoints
+  artifacts_dir: submission_artifacts

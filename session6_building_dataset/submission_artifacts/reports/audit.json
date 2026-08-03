@@ -1,0 +1,371 @@
+{
+  "audit_hash": "8cff11ad5c0ab13992bd406c95b7a57a33ddfd88266f71caf61ab8898a470f8c",
+  "branch_id": "main",
+  "loss_spikes": {
+    "branch_id": "main",
+    "grad_norm_max": 1.779319,
+    "loss_first": 10.833014,
+    "loss_last": 7.922596,
+    "loss_mean": 9.424257,
+    "sigma": 2.0,
+    "spike_count": 0,
+    "spikes": [],
+    "steps_examined": 60,
+    "window": 8
+  },
+  "questions": {
+    "what trained the checkpoint at step 20": {
+      "branch_id": "main",
+      "checkpoint_step": 20,
+      "content_tokens_by_lane": {
+        "code": 2521,
+        "dialog": 4484,
+        "wiki": 12669
+      },
+      "loss_first": 10.833014,
+      "loss_last": 9.959811,
+      "loss_tokens": 19674,
+      "shards_influencing": 16,
+      "steps_trained": 20,
+      "top_shards": [
+        {
+          "content_tokens": 2521,
+          "shard_id": "train-code-0005"
+        },
+        {
+          "content_tokens": 1905,
+          "shard_id": "train-wiki-0003"
+        },
+        {
+          "content_tokens": 1651,
+          "shard_id": "train-wiki-0008"
+        },
+        {
+          "content_tokens": 1651,
+          "shard_id": "train-wiki-0001"
+        },
+        {
+          "content_tokens": 1524,
+          "shard_id": "train-wiki-0007"
+        },
+        {
+          "content_tokens": 1524,
+          "shard_id": "train-wiki-0006"
+        },
+        {
+          "content_tokens": 1397,
+          "shard_id": "train-wiki-0004"
+        },
+        {
+          "content_tokens": 1234,
+          "shard_id": "train-dialog-0005"
+        },
+        {
+          "content_tokens": 1143,
+          "shard_id": "train-wiki-0005"
+        },
+        {
+          "content_tokens": 1112,
+          "shard_id": "train-wiki-0002"
+        }
+      ]
+    },
+    "which OPUS decisions preceded the step of interest": {
+      "accepted_shards": [
+        "train-code-0005",
+        "train-dialog-0000",
+        "train-dialog-0002",
+        "train-dialog-0003",
+        "train-dialog-0005",
+        "train-wiki-0001",
+        "train-wiki-0003",
+        "train-wiki-0004",
+        "train-wiki-0006",
+        "train-wiki-0007",
+        "train-wiki-0008"
+      ],
+      "by_lane": {
+        "code": {
+          "accepted": 4,
+          "deferred": 1,
+          "rejected": 18
+        },
+        "dialog": {
+          "accepted": 8,
+          "rejected": 2
+        },
+        "wiki": {
+          "accepted": 20,
+          "rejected": 1
+        }
+      },
+      "by_status": {
+        "accepted": 32,
+        "deferred": 1,
+        "rejected": 21
+      },
+      "decisions": 54,
+      "lookback": [
+        6,
+        9
+      ],
+      "mean_accepted_score": 0.932762,
+      "protected_floor_overrides": 1,
+      "step": 9
+    },
+    "which shards influenced steps [5,10)": {
+      "branch_id": "main",
+      "content_tokens_by_lane": {
+        "code": 635,
+        "dialog": 1151,
+        "wiki": 3175
+      },
+      "interval": [
+        5,
+        10
+      ],
+      "loss_tokens_by_stage": {
+        "stage1_foundation": 4961
+      },
+      "shard_count": 13,
+      "shards": [
+        {
+          "content_tokens": 762,
+          "first_step": 5,
+          "lane": "wiki",
+          "last_step": 9,
+          "shard_id": "train-wiki-0001",
+          "spans": 6,
+          "steps": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "content_tokens": 762,
+          "first_step": 5,
+          "lane": "wiki",
+          "last_step": 9,
+          "shard_id": "train-wiki-0003",
+          "spans": 6,
+          "steps": [
+            5,
+            6,
+            7,
+            9
+          ]
+        },
+        {
+          "content_tokens": 635,
+          "first_step": 5,
+          "lane": "code",
+          "last_step": 9,
+          "shard_id": "train-code-0005",
+          "spans": 5,
+          "steps": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "content_tokens": 508,
+          "first_step": 5,
+          "lane": "wiki",
+          "last_step": 9,
+          "shard_id": "train-wiki-0007",
+          "spans": 4,
+          "steps": [
+            5,
+            6,
+            8,
+            9
+          ]
+        },
+        {
+          "content_tokens": 508,
+          "first_step": 6,
+          "lane": "wiki",
+          "last_step": 8,
+          "shard_id": "train-wiki-0006",
+          "spans": 4,
+          "steps": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "content_tokens": 381,
+          "first_step": 6,
+          "lane": "wiki",
+          "last_step": 9,
+          "shard_id": "train-wiki-0008",
+          "spans": 3,
+          "steps": [
+            6,
+            8,
+            9
+          ]
+        },
+        {
+          "content_tokens": 370,
+          "first_step": 6,
+          "lane": "dialog",
+          "last_step": 8,
+          "shard_id": "train-dialog-0005",
+          "spans": 3,
+          "steps": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "content_tokens": 254,
+          "first_step": 5,
+          "lane": "dialog",
+          "last_step": 9,
+          "shard_id": "train-dialog-0003",
+          "spans": 2,
+          "steps": [
+            5,
+            9
+          ]
+        },
+        {
+          "content_tokens": 233,
+          "first_step": 6,
+          "lane": "dialog",
+          "last_step": 8,
+          "shard_id": "train-dialog-0002",
+          "spans": 2,
+          "steps": [
+            6,
+            8
+          ]
+        },
+        {
+          "content_tokens": 191,
+          "first_step": 7,
+          "lane": "dialog",
+          "last_step": 9,
+          "shard_id": "train-dialog-0000",
+          "spans": 2,
+          "steps": [
+            7,
+            9
+          ]
+        },
+        {
+          "content_tokens": 127,
+          "first_step": 5,
+          "lane": "wiki",
+          "last_step": 5,
+          "shard_id": "train-wiki-0005",
+          "spans": 1,
+          "steps": [
+            5
+          ]
+        },
+        {
+          "content_tokens": 127,
+          "first_step": 8,
+          "lane": "wiki",
+          "last_step": 8,
+          "shard_id": "train-wiki-0004",
+          "spans": 1,
+          "steps": [
+            8
+          ]
+        },
+        {
+          "content_tokens": 103,
+          "first_step": 5,
+          "lane": "dialog",
+          "last_step": 5,
+          "shard_id": "train-dialog-0001",
+          "spans": 1,
+          "steps": [
+            5
+          ]
+        }
+      ],
+      "steps_covered": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_documents": [
+        {
+          "content_tokens": 381,
+          "doc_id": "wiki.train.00072"
+        },
+        {
+          "content_tokens": 254,
+          "doc_id": "wiki.train.00210"
+        },
+        {
+          "content_tokens": 254,
+          "doc_id": "dialog.train.00345"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "code.train.00316"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "wiki.train.00428"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "wiki.train.00333"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "dialog.train.00188"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "wiki.train.00209"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "wiki.train.00448"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "wiki.train.00062"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "wiki.train.00503"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "wiki.train.00366"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "code.train.00351"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "wiki.train.00076"
+        },
+        {
+          "content_tokens": 127,
+          "doc_id": "wiki.train.00365"
+        }
+      ]
+    }
+  },
+  "step_of_interest": 9
+}

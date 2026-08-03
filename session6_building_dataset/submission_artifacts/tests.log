@@ -1,0 +1,85 @@
+
+test_chosen_packing_policy_beats_pad_only (tests.test_artifacts.TestEvidenceAndPerformance.test_chosen_packing_policy_beats_pad_only) ... ok
+test_evidence_bundle_agrees_with_itself (tests.test_artifacts.TestEvidenceAndPerformance.test_evidence_bundle_agrees_with_itself) ... skipped 'evidence.json is written after the tests run'
+test_evidence_markdown_was_actually_written (tests.test_artifacts.TestEvidenceAndPerformance.test_evidence_markdown_was_actually_written) ... skipped 'evidence.md is written after the tests run'
+test_mixture_compliance_within_tolerance (tests.test_artifacts.TestEvidenceAndPerformance.test_mixture_compliance_within_tolerance) ... ok
+test_no_artifact_escaped_into_the_project_root (tests.test_artifacts.TestEvidenceAndPerformance.test_no_artifact_escaped_into_the_project_root)
+A write with a shadowed path variable once landed here. Never again. ... ok
+test_performance_numbers_reconstruct_from_the_ledger (tests.test_artifacts.TestEvidenceAndPerformance.test_performance_numbers_reconstruct_from_the_ledger) ... ok
+test_shard_report_cards_are_reproducible (tests.test_artifacts.TestEvidenceAndPerformance.test_shard_report_cards_are_reproducible) ... ok
+test_token_trace_carries_provenance (tests.test_artifacts.TestEvidenceAndPerformance.test_token_trace_carries_provenance) ... ok
+test_useful_tokens_are_a_strict_subset_of_raw_tokens (tests.test_artifacts.TestEvidenceAndPerformance.test_useful_tokens_are_a_strict_subset_of_raw_tokens) ... ok
+test_consumption_audit_is_clean (tests.test_artifacts.TestFirewall.test_consumption_audit_is_clean) ... ok
+test_forged_manifest_was_blocked (tests.test_artifacts.TestFirewall.test_forged_manifest_was_blocked) ... ok
+test_no_attempt_to_train_on_protected_data_succeeded (tests.test_artifacts.TestFirewall.test_no_attempt_to_train_on_protected_data_succeeded) ... ok
+test_no_protected_shard_reached_a_loss_bearing_batch (tests.test_artifacts.TestFirewall.test_no_protected_shard_reached_a_loss_bearing_batch) ... ok
+test_every_ledger_chain_verifies (tests.test_artifacts.TestLedgers.test_every_ledger_chain_verifies) ... ok
+test_every_step_appears_exactly_once (tests.test_artifacts.TestLedgers.test_every_step_appears_exactly_once) ... ok
+test_learning_events_attribute_loss_to_shards (tests.test_artifacts.TestLedgers.test_learning_events_attribute_loss_to_shards) ... ok
+test_loss_generally_improved (tests.test_artifacts.TestLedgers.test_loss_generally_improved) ... ok
+test_microbatch_events_carry_the_required_fields (tests.test_artifacts.TestLedgers.test_microbatch_events_carry_the_required_fields) ... ok
+test_opus_recorded_accepted_rejected_and_deferred (tests.test_artifacts.TestLedgers.test_opus_recorded_accepted_rejected_and_deferred) ... ok
+test_rejected_candidates_keep_their_reasons_and_features (tests.test_artifacts.TestLedgers.test_rejected_candidates_keep_their_reasons_and_features) ... ok
+test_token_spans_are_well_formed (tests.test_artifacts.TestLedgers.test_token_spans_are_well_formed) ... ok
+test_validation_events_are_never_gradient_bearing (tests.test_artifacts.TestLedgers.test_validation_events_are_never_gradient_bearing) ... ok
+test_every_checkpoint_verifies_and_carries_a_data_position (tests.test_artifacts.TestRecovery.test_every_checkpoint_verifies_and_carries_a_data_position) ... ok
+test_fork_diverged_from_the_parent_stream (tests.test_artifacts.TestRecovery.test_fork_diverged_from_the_parent_stream) ... ok
+test_fork_ledger_is_independent_and_intact (tests.test_artifacts.TestRecovery.test_fork_ledger_is_independent_and_intact) ... ok
+test_no_batch_was_skipped_or_repeated (tests.test_artifacts.TestRecovery.test_no_batch_was_skipped_or_repeated) ... ok
+test_replay_by_replanning_matched (tests.test_artifacts.TestRecovery.test_replay_by_replanning_matched) ... ok
+test_replay_from_the_ledger_matched (tests.test_artifacts.TestRecovery.test_replay_from_the_ledger_matched) ... ok
+test_resume_discarded_the_post_checkpoint_events (tests.test_artifacts.TestRecovery.test_resume_discarded_the_post_checkpoint_events) ... ok
+test_resume_landed_on_the_expected_batch (tests.test_artifacts.TestRecovery.test_resume_landed_on_the_expected_batch) ... ok
+test_bins_rebuild_from_shard_bytes_to_the_recorded_hash (tests.test_artifacts.TestReplayReconstruction.test_bins_rebuild_from_shard_bytes_to_the_recorded_hash) ... ok
+test_contaminated_shards_were_blocked (tests.test_artifacts.TestShardsAndManifests.test_contaminated_shards_were_blocked) ... ok
+test_eval_shards_are_never_train (tests.test_artifacts.TestShardsAndManifests.test_eval_shards_are_never_train) ... ok
+test_every_admitted_shard_carries_full_lineage (tests.test_artifacts.TestShardsAndManifests.test_every_admitted_shard_carries_full_lineage) ... ok
+test_every_shard_matches_its_content_hash (tests.test_artifacts.TestShardsAndManifests.test_every_shard_matches_its_content_hash) ... ok
+test_frozen_tokenizer_file_still_hashes_to_the_frozen_value (tests.test_artifacts.TestShardsAndManifests.test_frozen_tokenizer_file_still_hashes_to_the_frozen_value) ... ok
+test_index_hash_is_reproducible (tests.test_artifacts.TestShardsAndManifests.test_index_hash_is_reproducible) ... ok
+test_manifest_self_hash_is_reproducible (tests.test_artifacts.TestShardsAndManifests.test_manifest_self_hash_is_reproducible) ... ok
+test_one_tokenizer_hash_across_every_shard (tests.test_artifacts.TestShardsAndManifests.test_one_tokenizer_hash_across_every_shard) ... ok
+test_shard_files_are_read_only (tests.test_artifacts.TestShardsAndManifests.test_shard_files_are_read_only) ... ok
+test_validation_shards_are_read_only_for_evaluation (tests.test_artifacts.TestShardsAndManifests.test_validation_shards_are_read_only_for_evaluation) ... ok
+test_canonical_json_is_order_insensitive (tests.test_units.TestDeterminism.test_canonical_json_is_order_insensitive) ... ok
+test_manifest_hash_ignores_wall_clock_but_not_content (tests.test_units.TestDeterminism.test_manifest_hash_ignores_wall_clock_but_not_content) ... ok
+test_permutation_depends_only_on_the_key (tests.test_units.TestDeterminism.test_permutation_depends_only_on_the_key) ... ok
+test_unit_is_in_range_and_keyed (tests.test_units.TestDeterminism.test_unit_is_in_range_and_keyed) ... ok
+test_appending_after_truncation_continues_the_chain (tests.test_units.TestLedger.test_appending_after_truncation_continues_the_chain) ... ok
+test_chain_verifies_for_an_untouched_ledger (tests.test_units.TestLedger.test_chain_verifies_for_an_untouched_ledger) ... ok
+test_deleting_an_event_breaks_the_chain (tests.test_units.TestLedger.test_deleting_an_event_breaks_the_chain) ... ok
+test_editing_an_event_breaks_the_chain (tests.test_units.TestLedger.test_editing_an_event_breaks_the_chain) ... ok
+test_ledger_set_rolls_back_together (tests.test_units.TestLedger.test_ledger_set_rolls_back_together) ... ok
+test_truncate_restores_an_exact_offset (tests.test_units.TestLedger.test_truncate_restores_an_exact_offset) ... ok
+test_truncating_past_the_end_is_refused (tests.test_units.TestLedger.test_truncating_past_the_end_is_refused) ... ok
+test_gradient_reaches_only_unmasked_targets (tests.test_units.TestMaskedLoss.test_gradient_reaches_only_unmasked_targets) ... ok
+test_masked_positions_contribute_nothing (tests.test_units.TestMaskedLoss.test_masked_positions_contribute_nothing) ... /Users/srinivasmukka/SchoolOfAI/ERA_V5/ERA_V5/session6_building_dataset/tests/test_units.py:191: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:823.)
+  self.assertAlmostEqual(float(loss), float(per_pos.sum() / 6), places=6)
+ok
+test_model_respects_the_segment_mask (tests.test_units.TestMaskedLoss.test_model_respects_the_segment_mask)
+Changing tokens in one packed sample must not move another's logits. ... ok
+test_compliance_flags_a_violated_floor (tests.test_units.TestMixture.test_compliance_flags_a_violated_floor) ... ok
+test_largest_remainder_does_not_drift (tests.test_units.TestMixture.test_largest_remainder_does_not_drift) ... ok
+test_plan_hash_changes_when_the_plan_changes (tests.test_units.TestMixture.test_plan_hash_changes_when_the_plan_changes) ... ok
+test_protected_floor_is_met_in_whole_bins (tests.test_units.TestMixture.test_protected_floor_is_met_in_whole_bins) ... ok
+test_quota_always_sums_to_the_batch_size (tests.test_units.TestMixture.test_quota_always_sums_to_the_batch_size) ... ok
+test_quota_is_never_negative (tests.test_units.TestMixture.test_quota_is_never_negative) ... ok
+test_stage_lookup_is_half_open (tests.test_units.TestMixture.test_stage_lookup_is_half_open) ... ok
+test_attention_is_block_diagonal_and_causal (tests.test_units.TestPacking.test_attention_is_block_diagonal_and_causal) ... ok
+test_best_fit_decreasing_beats_pad_only_and_first_fit (tests.test_units.TestPacking.test_best_fit_decreasing_beats_pad_only_and_first_fit) ... ok
+test_bin_hash_ignores_nothing_that_reaches_the_model (tests.test_units.TestPacking.test_bin_hash_ignores_nothing_that_reaches_the_model) ... ok
+test_bin_hash_is_stable_and_content_addressed (tests.test_units.TestPacking.test_bin_hash_is_stable_and_content_addressed) ... ok
+test_eos_separates_packed_samples (tests.test_units.TestPacking.test_eos_separates_packed_samples) ... ok
+test_every_row_of_the_attention_mask_has_something_to_attend_to (tests.test_units.TestPacking.test_every_row_of_the_attention_mask_has_something_to_attend_to) ... ok
+test_every_sample_is_placed_exactly_once (tests.test_units.TestPacking.test_every_sample_is_placed_exactly_once) ... ok
+test_loss_mask_never_crosses_a_sample_boundary (tests.test_units.TestPacking.test_loss_mask_never_crosses_a_sample_boundary) ... ok
+test_no_bin_overflows_the_context_window (tests.test_units.TestPacking.test_no_bin_overflows_the_context_window) ... ok
+test_packing_is_order_independent_for_the_same_sample_set (tests.test_units.TestPacking.test_packing_is_order_independent_for_the_same_sample_set) ... ok
+test_padding_never_bears_loss (tests.test_units.TestPacking.test_padding_never_bears_loss) ... ok
+test_position_ids_restart_for_each_packed_sample (tests.test_units.TestPacking.test_position_ids_restart_for_each_packed_sample) ... ok
+
+----------------------------------------------------------------------
+Ran 74 tests in 0.210s
+
+OK (skipped=2)

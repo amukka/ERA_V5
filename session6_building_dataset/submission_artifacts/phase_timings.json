@@ -1,0 +1,21 @@
+{
+  "phases": {
+    "01_corpus": 0.0344,
+    "02_tokenizer": 1.2823,
+    "03_shards": 1.0429,
+    "04_admission": 0.6646,
+    "05_firewall": 0.0039,
+    "06_mixture": 0.0019,
+    "07_index": 0.884,
+    "08_train": 4.4958,
+    "09_resume": 5.8089,
+    "10_replay": 0.7231,
+    "11_fork": 1.0591,
+    "12_audit": 0.0079,
+    "13_learning": 0.0049,
+    "14_performance": 0.0859,
+    "15_tests": 0.9588,
+    "16_evidence": 0.2644
+  },
+  "total_seconds": 17.3228
+}

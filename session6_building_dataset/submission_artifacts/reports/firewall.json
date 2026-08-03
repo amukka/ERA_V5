@@ -1,0 +1,162 @@
+{
+  "consumption_audit": {
+    "blocked_shards_consumed": [],
+    "clean": true,
+    "consumed_shards": 17,
+    "eval_shards_consumed": [],
+    "validation_shards_consumed": [],
+    "violations": []
+  },
+  "drill": {
+    "all_correct": true,
+    "allowed": 1,
+    "attempts": [
+      {
+        "context": "firewall_drill:eval_into_training",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "eval-code-0000 is never_train (admitted=False, reasons=['split_not_trainable:eval', 'permission:never_train', 'never_train_flag', 'contamination:unscanned'])",
+        "shard_id": "eval-code-0000"
+      },
+      {
+        "context": "firewall_drill:eval_into_training",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "eval-dialog-0000 is never_train (admitted=False, reasons=['split_not_trainable:eval', 'permission:never_train', 'never_train_flag', 'contamination:unscanned'])",
+        "shard_id": "eval-dialog-0000"
+      },
+      {
+        "context": "firewall_drill:eval_into_training",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "eval-wiki-0000 is never_train (admitted=False, reasons=['split_not_trainable:eval', 'permission:never_train', 'never_train_flag', 'contamination:unscanned'])",
+        "shard_id": "eval-wiki-0000"
+      },
+      {
+        "context": "firewall_drill:validation_into_training",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "validation-code-0000 is eval_read_only (admitted=False, reasons=['split_not_trainable:validation', 'permission:eval_read_only', 'contamination:unscanned'])",
+        "shard_id": "validation-code-0000"
+      },
+      {
+        "context": "firewall_drill:validation_into_training",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "validation-dialog-0000 is eval_read_only (admitted=False, reasons=['split_not_trainable:validation', 'permission:eval_read_only', 'contamination:unscanned'])",
+        "shard_id": "validation-dialog-0000"
+      },
+      {
+        "context": "firewall_drill:validation_into_training",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "validation-wiki-0000 is eval_read_only (admitted=False, reasons=['split_not_trainable:validation', 'permission:eval_read_only', 'contamination:unscanned'])",
+        "shard_id": "validation-wiki-0000"
+      },
+      {
+        "context": "firewall_drill:contaminated_shard",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "train-code-0000 is trainable (admitted=False, reasons=['contamination:eval_overlap_detected'])",
+        "shard_id": "train-code-0000"
+      },
+      {
+        "context": "firewall_drill:contaminated_shard",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "train-code-0001 is trainable (admitted=False, reasons=['contamination:eval_overlap_detected'])",
+        "shard_id": "train-code-0001"
+      },
+      {
+        "context": "firewall_drill:contaminated_shard",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "train-code-0002 is trainable (admitted=False, reasons=['contamination:eval_overlap_detected'])",
+        "shard_id": "train-code-0002"
+      },
+      {
+        "context": "firewall_drill:contaminated_shard",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "train-code-0003 is trainable (admitted=False, reasons=['contamination:eval_overlap_detected'])",
+        "shard_id": "train-code-0003"
+      },
+      {
+        "context": "firewall_drill:contaminated_shard",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "train-code-0004 is trainable (admitted=False, reasons=['contamination:eval_overlap_detected'])",
+        "shard_id": "train-code-0004"
+      },
+      {
+        "context": "firewall_drill:contaminated_shard",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "train-code-0006 is trainable (admitted=False, reasons=['contamination:eval_overlap_detected'])",
+        "shard_id": "train-code-0006"
+      },
+      {
+        "context": "firewall_drill:contaminated_shard",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "train-wiki-0009 is trainable (admitted=False, reasons=['contamination:eval_overlap_detected'])",
+        "shard_id": "train-wiki-0009"
+      },
+      {
+        "context": "firewall_drill:contaminated_shard",
+        "correct": true,
+        "expected": "blocked",
+        "outcome": "blocked",
+        "reason": "train-wiki-0010 is trainable (admitted=False, reasons=['contamination:eval_overlap_detected'])",
+        "shard_id": "train-wiki-0010"
+      },
+      {
+        "context": "firewall_drill:control_trainable",
+        "correct": true,
+        "expected": "allowed",
+        "outcome": "allowed",
+        "reason": null,
+        "shard_id": "train-code-0005"
+      }
+    ],
+    "blocked": 14,
+    "contaminated_shards": [
+      "train-code-0000",
+      "train-code-0001",
+      "train-code-0002",
+      "train-code-0003",
+      "train-code-0004",
+      "train-code-0006",
+      "train-wiki-0009",
+      "train-wiki-0010"
+    ],
+    "forged_manifest": {
+      "attempted": true,
+      "blocked": true,
+      "claimed_permission": "trainable",
+      "claimed_split": "train",
+      "content_hash": "1ad43f3de5b44d729bfbcb6eb242f8ae44d2d1c2d756450b059af8fb1de107c0",
+      "correct": true,
+      "detected_by": "unknown_shard_id+content_hash_matches:eval-code-0000",
+      "event": "forged_manifest_attempt",
+      "shard_id": "eval-code-0000-FORGED",
+      "true_permission": "never_train",
+      "true_split": "eval"
+    },
+    "leaked": [],
+    "validation_readable_for_eval": true
+  }
+}

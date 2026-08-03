@@ -1,0 +1,29 @@
+{
+  "index_hash": "26d260a266fcde29235cca53040e6abacb4a9f13926ed959cb6d6db63cfb0f79",
+  "lanes": {
+    "code": {
+      "mean_len": 111.091,
+      "mean_symbol_ratio": 0.051199,
+      "p50_len": 127,
+      "p95_len": 127,
+      "samples": 230,
+      "tokens": 25551
+    },
+    "dialog": {
+      "mean_len": 95.632,
+      "mean_symbol_ratio": 0.002802,
+      "p50_len": 115,
+      "p95_len": 127,
+      "samples": 604,
+      "tokens": 57762
+    },
+    "wiki": {
+      "mean_len": 125.217,
+      "mean_symbol_ratio": 0.008687,
+      "p50_len": 127,
+      "p95_len": 127,
+      "samples": 16763,
+      "tokens": 2099008
+    }
+  }
+}

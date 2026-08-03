@@ -1,0 +1,138 @@
+{
+  "admitted": [
+    "train-code-0005",
+    "train-dialog-0000",
+    "train-dialog-0001",
+    "train-dialog-0002",
+    "train-dialog-0003",
+    "train-dialog-0004",
+    "train-dialog-0005",
+    "train-dialog-0006",
+    "train-wiki-0000",
+    "train-wiki-0001",
+    "train-wiki-0002",
+    "train-wiki-0003",
+    "train-wiki-0004",
+    "train-wiki-0005",
+    "train-wiki-0006",
+    "train-wiki-0007",
+    "train-wiki-0008"
+  ],
+  "admitted_tokens": 2182539,
+  "blocked": [
+    {
+      "reasons": [
+        "contamination:eval_overlap_detected"
+      ],
+      "shard_id": "train-code-0000",
+      "split": "train"
+    },
+    {
+      "reasons": [
+        "contamination:eval_overlap_detected"
+      ],
+      "shard_id": "train-code-0001",
+      "split": "train"
+    },
+    {
+      "reasons": [
+        "contamination:eval_overlap_detected"
+      ],
+      "shard_id": "train-code-0002",
+      "split": "train"
+    },
+    {
+      "reasons": [
+        "contamination:eval_overlap_detected"
+      ],
+      "shard_id": "train-code-0003",
+      "split": "train"
+    },
+    {
+      "reasons": [
+        "contamination:eval_overlap_detected"
+      ],
+      "shard_id": "train-code-0004",
+      "split": "train"
+    },
+    {
+      "reasons": [
+        "contamination:eval_overlap_detected"
+      ],
+      "shard_id": "train-code-0006",
+      "split": "train"
+    },
+    {
+      "reasons": [
+        "contamination:eval_overlap_detected"
+      ],
+      "shard_id": "train-wiki-0009",
+      "split": "train"
+    },
+    {
+      "reasons": [
+        "contamination:eval_overlap_detected"
+      ],
+      "shard_id": "train-wiki-0010",
+      "split": "train"
+    },
+    {
+      "reasons": [
+        "split_not_trainable:validation",
+        "permission:eval_read_only",
+        "contamination:unscanned"
+      ],
+      "shard_id": "validation-code-0000",
+      "split": "validation"
+    },
+    {
+      "reasons": [
+        "split_not_trainable:validation",
+        "permission:eval_read_only",
+        "contamination:unscanned"
+      ],
+      "shard_id": "validation-dialog-0000",
+      "split": "validation"
+    },
+    {
+      "reasons": [
+        "split_not_trainable:validation",
+        "permission:eval_read_only",
+        "contamination:unscanned"
+      ],
+      "shard_id": "validation-wiki-0000",
+      "split": "validation"
+    },
+    {
+      "reasons": [
+        "split_not_trainable:eval",
+        "permission:never_train",
+        "never_train_flag",
+        "contamination:unscanned"
+      ],
+      "shard_id": "eval-code-0000",
+      "split": "eval"
+    },
+    {
+      "reasons": [
+        "split_not_trainable:eval",
+        "permission:never_train",
+        "never_train_flag",
+        "contamination:unscanned"
+      ],
+      "shard_id": "eval-dialog-0000",
+      "split": "eval"
+    },
+    {
+      "reasons": [
+        "split_not_trainable:eval",
+        "permission:never_train",
+        "never_train_flag",
+        "contamination:unscanned"
+      ],
+      "shard_id": "eval-wiki-0000",
+      "split": "eval"
+    }
+  ],
+  "blocked_tokens": 789157
+}

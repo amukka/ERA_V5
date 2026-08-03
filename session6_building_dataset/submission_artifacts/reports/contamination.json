@@ -1,0 +1,429 @@
+{
+  "contaminated": [
+    "train-code-0000",
+    "train-code-0001",
+    "train-code-0002",
+    "train-code-0003",
+    "train-code-0004",
+    "train-code-0006",
+    "train-wiki-0009",
+    "train-wiki-0010"
+  ],
+  "contaminated_documents": [
+    "code.train.00009",
+    "code.train.00059",
+    "code.train.00094",
+    "code.train.00123",
+    "code.train.00151",
+    "code.train.00155",
+    "code.train.00201",
+    "code.train.00220",
+    "code.train.00236",
+    "code.train.00241",
+    "code.train.00249",
+    "code.train.00379",
+    "code.train.00387",
+    "wiki.train.00574",
+    "wiki.train.90000"
+  ],
+  "fingerprint_size": 176319,
+  "ngram": 12,
+  "rule": {
+    "min_doc_hit_ratio": 0.3,
+    "min_doc_windows": 64,
+    "min_verbatim_run": 48
+  },
+  "shards": [
+    {
+      "documents": [
+        "code.train.00009",
+        "code.train.00059"
+      ],
+      "flagged_documents": [
+        {
+          "doc_id": "code.train.00009",
+          "flagged": true,
+          "hit_ratio": 0.378378,
+          "hits": 210,
+          "longest_verbatim_run": 21,
+          "reason": "saturated_overlap",
+          "windows": 555
+        },
+        {
+          "doc_id": "code.train.00059",
+          "flagged": true,
+          "hit_ratio": 0.308151,
+          "hits": 155,
+          "longest_verbatim_run": 18,
+          "reason": "saturated_overlap",
+          "windows": 503
+        }
+      ],
+      "hit_ratio": 0.089867,
+      "hits": 2030,
+      "max_verbatim_run": 39,
+      "shard_id": "train-code-0000",
+      "windows": 22589
+    },
+    {
+      "documents": [
+        "code.train.00094"
+      ],
+      "flagged_documents": [
+        {
+          "doc_id": "code.train.00094",
+          "flagged": true,
+          "hit_ratio": 0.326934,
+          "hits": 596,
+          "longest_verbatim_run": 19,
+          "reason": "saturated_overlap",
+          "windows": 1823
+        }
+      ],
+      "hit_ratio": 0.108892,
+      "hits": 2677,
+      "max_verbatim_run": 32,
+      "shard_id": "train-code-0001",
+      "windows": 24584
+    },
+    {
+      "documents": [
+        "code.train.00123",
+        "code.train.00151",
+        "code.train.00155"
+      ],
+      "flagged_documents": [
+        {
+          "doc_id": "code.train.00123",
+          "flagged": true,
+          "hit_ratio": 0.385401,
+          "hits": 264,
+          "longest_verbatim_run": 21,
+          "reason": "saturated_overlap",
+          "windows": 685
+        },
+        {
+          "doc_id": "code.train.00151",
+          "flagged": true,
+          "hit_ratio": 0.367206,
+          "hits": 159,
+          "longest_verbatim_run": 21,
+          "reason": "saturated_overlap",
+          "windows": 433
+        },
+        {
+          "doc_id": "code.train.00155",
+          "flagged": true,
+          "hit_ratio": 0.379562,
+          "hits": 208,
+          "longest_verbatim_run": 19,
+          "reason": "saturated_overlap",
+          "windows": 548
+        }
+      ],
+      "hit_ratio": 0.118615,
+      "hits": 2798,
+      "max_verbatim_run": 29,
+      "shard_id": "train-code-0002",
+      "windows": 23589
+    },
+    {
+      "documents": [
+        "code.train.00201",
+        "code.train.00220",
+        "code.train.00236"
+      ],
+      "flagged_documents": [
+        {
+          "doc_id": "code.train.00201",
+          "flagged": true,
+          "hit_ratio": 0.335593,
+          "hits": 99,
+          "longest_verbatim_run": 24,
+          "reason": "saturated_overlap",
+          "windows": 295
+        },
+        {
+          "doc_id": "code.train.00220",
+          "flagged": true,
+          "hit_ratio": 0.339713,
+          "hits": 213,
+          "longest_verbatim_run": 45,
+          "reason": "saturated_overlap",
+          "windows": 627
+        },
+        {
+          "doc_id": "code.train.00236",
+          "flagged": true,
+          "hit_ratio": 0.361789,
+          "hits": 178,
+          "longest_verbatim_run": 24,
+          "reason": "saturated_overlap",
+          "windows": 492
+        }
+      ],
+      "hit_ratio": 0.106866,
+      "hits": 2780,
+      "max_verbatim_run": 45,
+      "shard_id": "train-code-0003",
+      "windows": 26014
+    },
+    {
+      "documents": [
+        "code.train.00241",
+        "code.train.00249"
+      ],
+      "flagged_documents": [
+        {
+          "doc_id": "code.train.00241",
+          "flagged": true,
+          "hit_ratio": 0.336307,
+          "hits": 490,
+          "longest_verbatim_run": 18,
+          "reason": "saturated_overlap",
+          "windows": 1457
+        },
+        {
+          "doc_id": "code.train.00249",
+          "flagged": true,
+          "hit_ratio": 0.283027,
+          "hits": 692,
+          "longest_verbatim_run": 72,
+          "reason": "verbatim_run",
+          "windows": 2445
+        }
+      ],
+      "hit_ratio": 0.103414,
+      "hits": 3296,
+      "max_verbatim_run": 72,
+      "shard_id": "train-code-0004",
+      "windows": 31872
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.077721,
+      "hits": 1986,
+      "max_verbatim_run": 28,
+      "shard_id": "train-code-0005",
+      "windows": 25553
+    },
+    {
+      "documents": [
+        "code.train.00379",
+        "code.train.00387"
+      ],
+      "flagged_documents": [
+        {
+          "doc_id": "code.train.00379",
+          "flagged": true,
+          "hit_ratio": 0.33795,
+          "hits": 122,
+          "longest_verbatim_run": 40,
+          "reason": "saturated_overlap",
+          "windows": 361
+        },
+        {
+          "doc_id": "code.train.00387",
+          "flagged": true,
+          "hit_ratio": 0.155396,
+          "hits": 108,
+          "longest_verbatim_run": 57,
+          "reason": "verbatim_run",
+          "windows": 695
+        }
+      ],
+      "hit_ratio": 0.080481,
+      "hits": 1246,
+      "max_verbatim_run": 57,
+      "shard_id": "train-code-0006",
+      "windows": 15482
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.0,
+      "hits": 0,
+      "max_verbatim_run": 0,
+      "shard_id": "train-dialog-0000",
+      "windows": 9406
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.0,
+      "hits": 0,
+      "max_verbatim_run": 0,
+      "shard_id": "train-dialog-0001",
+      "windows": 8468
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.0,
+      "hits": 0,
+      "max_verbatim_run": 0,
+      "shard_id": "train-dialog-0002",
+      "windows": 9505
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.0,
+      "hits": 0,
+      "max_verbatim_run": 0,
+      "shard_id": "train-dialog-0003",
+      "windows": 8270
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.0,
+      "hits": 0,
+      "max_verbatim_run": 0,
+      "shard_id": "train-dialog-0004",
+      "windows": 9683
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 9e-05,
+      "hits": 1,
+      "max_verbatim_run": 1,
+      "shard_id": "train-dialog-0005",
+      "windows": 11079
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.0,
+      "hits": 0,
+      "max_verbatim_run": 0,
+      "shard_id": "train-dialog-0006",
+      "windows": 1340
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.000365,
+      "hits": 71,
+      "max_verbatim_run": 13,
+      "shard_id": "train-wiki-0000",
+      "windows": 194777
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.000455,
+      "hits": 112,
+      "max_verbatim_run": 14,
+      "shard_id": "train-wiki-0001",
+      "windows": 246197
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.000453,
+      "hits": 104,
+      "max_verbatim_run": 14,
+      "shard_id": "train-wiki-0002",
+      "windows": 229823
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.000335,
+      "hits": 74,
+      "max_verbatim_run": 30,
+      "shard_id": "train-wiki-0003",
+      "windows": 221106
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.000429,
+      "hits": 104,
+      "max_verbatim_run": 16,
+      "shard_id": "train-wiki-0004",
+      "windows": 242483
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.000387,
+      "hits": 93,
+      "max_verbatim_run": 14,
+      "shard_id": "train-wiki-0005",
+      "windows": 240405
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.000249,
+      "hits": 66,
+      "max_verbatim_run": 4,
+      "shard_id": "train-wiki-0006",
+      "windows": 265428
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.000301,
+      "hits": 65,
+      "max_verbatim_run": 10,
+      "shard_id": "train-wiki-0007",
+      "windows": 216019
+    },
+    {
+      "documents": [],
+      "flagged_documents": [],
+      "hit_ratio": 0.000264,
+      "hits": 64,
+      "max_verbatim_run": 5,
+      "shard_id": "train-wiki-0008",
+      "windows": 242810
+    },
+    {
+      "documents": [
+        "wiki.train.00574"
+      ],
+      "flagged_documents": [
+        {
+          "doc_id": "wiki.train.00574",
+          "flagged": true,
+          "hit_ratio": 0.056539,
+          "hits": 182,
+          "longest_verbatim_run": 55,
+          "reason": "verbatim_run",
+          "windows": 3219
+        }
+      ],
+      "hit_ratio": 0.001096,
+      "hits": 279,
+      "max_verbatim_run": 55,
+      "shard_id": "train-wiki-0009",
+      "windows": 254504
+    },
+    {
+      "documents": [
+        "wiki.train.90000"
+      ],
+      "flagged_documents": [
+        {
+          "doc_id": "wiki.train.90000",
+          "flagged": true,
+          "hit_ratio": 0.333056,
+          "hits": 2801,
+          "longest_verbatim_run": 2801,
+          "reason": "verbatim_run",
+          "windows": 8410
+        }
+      ],
+      "hit_ratio": 0.062415,
+      "hits": 2813,
+      "max_verbatim_run": 2801,
+      "shard_id": "train-wiki-0010",
+      "windows": 45069
+    }
+  ]
+}

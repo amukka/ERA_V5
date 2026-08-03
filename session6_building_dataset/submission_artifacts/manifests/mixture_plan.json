@@ -1,0 +1,1102 @@
+{
+  "batch_size": 8,
+  "lanes": [
+    "code",
+    "dialog",
+    "wiki"
+  ],
+  "per_step": [
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 0
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 1
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 2
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 3
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 4
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 5
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 6
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 7
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 8
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 9
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 10
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 11
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 12
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 13
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 14
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 15
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 16
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 17
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 18
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 19
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 20
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 21
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 22
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 23
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 24
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 25
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 26
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 27
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 28
+    },
+    {
+      "floor_bins": {
+        "code": 1
+      },
+      "planned_shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "quota": {
+        "code": 1,
+        "dialog": 2,
+        "wiki": 5
+      },
+      "stage": "stage1_foundation",
+      "step": 29
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 30
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 31
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 32
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 33
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 34
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 35
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 36
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 37
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 38
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 39
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 40
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 41
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 42
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 43
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 44
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 45
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 46
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 47
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 48
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 49
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 50
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 51
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 52
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 53
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 54
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 55
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 56
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 57
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 58
+    },
+    {
+      "floor_bins": {
+        "code": 1,
+        "dialog": 2
+      },
+      "planned_shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "quota": {
+        "code": 3,
+        "dialog": 2,
+        "wiki": 3
+      },
+      "stage": "stage2_midtrain",
+      "step": 59
+    }
+  ],
+  "plan_hash": "5629576d3ce278d12892b724b7cc8ac982396495dd8cf5a9d0ea25cd438b4455",
+  "planned_bin_totals": {
+    "code": 120,
+    "dialog": 120,
+    "wiki": 240
+  },
+  "planned_overall_shares": {
+    "code": 0.25,
+    "dialog": 0.25,
+    "wiki": 0.5
+  },
+  "stages": [
+    {
+      "name": "stage1_foundation",
+      "protected_floors": {
+        "code": 0.1
+      },
+      "shares": {
+        "code": 0.15,
+        "dialog": 0.25,
+        "wiki": 0.6
+      },
+      "step_end": 30,
+      "step_start": 0
+    },
+    {
+      "name": "stage2_midtrain",
+      "protected_floors": {
+        "code": 0.1,
+        "dialog": 0.15
+      },
+      "shares": {
+        "code": 0.4,
+        "dialog": 0.25,
+        "wiki": 0.35
+      },
+      "step_end": 60,
+      "step_start": 30
+    }
+  ],
+  "tolerance": 0.06,
+  "total_steps": 60
+}

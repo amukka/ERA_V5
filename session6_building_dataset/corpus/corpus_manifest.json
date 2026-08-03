@@ -1,0 +1,51 @@
+{
+  "canary_count": 90,
+  "char_total": 13034500,
+  "corpus_version": "s6-corpus-v1",
+  "counts": {
+    "eval/code": 30,
+    "eval/dialog": 26,
+    "eval/wiki": 34,
+    "train/code": 400,
+    "train/dialog": 369,
+    "train/wiki": 611,
+    "validation/code": 30,
+    "validation/dialog": 30,
+    "validation/wiki": 40
+  },
+  "document_count": 1570,
+  "documents_hash": "684e4ea2b6abce825624bfbd12474a42f9675bfadb5080ba3c54e958f6133ac2",
+  "duplicates_removed": [
+    {
+      "doc_id": "dialog.train.00262",
+      "duplicate_of": "dialog.train.00121"
+    },
+    {
+      "doc_id": "dialog.train.00326",
+      "duplicate_of": "dialog.train.00288"
+    },
+    {
+      "doc_id": "dialog.train.00343",
+      "duplicate_of": "dialog.train.00021"
+    }
+  ],
+  "planted_leak_doc": "wiki.train.90000",
+  "sources": {
+    "code": {
+      "hf_config": "python",
+      "hf_id": "code-search-net/code_search_net",
+      "license": "mit-and-various"
+    },
+    "dialog": {
+      "hf_config": null,
+      "hf_id": "pixelsandpointers/better_daily_dialog",
+      "license": "cc-by-nc-sa-4.0"
+    },
+    "wiki": {
+      "hf_config": "wikitext-2-raw-v1",
+      "hf_id": "Salesforce/wikitext",
+      "license": "cc-by-sa-3.0"
+    }
+  },
+  "spec_hash": "812d93802cb4a1faeb080f43b13c10ed83d889b4581ca7b04951b649a37b396a"
+}

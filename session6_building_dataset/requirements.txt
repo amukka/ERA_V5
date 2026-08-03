@@ -1,0 +1,10 @@
+# Session 6 -- Training Data Execution System
+#
+# Pinned to lower bounds rather than exact versions: the reproducibility
+# guarantees in this project come from content hashes and keyed permutations,
+# not from a frozen dependency set. The demonstration runs on CPU.
+torch>=2.2
+transformers>=4.40
+datasets>=3.0
+numpy>=1.26
+pyyaml>=6.0

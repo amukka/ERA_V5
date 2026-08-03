@@ -1,0 +1,1300 @@
+{
+  "admission_decided_at": "2026-08-03T14:05:56Z",
+  "admitted": true,
+  "benchmark_ids": [],
+  "block_reasons": [],
+  "canaries": [],
+  "cleaning_pipeline": "s6-admission-v1",
+  "cleaning_pipeline_hash": "7a198c9462ce575d2bb98d913240392d754be76bb3796eab6bc4ae4a623a6170",
+  "contamination_status": "clean",
+  "content_hash": "e7ed7aba2a2a33d612a651dc54b52cc64137d9cc4668d80116c6e2db6710fb0f",
+  "created_at": "2026-08-03T14:05:54Z",
+  "dedup_status": "exact_dedup_pass",
+  "doc_ids": [
+    "dialog.train.00180",
+    "dialog.train.00181",
+    "dialog.train.00182",
+    "dialog.train.00183",
+    "dialog.train.00184",
+    "dialog.train.00185",
+    "dialog.train.00186",
+    "dialog.train.00187",
+    "dialog.train.00188",
+    "dialog.train.00189",
+    "dialog.train.00190",
+    "dialog.train.00191",
+    "dialog.train.00192",
+    "dialog.train.00193",
+    "dialog.train.00194",
+    "dialog.train.00195",
+    "dialog.train.00196",
+    "dialog.train.00197",
+    "dialog.train.00198",
+    "dialog.train.00199",
+    "dialog.train.00200",
+    "dialog.train.00201",
+    "dialog.train.00202",
+    "dialog.train.00203",
+    "dialog.train.00204",
+    "dialog.train.00205",
+    "dialog.train.00206",
+    "dialog.train.00207",
+    "dialog.train.00208",
+    "dialog.train.00209",
+    "dialog.train.00210",
+    "dialog.train.00211",
+    "dialog.train.00212",
+    "dialog.train.00213",
+    "dialog.train.00214",
+    "dialog.train.00215",
+    "dialog.train.00216",
+    "dialog.train.00217",
+    "dialog.train.00218",
+    "dialog.train.00219",
+    "dialog.train.00220",
+    "dialog.train.00221",
+    "dialog.train.00222",
+    "dialog.train.00223",
+    "dialog.train.00224",
+    "dialog.train.00225",
+    "dialog.train.00226",
+    "dialog.train.00227",
+    "dialog.train.00228",
+    "dialog.train.00229",
+    "dialog.train.00230",
+    "dialog.train.00231",
+    "dialog.train.00232",
+    "dialog.train.00233",
+    "dialog.train.00234",
+    "dialog.train.00235",
+    "dialog.train.00236",
+    "dialog.train.00237",
+    "dialog.train.00238",
+    "dialog.train.00239"
+  ],
+  "documents": [
+    {
+      "char_len": 834,
+      "content_hash": "5b07c4a5ba7973ef5ed17e175ab9f737c017cf5ccdd18a700e7ba7b344308c8d",
+      "doc_id": "dialog.train.00180",
+      "token_count": 199,
+      "token_end": 199,
+      "token_start": 0
+    },
+    {
+      "char_len": 541,
+      "content_hash": "23b432920fddcb91286086e81ec151ae046881a12be4da83b7dc4ed72bcea9ec",
+      "doc_id": "dialog.train.00181",
+      "token_count": 165,
+      "token_end": 364,
+      "token_start": 199
+    },
+    {
+      "char_len": 433,
+      "content_hash": "edfdaf690b9c4db5599e33f0f8b89fea2df6b720705d056fa0636edc09499cb1",
+      "doc_id": "dialog.train.00182",
+      "token_count": 115,
+      "token_end": 479,
+      "token_start": 364
+    },
+    {
+      "char_len": 594,
+      "content_hash": "b9ce61ffbb059f6f4ed88adb78411e1f4855d79f97ae9e1850fc8d7158bb1b42",
+      "doc_id": "dialog.train.00183",
+      "token_count": 154,
+      "token_end": 633,
+      "token_start": 479
+    },
+    {
+      "char_len": 499,
+      "content_hash": "1d75711914426a221c02335062715a39db14782e7fea08ed720339b1faf42649",
+      "doc_id": "dialog.train.00184",
+      "token_count": 115,
+      "token_end": 748,
+      "token_start": 633
+    },
+    {
+      "char_len": 320,
+      "content_hash": "b39d81383fbf5acf4bb293cafea0aad9caec6ab7892b74a533576efa72b2032a",
+      "doc_id": "dialog.train.00185",
+      "token_count": 89,
+      "token_end": 837,
+      "token_start": 748
+    },
+    {
+      "char_len": 272,
+      "content_hash": "1c277bb103d163792dd3384114f9823464b3df8ed2d9b6ca032e9be10b560ddd",
+      "doc_id": "dialog.train.00186",
+      "token_count": 71,
+      "token_end": 908,
+      "token_start": 837
+    },
+    {
+      "char_len": 202,
+      "content_hash": "b8a8066547f1998ea6fc9c4a8498b472abd13ded6032930d96e2f2df5fd25c68",
+      "doc_id": "dialog.train.00187",
+      "token_count": 56,
+      "token_end": 964,
+      "token_start": 908
+    },
+    {
+      "char_len": 562,
+      "content_hash": "0e75307222ae203b00dd4df29cb04e0f14f39e83d2934cfa62331e34b8667f01",
+      "doc_id": "dialog.train.00188",
+      "token_count": 149,
+      "token_end": 1113,
+      "token_start": 964
+    },
+    {
+      "char_len": 480,
+      "content_hash": "2d5270610369d5c755e1a1342983de93f82949251bc98ffe9e367ed3da818968",
+      "doc_id": "dialog.train.00189",
+      "token_count": 136,
+      "token_end": 1249,
+      "token_start": 1113
+    },
+    {
+      "char_len": 714,
+      "content_hash": "6c960cc2591570d423500ec93c3a79546c97cdfb105647bcc3b1d0629e59a082",
+      "doc_id": "dialog.train.00190",
+      "token_count": 173,
+      "token_end": 1422,
+      "token_start": 1249
+    },
+    {
+      "char_len": 280,
+      "content_hash": "cf50023c4558aa08bc3fcb54e5dbd081a13db775baf99b8697a71f2921717c40",
+      "doc_id": "dialog.train.00191",
+      "token_count": 79,
+      "token_end": 1501,
+      "token_start": 1422
+    },
+    {
+      "char_len": 786,
+      "content_hash": "fd75b476f009dfcdbaf80fb13cc689883d5d2450bf5164e006cfa7862e5e1a60",
+      "doc_id": "dialog.train.00192",
+      "token_count": 186,
+      "token_end": 1687,
+      "token_start": 1501
+    },
+    {
+      "char_len": 219,
+      "content_hash": "dc7eaa71ac9b0b6bdeadabc386943ba8fd9c9a7845189e193c659360629cf26b",
+      "doc_id": "dialog.train.00193",
+      "token_count": 70,
+      "token_end": 1757,
+      "token_start": 1687
+    },
+    {
+      "char_len": 628,
+      "content_hash": "f3f6c132e59efd1a852c97155cd828716f4f3d16255510c56f8d7b59cd3c6e40",
+      "doc_id": "dialog.train.00194",
+      "token_count": 173,
+      "token_end": 1930,
+      "token_start": 1757
+    },
+    {
+      "char_len": 249,
+      "content_hash": "6cea80c8cb8172c58e8fdfc7ebfc2b5cb4b1dfdccd906edf2a3fbc2df817fa29",
+      "doc_id": "dialog.train.00195",
+      "token_count": 76,
+      "token_end": 2006,
+      "token_start": 1930
+    },
+    {
+      "char_len": 294,
+      "content_hash": "6ba47eccdf4815735cef6cb13b5822ffa2efe34b0fc8d284ddd37a498e7920e0",
+      "doc_id": "dialog.train.00196",
+      "token_count": 90,
+      "token_end": 2096,
+      "token_start": 2006
+    },
+    {
+      "char_len": 685,
+      "content_hash": "e840c2d25ad67acaf4e3a86bb935746ace631cc1e00b344508bb94602727c57a",
+      "doc_id": "dialog.train.00197",
+      "token_count": 186,
+      "token_end": 2282,
+      "token_start": 2096
+    },
+    {
+      "char_len": 437,
+      "content_hash": "a8301fecfce1734d54502e058ef366125fcd434b57a82f7debb04cd5bda126a9",
+      "doc_id": "dialog.train.00198",
+      "token_count": 129,
+      "token_end": 2411,
+      "token_start": 2282
+    },
+    {
+      "char_len": 360,
+      "content_hash": "86992a3dc099514257461d3997cdc95d091791e9c35b3378faa6c482aa09b9f5",
+      "doc_id": "dialog.train.00199",
+      "token_count": 108,
+      "token_end": 2519,
+      "token_start": 2411
+    },
+    {
+      "char_len": 218,
+      "content_hash": "cc3abc44b39b3ae53d6c5105ffec72920bd849c810024a0f779ef5b2737eb698",
+      "doc_id": "dialog.train.00200",
+      "token_count": 63,
+      "token_end": 2582,
+      "token_start": 2519
+    },
+    {
+      "char_len": 1180,
+      "content_hash": "59b3b0daa5dcf3be543750a5c8779b1d2e2c134da91471f9596787376b8c8716",
+      "doc_id": "dialog.train.00201",
+      "token_count": 316,
+      "token_end": 2898,
+      "token_start": 2582
+    },
+    {
+      "char_len": 509,
+      "content_hash": "e0ef2088a1d2aeccffe99611078f1385a31b06e44c8655e248194e0d4649fa7a",
+      "doc_id": "dialog.train.00202",
+      "token_count": 135,
+      "token_end": 3033,
+      "token_start": 2898
+    },
+    {
+      "char_len": 273,
+      "content_hash": "2d64f8c3bcf3622e0b951f4c0e426ad45eafef4da88c963b03934f3f4ac12a77",
+      "doc_id": "dialog.train.00203",
+      "token_count": 71,
+      "token_end": 3104,
+      "token_start": 3033
+    },
+    {
+      "char_len": 730,
+      "content_hash": "7d7b16d16ae9195281a31577beb3b426d7540c9ac93052c15814118bf7e5041d",
+      "doc_id": "dialog.train.00204",
+      "token_count": 194,
+      "token_end": 3298,
+      "token_start": 3104
+    },
+    {
+      "char_len": 521,
+      "content_hash": "57b59b3ff1d8d890ce7b9de8f452e33610f7a1cfd170af4c0ee5979809a0ed09",
+      "doc_id": "dialog.train.00205",
+      "token_count": 129,
+      "token_end": 3427,
+      "token_start": 3298
+    },
+    {
+      "char_len": 1743,
+      "content_hash": "1a5619ef4b78e4269baf0b480d6e16fe9e6fe8bc121bf8d7f0e3447add16887e",
+      "doc_id": "dialog.train.00206",
+      "token_count": 438,
+      "token_end": 3865,
+      "token_start": 3427
+    },
+    {
+      "char_len": 301,
+      "content_hash": "6853ced1f77e65f1d539ff54f024f18a56f4af102365f17b3c9a99d4e690a6bc",
+      "doc_id": "dialog.train.00207",
+      "token_count": 96,
+      "token_end": 3961,
+      "token_start": 3865
+    },
+    {
+      "char_len": 489,
+      "content_hash": "fdbc794884c132969f9a468d8b6076f2d7b1bcfebbd02c07d564cbd4f255f96d",
+      "doc_id": "dialog.train.00208",
+      "token_count": 152,
+      "token_end": 4113,
+      "token_start": 3961
+    },
+    {
+      "char_len": 766,
+      "content_hash": "4e2254ca49a416858953fc74b4c17adb128c3d099d3236146db131f473165860",
+      "doc_id": "dialog.train.00209",
+      "token_count": 195,
+      "token_end": 4308,
+      "token_start": 4113
+    },
+    {
+      "char_len": 244,
+      "content_hash": "08abb50b5344d9cedaffd645a9f8c64f8adc5ff1c0cb071792c5f11c435aa029",
+      "doc_id": "dialog.train.00210",
+      "token_count": 93,
+      "token_end": 4401,
+      "token_start": 4308
+    },
+    {
+      "char_len": 446,
+      "content_hash": "a639c0ba9cbbae9dd24708bfc5f5a5f404bb6ba35a5354a32e4b79abb1c12b79",
+      "doc_id": "dialog.train.00211",
+      "token_count": 108,
+      "token_end": 4509,
+      "token_start": 4401
+    },
+    {
+      "char_len": 1293,
+      "content_hash": "299292ebbb49b6677eabb11b869d236a8e6d3dc353bcbc5d5cd69f7fb9ae5a28",
+      "doc_id": "dialog.train.00212",
+      "token_count": 346,
+      "token_end": 4855,
+      "token_start": 4509
+    },
+    {
+      "char_len": 654,
+      "content_hash": "4c1b13bf4caa829364af1edeeab16b619b0cf47dbb814ba70c7192e4f07bdecd",
+      "doc_id": "dialog.train.00213",
+      "token_count": 170,
+      "token_end": 5025,
+      "token_start": 4855
+    },
+    {
+      "char_len": 825,
+      "content_hash": "6a1cac11befdc6f96ca6accadfc878a73ad60a500d3cf8c0563a5978f88e3bcf",
+      "doc_id": "dialog.train.00214",
+      "token_count": 190,
+      "token_end": 5215,
+      "token_start": 5025
+    },
+    {
+      "char_len": 515,
+      "content_hash": "9e2580fab93f334e9730ebaa3e65e69b86166b263c04325d87454128a38949b8",
+      "doc_id": "dialog.train.00215",
+      "token_count": 112,
+      "token_end": 5327,
+      "token_start": 5215
+    },
+    {
+      "char_len": 254,
+      "content_hash": "c5d9d770b394be5d679e4c47ebb11853810be56240df59f89378c2423e436c6a",
+      "doc_id": "dialog.train.00216",
+      "token_count": 71,
+      "token_end": 5398,
+      "token_start": 5327
+    },
+    {
+      "char_len": 271,
+      "content_hash": "6ad2e66a5bdab52f13a1df8f1e1079aa5a821a99df5084c75ee00042930eeade",
+      "doc_id": "dialog.train.00217",
+      "token_count": 71,
+      "token_end": 5469,
+      "token_start": 5398
+    },
+    {
+      "char_len": 285,
+      "content_hash": "8c2d3178e38bfcaebab68878c6e15b383260d0bedeb055255cd50c471a8d10cb",
+      "doc_id": "dialog.train.00218",
+      "token_count": 81,
+      "token_end": 5550,
+      "token_start": 5469
+    },
+    {
+      "char_len": 758,
+      "content_hash": "191e59d6d35e466141c21ac577cdbdf07e198d9d249686efeb17e0b486a3e482",
+      "doc_id": "dialog.train.00219",
+      "token_count": 190,
+      "token_end": 5740,
+      "token_start": 5550
+    },
+    {
+      "char_len": 452,
+      "content_hash": "e2c1b484bb00d9b95c2503db03529715644064b9af503f59ee907e573a815b87",
+      "doc_id": "dialog.train.00220",
+      "token_count": 120,
+      "token_end": 5860,
+      "token_start": 5740
+    },
+    {
+      "char_len": 705,
+      "content_hash": "a1455f4fc9a4f1415ce67864ad5f4f0dcbef96935a24b4b9b17624269a3b0f05",
+      "doc_id": "dialog.train.00221",
+      "token_count": 190,
+      "token_end": 6050,
+      "token_start": 5860
+    },
+    {
+      "char_len": 614,
+      "content_hash": "243e07fb3ae881e5a9dad026210a80dbfbc1057a7954b6bdcb31f8a823f1bb32",
+      "doc_id": "dialog.train.00222",
+      "token_count": 195,
+      "token_end": 6245,
+      "token_start": 6050
+    },
+    {
+      "char_len": 220,
+      "content_hash": "885ab12d64e56da0ce6f26aea4059b5c65d825cbdcd089567a800702e1ae98eb",
+      "doc_id": "dialog.train.00223",
+      "token_count": 55,
+      "token_end": 6300,
+      "token_start": 6245
+    },
+    {
+      "char_len": 442,
+      "content_hash": "c595eff17d57ced447a0002a35e94b10c053d7a73d43d3a84ac8d7e71b2ab911",
+      "doc_id": "dialog.train.00224",
+      "token_count": 131,
+      "token_end": 6431,
+      "token_start": 6300
+    },
+    {
+      "char_len": 306,
+      "content_hash": "c7992b1c5fa54a63573a990205d27c3ff88cf5d7e4f109a98a247da8f06e3c56",
+      "doc_id": "dialog.train.00225",
+      "token_count": 111,
+      "token_end": 6542,
+      "token_start": 6431
+    },
+    {
+      "char_len": 243,
+      "content_hash": "06065b88e95ce77daa7ad98af3e715ba664daf385e74944f4e4cba4fee06ec12",
+      "doc_id": "dialog.train.00226",
+      "token_count": 85,
+      "token_end": 6627,
+      "token_start": 6542
+    },
+    {
+      "char_len": 354,
+      "content_hash": "1224881435a207e70403086f6fe6fb98f89453d598e5409e360f73e2a8716174",
+      "doc_id": "dialog.train.00227",
+      "token_count": 100,
+      "token_end": 6727,
+      "token_start": 6627
+    },
+    {
+      "char_len": 393,
+      "content_hash": "31527c6aebfa2c59712aef628e8221c7904eaf5ac925ec5fae6c1975d7b1c6be",
+      "doc_id": "dialog.train.00228",
+      "token_count": 96,
+      "token_end": 6823,
+      "token_start": 6727
+    },
+    {
+      "char_len": 621,
+      "content_hash": "da3fe32af0a9117d04fec0bb9742cf8debc499a37f272d1d9d6a0cd94dac7072",
+      "doc_id": "dialog.train.00229",
+      "token_count": 166,
+      "token_end": 6989,
+      "token_start": 6823
+    },
+    {
+      "char_len": 812,
+      "content_hash": "5e5d78a26fbed6804045fcdcd50bdb1a357323e5875cec6130f1aff8aad60468",
+      "doc_id": "dialog.train.00230",
+      "token_count": 225,
+      "token_end": 7214,
+      "token_start": 6989
+    },
+    {
+      "char_len": 597,
+      "content_hash": "20ebc3668e42f10d329039b950ce7ea90f04c600f9d5d24ae43555f4174876ea",
+      "doc_id": "dialog.train.00231",
+      "token_count": 148,
+      "token_end": 7362,
+      "token_start": 7214
+    },
+    {
+      "char_len": 211,
+      "content_hash": "d468ef06b4257e993c326a5920412ff6f5e65dc4f3c67d8866a9c07a9b7e42f6",
+      "doc_id": "dialog.train.00232",
+      "token_count": 63,
+      "token_end": 7425,
+      "token_start": 7362
+    },
+    {
+      "char_len": 414,
+      "content_hash": "56200fec8f49f4af79a1c2cbcc68abee03af5e979597a250c53417f59a646359",
+      "doc_id": "dialog.train.00233",
+      "token_count": 115,
+      "token_end": 7540,
+      "token_start": 7425
+    },
+    {
+      "char_len": 416,
+      "content_hash": "b019383a06fe835883e27de6a7c8a975f67915147b873951b44c6e77526b730d",
+      "doc_id": "dialog.train.00234",
+      "token_count": 121,
+      "token_end": 7661,
+      "token_start": 7540
+    },
+    {
+      "char_len": 396,
+      "content_hash": "eb5717eb0caa33a9e1e40df14b6c092e2067ac3c7b58afa2d7c3342d681d2008",
+      "doc_id": "dialog.train.00235",
+      "token_count": 99,
+      "token_end": 7760,
+      "token_start": 7661
+    },
+    {
+      "char_len": 205,
+      "content_hash": "fcba3df77198131ffa2b045e599930b1488f7e79359f7039cbbca03d2b4fc6b7",
+      "doc_id": "dialog.train.00236",
+      "token_count": 55,
+      "token_end": 7815,
+      "token_start": 7760
+    },
+    {
+      "char_len": 1261,
+      "content_hash": "f3d2e8ae3b743829ddc7dbf773e77574a2605d877df41342dcc3c2077abe4b02",
+      "doc_id": "dialog.train.00237",
+      "token_count": 310,
+      "token_end": 8125,
+      "token_start": 7815
+    },
+    {
+      "char_len": 205,
+      "content_hash": "46af0d487356cffe02fe0a92506192dfcae4b1126a8555e3e09532d4fe1823f2",
+      "doc_id": "dialog.train.00238",
+      "token_count": 62,
+      "token_end": 8187,
+      "token_start": 8125
+    },
+    {
+      "char_len": 350,
+      "content_hash": "3390e3c08686859ece822d4e735c88f11aea80901fef2c19c2017c91b9dde120",
+      "doc_id": "dialog.train.00239",
+      "token_count": 94,
+      "token_end": 8281,
+      "token_start": 8187
+    }
+  ],
+  "dtype": "uint16",
+  "eval_overlap": {
+    "hit_ratio": 0.0,
+    "hits": 0,
+    "max_verbatim_run": 0
+  },
+  "lane": "dialog",
+  "license": "cc-by-nc-sa-4.0",
+  "manifest_hash": "17e4f2546cb414ed21ea8955aaaca8df46d2b4fc81d77641b46c2d65e53dcf84",
+  "never_train": false,
+  "num_documents": 60,
+  "num_samples": 90,
+  "num_tokens": 8281,
+  "parent_shard_ids": [],
+  "path": "train/train-dialog-0003.bin",
+  "permission": "trainable",
+  "samples": [
+    {
+      "doc_id": "dialog.train.00180",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:0-127",
+      "token_end": 127,
+      "token_hash": "ed6c95864cce80d2554ec413320f7ba5414515d576e7ada76ef6b93b7d164a7c",
+      "token_start": 0
+    },
+    {
+      "doc_id": "dialog.train.00180",
+      "n_tokens": 72,
+      "sample_id": "train-dialog-0003:127-199",
+      "token_end": 199,
+      "token_hash": "22cca2dddeb4a25303c31cbb0998db8c9a380b10b9e3bf63088f4a438644181f",
+      "token_start": 127
+    },
+    {
+      "doc_id": "dialog.train.00181",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:199-326",
+      "token_end": 326,
+      "token_hash": "f1ccd8ee30695b5dda08a750a834dc6250b0c3b85906cfc85ead8b37718e568c",
+      "token_start": 199
+    },
+    {
+      "doc_id": "dialog.train.00181",
+      "n_tokens": 38,
+      "sample_id": "train-dialog-0003:326-364",
+      "token_end": 364,
+      "token_hash": "33daa8d480427df10ae1e6c1ae013c08bb75a9d8c2cf8e04a7151fd8870d676b",
+      "token_start": 326
+    },
+    {
+      "doc_id": "dialog.train.00182",
+      "n_tokens": 115,
+      "sample_id": "train-dialog-0003:364-479",
+      "token_end": 479,
+      "token_hash": "95f09e066a584c7be08639d965919cfe31b35d4507fca30fc1e62be40e326c6f",
+      "token_start": 364
+    },
+    {
+      "doc_id": "dialog.train.00183",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:479-606",
+      "token_end": 606,
+      "token_hash": "446b553f721aa24a91f9bc2d4cb68b64d2dacc257b44516fb8266d20855b89ee",
+      "token_start": 479
+    },
+    {
+      "doc_id": "dialog.train.00183",
+      "n_tokens": 27,
+      "sample_id": "train-dialog-0003:606-633",
+      "token_end": 633,
+      "token_hash": "51b7fbbf2ad5b2d23b7a4442a42cd727588f8485ba486d4e4bdacca2d9e89843",
+      "token_start": 606
+    },
+    {
+      "doc_id": "dialog.train.00184",
+      "n_tokens": 115,
+      "sample_id": "train-dialog-0003:633-748",
+      "token_end": 748,
+      "token_hash": "497ef91ca19988418fbb7dbd5ede21a2eb3d69908401f109f2b8e443217aa439",
+      "token_start": 633
+    },
+    {
+      "doc_id": "dialog.train.00185",
+      "n_tokens": 89,
+      "sample_id": "train-dialog-0003:748-837",
+      "token_end": 837,
+      "token_hash": "9be545aa1b68a301f3e8366db95d8682a1c139a5930121b92191703838abcc74",
+      "token_start": 748
+    },
+    {
+      "doc_id": "dialog.train.00186",
+      "n_tokens": 71,
+      "sample_id": "train-dialog-0003:837-908",
+      "token_end": 908,
+      "token_hash": "2ba402369c42f7b404a70e1d2def02869ca9eee679722dbe3f57cd0bc793917d",
+      "token_start": 837
+    },
+    {
+      "doc_id": "dialog.train.00187",
+      "n_tokens": 56,
+      "sample_id": "train-dialog-0003:908-964",
+      "token_end": 964,
+      "token_hash": "c1c2d6f5d038a9f8c5625bb72a3fbb9b8a7610ff1fcdfc8c2a688567f58b5b37",
+      "token_start": 908
+    },
+    {
+      "doc_id": "dialog.train.00188",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:964-1091",
+      "token_end": 1091,
+      "token_hash": "e7449e751a0a5838373ee923c29f648e78ca975b3ed64bc30a477c9a55657f82",
+      "token_start": 964
+    },
+    {
+      "doc_id": "dialog.train.00188",
+      "n_tokens": 22,
+      "sample_id": "train-dialog-0003:1091-1113",
+      "token_end": 1113,
+      "token_hash": "85de6cbf2a58d4e4409fe4de39749842a1785c48962efc2a2d43233f88b59b11",
+      "token_start": 1091
+    },
+    {
+      "doc_id": "dialog.train.00189",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:1113-1240",
+      "token_end": 1240,
+      "token_hash": "d1c18c0beae458356e37bd651b6345852fa97130e2d81f9588f0d7c14b144720",
+      "token_start": 1113
+    },
+    {
+      "doc_id": "dialog.train.00189",
+      "n_tokens": 9,
+      "sample_id": "train-dialog-0003:1240-1249",
+      "token_end": 1249,
+      "token_hash": "7ab61167053ba026d36e37cdb07ed2d209c6048ed07707a9c75a21f8d1ce1c3e",
+      "token_start": 1240
+    },
+    {
+      "doc_id": "dialog.train.00190",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:1249-1376",
+      "token_end": 1376,
+      "token_hash": "42c9d20e2611a0611cbfb962d332fd74cacc9291e8cb99f3e9ccae5e70bc0e0b",
+      "token_start": 1249
+    },
+    {
+      "doc_id": "dialog.train.00190",
+      "n_tokens": 46,
+      "sample_id": "train-dialog-0003:1376-1422",
+      "token_end": 1422,
+      "token_hash": "094803827a66e7c95556029fb98fb7270bd0899192555f457b10e9b05eb95627",
+      "token_start": 1376
+    },
+    {
+      "doc_id": "dialog.train.00191",
+      "n_tokens": 79,
+      "sample_id": "train-dialog-0003:1422-1501",
+      "token_end": 1501,
+      "token_hash": "34d2dca64a44f5e6eb175cfbdfa56f7bc3d8da1259d5b77b46f9ab9876ae6480",
+      "token_start": 1422
+    },
+    {
+      "doc_id": "dialog.train.00192",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:1501-1628",
+      "token_end": 1628,
+      "token_hash": "0f2b9bd501504fad01519b33affd8de252dd175514bc140ac15eff4d3b80e3a0",
+      "token_start": 1501
+    },
+    {
+      "doc_id": "dialog.train.00192",
+      "n_tokens": 59,
+      "sample_id": "train-dialog-0003:1628-1687",
+      "token_end": 1687,
+      "token_hash": "2b72b20b39d1ddd6dcb8c626c6aa32fc8b5a9fefc6869929f30098a9962edef7",
+      "token_start": 1628
+    },
+    {
+      "doc_id": "dialog.train.00193",
+      "n_tokens": 70,
+      "sample_id": "train-dialog-0003:1687-1757",
+      "token_end": 1757,
+      "token_hash": "c7af7c2c82bc6319797153106a04dd5964469e269bb3c7d34cad723eaa86dbee",
+      "token_start": 1687
+    },
+    {
+      "doc_id": "dialog.train.00194",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:1757-1884",
+      "token_end": 1884,
+      "token_hash": "e16a62ae78fd210f45c79dc5fb7176014b1bacac6d01956f4a62a1179950f146",
+      "token_start": 1757
+    },
+    {
+      "doc_id": "dialog.train.00194",
+      "n_tokens": 46,
+      "sample_id": "train-dialog-0003:1884-1930",
+      "token_end": 1930,
+      "token_hash": "e51cf3a80d30222741a41b8856d4642c300a2e3406618bdc5fc0a5d32911ec0c",
+      "token_start": 1884
+    },
+    {
+      "doc_id": "dialog.train.00195",
+      "n_tokens": 76,
+      "sample_id": "train-dialog-0003:1930-2006",
+      "token_end": 2006,
+      "token_hash": "70713e34bbab83c021657a0bb9efc96b2b68728fcb1dbfebecb74efb483a83c0",
+      "token_start": 1930
+    },
+    {
+      "doc_id": "dialog.train.00196",
+      "n_tokens": 90,
+      "sample_id": "train-dialog-0003:2006-2096",
+      "token_end": 2096,
+      "token_hash": "7d38c69e0a8cb4b2303352149dfd69458a13c88d03530489959850076d095be2",
+      "token_start": 2006
+    },
+    {
+      "doc_id": "dialog.train.00197",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:2096-2223",
+      "token_end": 2223,
+      "token_hash": "c1f29ac8a16d8d50972fa8204656ce1881964b201786d01a3024cbf3dada40f8",
+      "token_start": 2096
+    },
+    {
+      "doc_id": "dialog.train.00197",
+      "n_tokens": 59,
+      "sample_id": "train-dialog-0003:2223-2282",
+      "token_end": 2282,
+      "token_hash": "cc9725e0e2e3003af9f3f95f59acfb9885744bb22eb26725280054ca79c9d0c9",
+      "token_start": 2223
+    },
+    {
+      "doc_id": "dialog.train.00198",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:2282-2409",
+      "token_end": 2409,
+      "token_hash": "54953d0aa5915ebeb2a7b3cbd5c250e27256bdc893104314cd5915c48f9ca08d",
+      "token_start": 2282
+    },
+    {
+      "doc_id": "dialog.train.00199",
+      "n_tokens": 108,
+      "sample_id": "train-dialog-0003:2411-2519",
+      "token_end": 2519,
+      "token_hash": "ed9fe644e9d8edec3ffef5a0e42831ff981f5f4943b61125b41871f19fd5a0c8",
+      "token_start": 2411
+    },
+    {
+      "doc_id": "dialog.train.00200",
+      "n_tokens": 63,
+      "sample_id": "train-dialog-0003:2519-2582",
+      "token_end": 2582,
+      "token_hash": "60bdeeda5145c2b071ef879d7f0263a4ba1786b02baefeeead56d5b1c6a11670",
+      "token_start": 2519
+    },
+    {
+      "doc_id": "dialog.train.00201",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:2582-2709",
+      "token_end": 2709,
+      "token_hash": "7b26984eb558e84ae2f60ad5c10f29aee71721c8805e576f0f48b126f7b9c890",
+      "token_start": 2582
+    },
+    {
+      "doc_id": "dialog.train.00201",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:2709-2836",
+      "token_end": 2836,
+      "token_hash": "9a9e214568af79ffcdbaefd42d06989c2b8c6e6f23bc69dbd985541cbb285df4",
+      "token_start": 2709
+    },
+    {
+      "doc_id": "dialog.train.00201",
+      "n_tokens": 62,
+      "sample_id": "train-dialog-0003:2836-2898",
+      "token_end": 2898,
+      "token_hash": "16da2df47eeb96a17aa169dbe55eee5e948708f505ae7a32c9637fb778b5c827",
+      "token_start": 2836
+    },
+    {
+      "doc_id": "dialog.train.00202",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:2898-3025",
+      "token_end": 3025,
+      "token_hash": "7b6c0020268aa5077ddfe80e9ce21f530e658d5ecfeae5c072ee886a53c2bbaa",
+      "token_start": 2898
+    },
+    {
+      "doc_id": "dialog.train.00202",
+      "n_tokens": 8,
+      "sample_id": "train-dialog-0003:3025-3033",
+      "token_end": 3033,
+      "token_hash": "3dec2c42cb0ed45af5fecd8c6baca760cce73080abc8eea405baabadbe190926",
+      "token_start": 3025
+    },
+    {
+      "doc_id": "dialog.train.00203",
+      "n_tokens": 71,
+      "sample_id": "train-dialog-0003:3033-3104",
+      "token_end": 3104,
+      "token_hash": "84da80943ba26bb0876792800f095339b2cfff5bb8db7fe9f1194d1b21bef36a",
+      "token_start": 3033
+    },
+    {
+      "doc_id": "dialog.train.00204",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:3104-3231",
+      "token_end": 3231,
+      "token_hash": "bb5e38714f814558f66b08ec69609bfcffe69f32b9e2d35dc75e8ca2a01ab5b8",
+      "token_start": 3104
+    },
+    {
+      "doc_id": "dialog.train.00204",
+      "n_tokens": 67,
+      "sample_id": "train-dialog-0003:3231-3298",
+      "token_end": 3298,
+      "token_hash": "95afd25cdf1fcc49c8f888a02cc49773e600dcbaf10c95a9203883d229690d61",
+      "token_start": 3231
+    },
+    {
+      "doc_id": "dialog.train.00205",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:3298-3425",
+      "token_end": 3425,
+      "token_hash": "7f7f59821b125f2fcfeb3e2b9375c3c0239037227a1276ccaeaff4de9025a70d",
+      "token_start": 3298
+    },
+    {
+      "doc_id": "dialog.train.00206",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:3427-3554",
+      "token_end": 3554,
+      "token_hash": "c5eae7ce4845a4463a0f2c3d64da08dbb90164d7377e35d33ab6a63a8061bd5b",
+      "token_start": 3427
+    },
+    {
+      "doc_id": "dialog.train.00206",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:3554-3681",
+      "token_end": 3681,
+      "token_hash": "f998d6b1bb42e33e9397639ff8c57d239f7d70c15baa42e39ac2706244ede1c2",
+      "token_start": 3554
+    },
+    {
+      "doc_id": "dialog.train.00206",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:3681-3808",
+      "token_end": 3808,
+      "token_hash": "57cd2145dabb7367a7e636214a9d51ddc08ba546b6a2c07e3cd175fc885f6673",
+      "token_start": 3681
+    },
+    {
+      "doc_id": "dialog.train.00206",
+      "n_tokens": 57,
+      "sample_id": "train-dialog-0003:3808-3865",
+      "token_end": 3865,
+      "token_hash": "5bcf5e7f584d3bd08a4100ae345c4e165110708d159379f7e3314ddc5b08dd1b",
+      "token_start": 3808
+    },
+    {
+      "doc_id": "dialog.train.00207",
+      "n_tokens": 96,
+      "sample_id": "train-dialog-0003:3865-3961",
+      "token_end": 3961,
+      "token_hash": "cd33ee89bd84db1078f1cd56bf10ce67cfc9308d9e695920ea72aa63c381cf84",
+      "token_start": 3865
+    },
+    {
+      "doc_id": "dialog.train.00208",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:3961-4088",
+      "token_end": 4088,
+      "token_hash": "6455fdd5c4cca78b61cf20f1fb09efcbe7b398319195c0967c1e54be40be0501",
+      "token_start": 3961
+    },
+    {
+      "doc_id": "dialog.train.00208",
+      "n_tokens": 25,
+      "sample_id": "train-dialog-0003:4088-4113",
+      "token_end": 4113,
+      "token_hash": "e07faa930017291b463e6d9de29959965cef8abecc23a90c89ba0e6c132b31e0",
+      "token_start": 4088
+    },
+    {
+      "doc_id": "dialog.train.00209",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:4113-4240",
+      "token_end": 4240,
+      "token_hash": "c9a307689662d9f4e052c7dcb52b01e5e822cb14b8c09bb5e831cff342401824",
+      "token_start": 4113
+    },
+    {
+      "doc_id": "dialog.train.00209",
+      "n_tokens": 68,
+      "sample_id": "train-dialog-0003:4240-4308",
+      "token_end": 4308,
+      "token_hash": "78341bf6d7f10966c63fdd5bee4e34dfe213bc46be47dbd351840016134cdd05",
+      "token_start": 4240
+    },
+    {
+      "doc_id": "dialog.train.00210",
+      "n_tokens": 93,
+      "sample_id": "train-dialog-0003:4308-4401",
+      "token_end": 4401,
+      "token_hash": "1c1e8abc1dabf1d937a9cf257a0d0d45bf751739db07033b3a564f804561b0c2",
+      "token_start": 4308
+    },
+    {
+      "doc_id": "dialog.train.00211",
+      "n_tokens": 108,
+      "sample_id": "train-dialog-0003:4401-4509",
+      "token_end": 4509,
+      "token_hash": "8f590415a7a6c532b5ab54ce41a915f859e9180dfe74e315c159971115f13d5f",
+      "token_start": 4401
+    },
+    {
+      "doc_id": "dialog.train.00212",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:4509-4636",
+      "token_end": 4636,
+      "token_hash": "262101ae7c69f6ca46f17462fb56eaa99dde3da1cfaa897ab8b36078305efd97",
+      "token_start": 4509
+    },
+    {
+      "doc_id": "dialog.train.00212",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:4636-4763",
+      "token_end": 4763,
+      "token_hash": "78023d5086e3afa21a115924b97d0dd31278d8e14a160136ede3d42e7b2c5a30",
+      "token_start": 4636
+    },
+    {
+      "doc_id": "dialog.train.00212",
+      "n_tokens": 92,
+      "sample_id": "train-dialog-0003:4763-4855",
+      "token_end": 4855,
+      "token_hash": "d2c14e57d89c16c7cbc262160aa20b62f6e0de62b35d1b5b66b332da6968a2e1",
+      "token_start": 4763
+    },
+    {
+      "doc_id": "dialog.train.00213",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:4855-4982",
+      "token_end": 4982,
+      "token_hash": "af604bc027cc892d357452e5146fdcd1ed6fe2c4ae5d7c9d4d9e443509ced4e2",
+      "token_start": 4855
+    },
+    {
+      "doc_id": "dialog.train.00213",
+      "n_tokens": 43,
+      "sample_id": "train-dialog-0003:4982-5025",
+      "token_end": 5025,
+      "token_hash": "3bf763e77093427dec097d95e041c5e66c9d92f209e6d3aee147e29e12c4a42c",
+      "token_start": 4982
+    },
+    {
+      "doc_id": "dialog.train.00214",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:5025-5152",
+      "token_end": 5152,
+      "token_hash": "133d929da3aaea91e9b51f98daa67732fe766a45b0beecbb365b7cd0d404b5c0",
+      "token_start": 5025
+    },
+    {
+      "doc_id": "dialog.train.00214",
+      "n_tokens": 63,
+      "sample_id": "train-dialog-0003:5152-5215",
+      "token_end": 5215,
+      "token_hash": "95ea817fee457a8a4b6d57d64aa63923160f74ba1d0648c84bc14884896529bd",
+      "token_start": 5152
+    },
+    {
+      "doc_id": "dialog.train.00215",
+      "n_tokens": 112,
+      "sample_id": "train-dialog-0003:5215-5327",
+      "token_end": 5327,
+      "token_hash": "06dd1a9a184084a88dce53e2669870041a20f211e2f5d2e2eec41cf6d1ee314e",
+      "token_start": 5215
+    },
+    {
+      "doc_id": "dialog.train.00216",
+      "n_tokens": 71,
+      "sample_id": "train-dialog-0003:5327-5398",
+      "token_end": 5398,
+      "token_hash": "3d0839e21ff34ed602cbabf07ee84c02d1778e56cb14117e8f61893358a41aee",
+      "token_start": 5327
+    },
+    {
+      "doc_id": "dialog.train.00217",
+      "n_tokens": 71,
+      "sample_id": "train-dialog-0003:5398-5469",
+      "token_end": 5469,
+      "token_hash": "ad271f8a4ead102fea9aa67346ece75121dd3ab618b8c742efe3f8a206fd885c",
+      "token_start": 5398
+    },
+    {
+      "doc_id": "dialog.train.00218",
+      "n_tokens": 81,
+      "sample_id": "train-dialog-0003:5469-5550",
+      "token_end": 5550,
+      "token_hash": "ebef84df51d8e083ad4904f2c2965f349d5b61783eb18a87214810e57e96602a",
+      "token_start": 5469
+    },
+    {
+      "doc_id": "dialog.train.00219",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:5550-5677",
+      "token_end": 5677,
+      "token_hash": "f3db816a1d81afc5558fae4cb5f7648396266a50bf183751305edd82251f66b5",
+      "token_start": 5550
+    },
+    {
+      "doc_id": "dialog.train.00219",
+      "n_tokens": 63,
+      "sample_id": "train-dialog-0003:5677-5740",
+      "token_end": 5740,
+      "token_hash": "a4b531b3520e3669dd0c36dfe6390700f88ab3c29bd0b67a71a41fd1157f26a8",
+      "token_start": 5677
+    },
+    {
+      "doc_id": "dialog.train.00220",
+      "n_tokens": 120,
+      "sample_id": "train-dialog-0003:5740-5860",
+      "token_end": 5860,
+      "token_hash": "8536c483cee3c11078805d32f7659c257cfc367628de2c91f7e7233f1a138ec9",
+      "token_start": 5740
+    },
+    {
+      "doc_id": "dialog.train.00221",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:5860-5987",
+      "token_end": 5987,
+      "token_hash": "91b0fedee8af562f8686b36cf0caad77ed0edad0e4e65c569dcb3a08886cb114",
+      "token_start": 5860
+    },
+    {
+      "doc_id": "dialog.train.00221",
+      "n_tokens": 63,
+      "sample_id": "train-dialog-0003:5987-6050",
+      "token_end": 6050,
+      "token_hash": "83563ae62cc2adba3b9ec83df9b8dc8321cca63ac081e35375676b860a5979be",
+      "token_start": 5987
+    },
+    {
+      "doc_id": "dialog.train.00222",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:6050-6177",
+      "token_end": 6177,
+      "token_hash": "e29027a4df8038d2f4457e9a4b9904798345271b4d348b9088024882eb5e51b9",
+      "token_start": 6050
+    },
+    {
+      "doc_id": "dialog.train.00222",
+      "n_tokens": 68,
+      "sample_id": "train-dialog-0003:6177-6245",
+      "token_end": 6245,
+      "token_hash": "23eaea3270e349897a01151d2420acc9446388708ba8b97acaf78e9917b23a2d",
+      "token_start": 6177
+    },
+    {
+      "doc_id": "dialog.train.00223",
+      "n_tokens": 55,
+      "sample_id": "train-dialog-0003:6245-6300",
+      "token_end": 6300,
+      "token_hash": "cfd419117edf517d821c9949851d90d6108708a37861bdbd5d0c9e940f732427",
+      "token_start": 6245
+    },
+    {
+      "doc_id": "dialog.train.00224",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:6300-6427",
+      "token_end": 6427,
+      "token_hash": "685baf09c7d3b0149529c976f11b3c4f55a2af2ff6a3d96103fde75509439b4b",
+      "token_start": 6300
+    },
+    {
+      "doc_id": "dialog.train.00225",
+      "n_tokens": 111,
+      "sample_id": "train-dialog-0003:6431-6542",
+      "token_end": 6542,
+      "token_hash": "d025ee26139f71fa8c326d4c9b12a6fb0ef405e9177e122b5ace32e38642a69c",
+      "token_start": 6431
+    },
+    {
+      "doc_id": "dialog.train.00226",
+      "n_tokens": 85,
+      "sample_id": "train-dialog-0003:6542-6627",
+      "token_end": 6627,
+      "token_hash": "9bdfc95f3dcb6beaf4842eaf522157d7e38c4b3959a69258e2cc764d82ff50ea",
+      "token_start": 6542
+    },
+    {
+      "doc_id": "dialog.train.00227",
+      "n_tokens": 100,
+      "sample_id": "train-dialog-0003:6627-6727",
+      "token_end": 6727,
+      "token_hash": "60ca29e2fcd9ba54f829bdd0c2cd77a8fce93b4af251f076bf85745f10c02c34",
+      "token_start": 6627
+    },
+    {
+      "doc_id": "dialog.train.00228",
+      "n_tokens": 96,
+      "sample_id": "train-dialog-0003:6727-6823",
+      "token_end": 6823,
+      "token_hash": "c3d19cc57b95fda20f033ed675761da4c0a14214d179f8024da78f033c5b4ecd",
+      "token_start": 6727
+    },
+    {
+      "doc_id": "dialog.train.00229",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:6823-6950",
+      "token_end": 6950,
+      "token_hash": "a651bc52626411f2f76bd612cc7e4d9a59c7e616725f190d98d156da60576e21",
+      "token_start": 6823
+    },
+    {
+      "doc_id": "dialog.train.00229",
+      "n_tokens": 39,
+      "sample_id": "train-dialog-0003:6950-6989",
+      "token_end": 6989,
+      "token_hash": "89f38d80dec0fd2cdcc43969f653893fd7f2bf3e2032c3c6b59b64eade520e9d",
+      "token_start": 6950
+    },
+    {
+      "doc_id": "dialog.train.00230",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:6989-7116",
+      "token_end": 7116,
+      "token_hash": "663ebb6b8dbde93249002c36d06631074a792ef4eb860b2f72e29fcaaf5a5d97",
+      "token_start": 6989
+    },
+    {
+      "doc_id": "dialog.train.00230",
+      "n_tokens": 98,
+      "sample_id": "train-dialog-0003:7116-7214",
+      "token_end": 7214,
+      "token_hash": "b7142c3771898afdd09f87e66a7fd1f62fce49935bc3daab9fae079325ab73c1",
+      "token_start": 7116
+    },
+    {
+      "doc_id": "dialog.train.00231",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:7214-7341",
+      "token_end": 7341,
+      "token_hash": "31ee3ab306dde06778eb20671b40d31110bc9926b2f53df908cbbae1a0909a5b",
+      "token_start": 7214
+    },
+    {
+      "doc_id": "dialog.train.00231",
+      "n_tokens": 21,
+      "sample_id": "train-dialog-0003:7341-7362",
+      "token_end": 7362,
+      "token_hash": "ccef7b1913b97b873151ffb45af40e888bac4ec92e1d5526ec4d1d23ea8862d1",
+      "token_start": 7341
+    },
+    {
+      "doc_id": "dialog.train.00232",
+      "n_tokens": 63,
+      "sample_id": "train-dialog-0003:7362-7425",
+      "token_end": 7425,
+      "token_hash": "96e956097375b15513ba8faec7e2cb14e24cef52892d04771b0ac1df46da9e75",
+      "token_start": 7362
+    },
+    {
+      "doc_id": "dialog.train.00233",
+      "n_tokens": 115,
+      "sample_id": "train-dialog-0003:7425-7540",
+      "token_end": 7540,
+      "token_hash": "cda1042ec3efe0f2a5cb73876f1dc6b978af615c9dc44a431786a31389839225",
+      "token_start": 7425
+    },
+    {
+      "doc_id": "dialog.train.00234",
+      "n_tokens": 121,
+      "sample_id": "train-dialog-0003:7540-7661",
+      "token_end": 7661,
+      "token_hash": "23312f93b1c2ee030663ff551cb3d60c89454842532a283fd368d0cd165e6265",
+      "token_start": 7540
+    },
+    {
+      "doc_id": "dialog.train.00235",
+      "n_tokens": 99,
+      "sample_id": "train-dialog-0003:7661-7760",
+      "token_end": 7760,
+      "token_hash": "4864bb5f7d5bc847317da4f4bcfc6594d7a0bcec9882b4042408dba394b685bc",
+      "token_start": 7661
+    },
+    {
+      "doc_id": "dialog.train.00236",
+      "n_tokens": 55,
+      "sample_id": "train-dialog-0003:7760-7815",
+      "token_end": 7815,
+      "token_hash": "b84cb38174fea4a1ac1ba8b4f6ae724accba98d204609354b6b40de2defdb87d",
+      "token_start": 7760
+    },
+    {
+      "doc_id": "dialog.train.00237",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:7815-7942",
+      "token_end": 7942,
+      "token_hash": "d720dbd5a828bdcbc4ceaa7ae53bb1cd371d009ba81c37ab720579498ab088ed",
+      "token_start": 7815
+    },
+    {
+      "doc_id": "dialog.train.00237",
+      "n_tokens": 127,
+      "sample_id": "train-dialog-0003:7942-8069",
+      "token_end": 8069,
+      "token_hash": "76762d4394d8776bbdbecfd620fa46ff7d8cfd3a8970d1e2cb92136ef2cc3752",
+      "token_start": 7942
+    },
+    {
+      "doc_id": "dialog.train.00237",
+      "n_tokens": 56,
+      "sample_id": "train-dialog-0003:8069-8125",
+      "token_end": 8125,
+      "token_hash": "ad8e976a22c08e5c080156479289a819ddac5e501b63139618c2bec1afc87d38",
+      "token_start": 8069
+    },
+    {
+      "doc_id": "dialog.train.00238",
+      "n_tokens": 62,
+      "sample_id": "train-dialog-0003:8125-8187",
+      "token_end": 8187,
+      "token_hash": "d316b5b3edd7c7bfa16fd0b4bcc874cf88b5539a8f868c136da6e7bf5a7dd428",
+      "token_start": 8125
+    },
+    {
+      "doc_id": "dialog.train.00239",
+      "n_tokens": 94,
+      "sample_id": "train-dialog-0003:8187-8281",
+      "token_end": 8281,
+      "token_hash": "3c87d7423329b59137405b82362e967391a728370893de22b4f783a27e549804",
+      "token_start": 8187
+    }
+  ],
+  "shard_id": "train-dialog-0003",
+  "source": "pixelsandpointers/better_daily_dialog",
+  "split": "train",
+  "tokenizer_hash": "1fe93b6152957cf9cfd6d89002467f789ce8b3f3e000b3a2edf27c808ddd0b9e",
+  "tokenizer_id": "gpt2"
+}

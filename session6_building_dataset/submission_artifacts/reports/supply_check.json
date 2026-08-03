@@ -1,0 +1,30 @@
+{
+  "all_satisfied": true,
+  "rows": [
+    {
+      "available_samples": 230,
+      "available_tokens": 25564,
+      "demand_tokens": 15360,
+      "lane": "code",
+      "repetition_factor": 0.6008,
+      "satisfied": true
+    },
+    {
+      "available_samples": 604,
+      "available_tokens": 57828,
+      "demand_tokens": 15360,
+      "lane": "dialog",
+      "repetition_factor": 0.2656,
+      "satisfied": true
+    },
+    {
+      "available_samples": 16763,
+      "available_tokens": 2099147,
+      "demand_tokens": 30720,
+      "lane": "wiki",
+      "repetition_factor": 0.0146,
+      "satisfied": true
+    }
+  ],
+  "seq_len": 128
+}

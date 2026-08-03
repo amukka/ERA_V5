@@ -1,0 +1,14 @@
+{
+  "eos_token_id": 50256,
+  "files": {
+    "tokenizer.json": "1fe93b6152957cf9cfd6d89002467f789ce8b3f3e000b3a2edf27c808ddd0b9e",
+    "tokenizer_config.json": "2ec6e8751bff5617ea5f342d96c69b50fba71826c0b2b9449c34fb55253432f4"
+  },
+  "frozen_by": "tokenizer/freeze.py",
+  "hf_id": "gpt2",
+  "len_tokenizer": 50257,
+  "model_max_length": 1024,
+  "pad_token_id": 50256,
+  "tokenizer_hash": "1fe93b6152957cf9cfd6d89002467f789ce8b3f3e000b3a2edf27c808ddd0b9e",
+  "vocab_size": 50257
+}

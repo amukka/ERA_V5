@@ -1,0 +1,43 @@
+{
+  "branch_id": "fork_b",
+  "chain_ok": true,
+  "diverged": true,
+  "divergence_recorded": true,
+  "divergence_step": 10,
+  "final_loss": 9.747592,
+  "fork_batch_hashes": {
+    "10": "435d28842ef63a9834a42da17de1345c743678d8ee1d0fc18c2e2f398d5b2352",
+    "11": "20bfd675ee4ea2f351f48b8a96e97a4dfbecd4187cbea6fb1981c953ae7e7745",
+    "12": "af128d06aec1ce934978afcb510f776c24b4634a6628448ef42e571414dfcd6f",
+    "13": "63c60e6551ab75244f672e9361b2462d7bac5ad5f97cf0307288e8e54fb31e81",
+    "14": "22d9d75209ff7aef37a4d8ac8c2007c97fc10d409306f3db20376208b2e2894b",
+    "15": "e9367996a322d7295a1bdef3ee1da440cdbc990ace73eb94a6ee82d0c965cca6",
+    "16": "b205e79640b730218e13ed8597cb6e8046c4aec8fe2ac6dae295c2b27d1b1387",
+    "17": "f88586cbcababaf765e28d8e84ecec51fd46678be88de3d184ba8adc16c0f9dd"
+  },
+  "from_step": 10,
+  "identical_steps": [],
+  "lr": 0.0012,
+  "mixture": {
+    "code": 0.5,
+    "dialog": 0.3,
+    "wiki": 0.2
+  },
+  "parent_batch_hashes": {
+    "10": "af1b46dceb2f16783cec741346c62e0eee2617c413aa9057778252a14d4de6f7",
+    "11": "e95d72d797c6ecb9166c28d085f3e4390c879e35603491776e6219c6d2f3710b",
+    "12": "9b15fb36736df70945b16e5b67d273cbedb9cbf70e123f6f6c9e3e98200fb680",
+    "13": "a3a83e237af026a376b92c2021ffa4e75d69e59574f09dfb4035213b16128547",
+    "14": "12bcb2e42d3cfd24572bfbfce93333dc95dc3de1c0844de0c7a78720161063cd",
+    "15": "b05c4268ea781a464f49e530a69d4b24dfd16f80c2df275f8d1765a507a45b18",
+    "16": "6aa0f8cb474761742d4850db206d3329cfded1e6b0ff8df426dfb2328ea0e9e0",
+    "17": "1a2da3e271c7baa314a3b30f432fab9b9d25daa9c78caa9b5222a6d54299f64f"
+  },
+  "parent_branch_id": "main",
+  "parent_checkpoint_id": "a84031c5366f9c6fbd2b8b7534106b120ed527c7066c0a7398669da18b5d5028",
+  "protected_floors": {
+    "code": 0.25
+  },
+  "restored_checkpoint_id": "a84031c5366f9c6fbd2b8b7534106b120ed527c7066c0a7398669da18b5d5028",
+  "steps": 8
+}

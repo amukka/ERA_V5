@@ -1,0 +1,27 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# The corpus is rebuilt from Hugging Face by `python run_demo.py --rebuild-corpus`
+# and is large; the manifest that describes it is committed instead.
+corpus/*/
+!corpus/corpus_manifest.json
+
+# The frozen tokenizer files are downloaded on first run and re-hashed on every
+# run; tokenizer_freeze.json (the record that matters) is committed.
+tokenizer/vocab.json
+tokenizer/merges.txt
+tokenizer/tokenizer.json
+tokenizer/tokenizer_config.json
+tokenizer/special_tokens_map.json
+tokenizer/added_tokens.json
+tokenizer/chat_template.jinja
+
+# submission_artifacts/ is committed so the evidence can be read without running
+# anything -- except the checkpoint weight blobs. `state.pt` is regenerable
+# binary (weights + both AdamW moments over a tied 50257-row embedding) and
+# nothing is proved by storing it in git. `meta.json` beside it is the part that
+# is evidence: step, next_batch_id, planner state, ledger byte offsets and every
+# hash. `python run_demo.py` rebuilds the weights.
+submission_artifacts/checkpoints/**/state.pt

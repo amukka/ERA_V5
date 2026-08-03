@@ -1,0 +1,302 @@
+{
+  "checkpoints": [
+    {
+      "branch_id": "main",
+      "checkpoint_id": "ca78ed648a0b15a297aab6218218770e715dd514825da33043a3aa6db3faa309",
+      "checkpoint_id_ok": true,
+      "has_ledger_offsets": true,
+      "has_planner_state": true,
+      "ok": true,
+      "state_file_ok": true,
+      "step": 0
+    },
+    {
+      "branch_id": "main",
+      "checkpoint_id": "a84031c5366f9c6fbd2b8b7534106b120ed527c7066c0a7398669da18b5d5028",
+      "checkpoint_id_ok": true,
+      "has_ledger_offsets": true,
+      "has_planner_state": true,
+      "ok": true,
+      "state_file_ok": true,
+      "step": 10
+    },
+    {
+      "branch_id": "main",
+      "checkpoint_id": "2751eb841a2eba19e0367ace7dee03635b3a2b0d6c8f653eb16bfec4ba8b73ae",
+      "checkpoint_id_ok": true,
+      "has_ledger_offsets": true,
+      "has_planner_state": true,
+      "ok": true,
+      "state_file_ok": true,
+      "step": 20
+    },
+    {
+      "branch_id": "main",
+      "checkpoint_id": "b32a02750815fcc4c63504ccc0e00f93bd486873c38aed51287429f7cb9abccd",
+      "checkpoint_id_ok": true,
+      "has_ledger_offsets": true,
+      "has_planner_state": true,
+      "ok": true,
+      "state_file_ok": true,
+      "step": 30
+    },
+    {
+      "branch_id": "main",
+      "checkpoint_id": "baa7daedceae5c8e37504596365d1526507f24c6d12d73210a8deb642cd67c84",
+      "checkpoint_id_ok": true,
+      "has_ledger_offsets": true,
+      "has_planner_state": true,
+      "ok": true,
+      "state_file_ok": true,
+      "step": 40
+    },
+    {
+      "branch_id": "main",
+      "checkpoint_id": "c6ee05e7c4e44b413f528a9647a845eac9fcb840a6ff2249eea926e3abe09437",
+      "checkpoint_id_ok": true,
+      "has_ledger_offsets": true,
+      "has_planner_state": true,
+      "ok": true,
+      "state_file_ok": true,
+      "step": 50
+    }
+  ],
+  "coverage": {
+    "branch_id": "main",
+    "duplicated_steps": [],
+    "exactly_once": true,
+    "expected_steps": 60,
+    "missing_steps": [],
+    "monotonic": true,
+    "out_of_range_steps": [],
+    "recorded_steps": 60,
+    "unique_steps": 60
+  },
+  "crash": {
+    "batch_hash_match": true,
+    "batch_id_match": true,
+    "events_discarded": 156,
+    "expected_next_batch_hash": "af2787e371cb47a7ee022bea221e80e5a1f646b7611833be97ac8f0a6b1a7bef",
+    "expected_next_batch_id": "main/step00020",
+    "redone_steps_byte_identical": true,
+    "redone_steps_detail": [
+      {
+        "bin_hashes_match": true,
+        "match": true,
+        "pre_crash_batch_hash": "af2787e371cb47a7ee022bea221e80e5a1f646b7611833be97ac8f0a6b1a7bef",
+        "resumed_batch_hash": "af2787e371cb47a7ee022bea221e80e5a1f646b7611833be97ac8f0a6b1a7bef",
+        "step": 20
+      },
+      {
+        "bin_hashes_match": true,
+        "match": true,
+        "pre_crash_batch_hash": "b04d6d02b6172a969ae79217a3b8468de2a321244b2ccfbb05ee8a8ac9b6b386",
+        "resumed_batch_hash": "b04d6d02b6172a969ae79217a3b8468de2a321244b2ccfbb05ee8a8ac9b6b386",
+        "step": 21
+      },
+      {
+        "bin_hashes_match": true,
+        "match": true,
+        "pre_crash_batch_hash": "59b9237b2b1fa95d9809f2134171a7c3afa4fd1bb7d8de7f8200c711e3529725",
+        "resumed_batch_hash": "59b9237b2b1fa95d9809f2134171a7c3afa4fd1bb7d8de7f8200c711e3529725",
+        "step": 22
+      },
+      {
+        "bin_hashes_match": true,
+        "match": true,
+        "pre_crash_batch_hash": "e85624da81f109c6504369bc223f91e7ecf5246f43870c1b68088d33cec2fc27",
+        "resumed_batch_hash": "e85624da81f109c6504369bc223f91e7ecf5246f43870c1b68088d33cec2fc27",
+        "step": 23
+      },
+      {
+        "bin_hashes_match": true,
+        "match": true,
+        "pre_crash_batch_hash": "3c6baf4b74920412b7c4d4beb16bda9f80854e5cd97c7365e6af50e5e8a3c2a3",
+        "resumed_batch_hash": "3c6baf4b74920412b7c4d4beb16bda9f80854e5cd97c7365e6af50e5e8a3c2a3",
+        "step": 24
+      },
+      {
+        "bin_hashes_match": true,
+        "match": true,
+        "pre_crash_batch_hash": "777d476121b02284c049aa369d77061d8006ce8191a85c7b500b2fc39e760995",
+        "resumed_batch_hash": "777d476121b02284c049aa369d77061d8006ce8191a85c7b500b2fc39e760995",
+        "step": 25
+      },
+      {
+        "bin_hashes_match": true,
+        "match": true,
+        "pre_crash_batch_hash": "bbedb6bb53a9d7d46d6ac23d1d332991270614cfa32c4e5d17eb2d648afeb81c",
+        "resumed_batch_hash": "bbedb6bb53a9d7d46d6ac23d1d332991270614cfa32c4e5d17eb2d648afeb81c",
+        "step": 26
+      }
+    ],
+    "restored_checkpoint_id": "2751eb841a2eba19e0367ace7dee03635b3a2b0d6c8f653eb16bfec4ba8b73ae",
+    "restored_from_step": 20,
+    "resumed_next_batch_hash": "af2787e371cb47a7ee022bea221e80e5a1f646b7611833be97ac8f0a6b1a7bef",
+    "resumed_next_batch_id": "main/step00020",
+    "step": 27,
+    "steps_redone": [
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "truncations": [
+      {
+        "after": {
+          "bytes": 218690,
+          "count": 180,
+          "tail_hash": "0f54157bcf50ab039e4c60dbce18559675778ee5b75063e7a96de4cd2e2efd94"
+        },
+        "before": {
+          "bytes": 295321,
+          "count": 243,
+          "tail_hash": "4fd139b96f5b4ad2086e50d15a7f4d76a17fb8b833c93bc389d181d7a6fc9577"
+        },
+        "bytes_discarded": 76631,
+        "events_discarded": 63,
+        "ledger": "consumption"
+      },
+      {
+        "after": {
+          "bytes": 9396,
+          "count": 19,
+          "tail_hash": "cf720a17a5028c0aeaf6da097f0f6d371957100e9d91bbcabd251f83ab2a1767"
+        },
+        "before": {
+          "bytes": 9396,
+          "count": 19,
+          "tail_hash": "cf720a17a5028c0aeaf6da097f0f6d371957100e9d91bbcabd251f83ab2a1767"
+        },
+        "bytes_discarded": 0,
+        "events_discarded": 0,
+        "ledger": "firewall"
+      },
+      {
+        "after": {
+          "bytes": 37418,
+          "count": 21,
+          "tail_hash": "d745ced7330b0ecc4859b94e0ce25724b3735196b19c493db41a826c24fd22b1"
+        },
+        "before": {
+          "bytes": 50247,
+          "count": 28,
+          "tail_hash": "116897e9de5cfce4ff977333da4f338cf40204775029f6e98c51b35184aee5a0"
+        },
+        "bytes_discarded": 12829,
+        "events_discarded": 7,
+        "ledger": "learning"
+      },
+      {
+        "after": {
+          "bytes": 211194,
+          "count": 262,
+          "tail_hash": "11004796d7dc9e04fe2f22a50ec4c748b1a650d8c0bc946d3ffade10361eb934"
+        },
+        "before": {
+          "bytes": 280702,
+          "count": 348,
+          "tail_hash": "0b0e14299424a9868f46f42fcb0a3f872188b2d4bd6ef571f435b89cd9d1464f"
+        },
+        "bytes_discarded": 69508,
+        "events_discarded": 86,
+        "ledger": "opus"
+      },
+      {
+        "after": {
+          "bytes": 98238,
+          "count": 16,
+          "tail_hash": "6c1b68006f6cd576a1a7aa0c5acd048d1e00b41316a51f3b1d31c9371a9e9a12"
+        },
+        "before": {
+          "bytes": 98238,
+          "count": 16,
+          "tail_hash": "6c1b68006f6cd576a1a7aa0c5acd048d1e00b41316a51f3b1d31c9371a9e9a12"
+        },
+        "bytes_discarded": 0,
+        "events_discarded": 0,
+        "ledger": "token_trace"
+      }
+    ],
+    "why_not_resume_at_the_crash_step": "the data position at step 27 is reconstructible, but the model and optimizer state is not -- it existed only in memory and the seven updates from steps 20..26 died with the process. Resuming the data at 27 against weights from 20 would leave those steps untrained. The last point where model state and data state were saved together is step 20, so both roll back there."
+  },
+  "fork": {
+    "branch_id": "fork_b",
+    "chain_ok": true,
+    "diverged": true,
+    "divergence_recorded": true,
+    "divergence_step": 10,
+    "final_loss": 9.747592,
+    "fork_batch_hashes": {
+      "10": "435d28842ef63a9834a42da17de1345c743678d8ee1d0fc18c2e2f398d5b2352",
+      "11": "20bfd675ee4ea2f351f48b8a96e97a4dfbecd4187cbea6fb1981c953ae7e7745",
+      "12": "af128d06aec1ce934978afcb510f776c24b4634a6628448ef42e571414dfcd6f",
+      "13": "63c60e6551ab75244f672e9361b2462d7bac5ad5f97cf0307288e8e54fb31e81",
+      "14": "22d9d75209ff7aef37a4d8ac8c2007c97fc10d409306f3db20376208b2e2894b",
+      "15": "e9367996a322d7295a1bdef3ee1da440cdbc990ace73eb94a6ee82d0c965cca6",
+      "16": "b205e79640b730218e13ed8597cb6e8046c4aec8fe2ac6dae295c2b27d1b1387",
+      "17": "f88586cbcababaf765e28d8e84ecec51fd46678be88de3d184ba8adc16c0f9dd"
+    },
+    "from_step": 10,
+    "identical_steps": [],
+    "lr": 0.0012,
+    "mixture": {
+      "code": 0.5,
+      "dialog": 0.3,
+      "wiki": 0.2
+    },
+    "parent_batch_hashes": {
+      "10": "af1b46dceb2f16783cec741346c62e0eee2617c413aa9057778252a14d4de6f7",
+      "11": "e95d72d797c6ecb9166c28d085f3e4390c879e35603491776e6219c6d2f3710b",
+      "12": "9b15fb36736df70945b16e5b67d273cbedb9cbf70e123f6f6c9e3e98200fb680",
+      "13": "a3a83e237af026a376b92c2021ffa4e75d69e59574f09dfb4035213b16128547",
+      "14": "12bcb2e42d3cfd24572bfbfce93333dc95dc3de1c0844de0c7a78720161063cd",
+      "15": "b05c4268ea781a464f49e530a69d4b24dfd16f80c2df275f8d1765a507a45b18",
+      "16": "6aa0f8cb474761742d4850db206d3329cfded1e6b0ff8df426dfb2328ea0e9e0",
+      "17": "1a2da3e271c7baa314a3b30f432fab9b9d25daa9c78caa9b5222a6d54299f64f"
+    },
+    "parent_branch_id": "main",
+    "parent_checkpoint_id": "a84031c5366f9c6fbd2b8b7534106b120ed527c7066c0a7398669da18b5d5028",
+    "protected_floors": {
+      "code": 0.25
+    },
+    "restored_checkpoint_id": "a84031c5366f9c6fbd2b8b7534106b120ed527c7066c0a7398669da18b5d5028",
+    "steps": 8
+  },
+  "replay_ledger": {
+    "all_match": true,
+    "branch_id": "main",
+    "interval": [
+      5,
+      10
+    ],
+    "microbatches_replayed": 40,
+    "mismatches": [],
+    "mode": "reconstruct_from_ledger",
+    "rows_file": "reports/replay_from_ledger.json",
+    "steps_replayed": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "replay_replan": {
+    "all_match": true,
+    "branch_id": "main",
+    "from_checkpoint_step": 0,
+    "interval": [
+      5,
+      10
+    ],
+    "mismatches": [],
+    "mode": "replan_from_checkpoint",
+    "rows_file": "reports/replay_replan.json",
+    "steps_replayed": 5
+  },
+  "resume_seconds": 5.5886
+}

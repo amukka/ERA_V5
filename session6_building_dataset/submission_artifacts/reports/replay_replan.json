@@ -1,0 +1,74 @@
+{
+  "all_match": true,
+  "branch_id": "main",
+  "from_checkpoint_step": 0,
+  "interval": [
+    5,
+    10
+  ],
+  "mismatches": [],
+  "mode": "replan_from_checkpoint",
+  "rows": [
+    {
+      "batch_hash_match": true,
+      "bin_hashes_match": true,
+      "lanes_match": true,
+      "ok": true,
+      "original_batch_hash": "2c4ee08cb329cb50d93dff57ef3ad8a8551c455ea525998f1e95b6733644bf27",
+      "original_batch_id": "main/step00005",
+      "planner_fingerprint_match": true,
+      "replay_batch_hash": "2c4ee08cb329cb50d93dff57ef3ad8a8551c455ea525998f1e95b6733644bf27",
+      "replay_batch_id": "main/step00005",
+      "step": 5
+    },
+    {
+      "batch_hash_match": true,
+      "bin_hashes_match": true,
+      "lanes_match": true,
+      "ok": true,
+      "original_batch_hash": "0d4d1e73d4a92878e2816b99b90a1d484cbac9aa20da9ffcbec86ecac98da460",
+      "original_batch_id": "main/step00006",
+      "planner_fingerprint_match": true,
+      "replay_batch_hash": "0d4d1e73d4a92878e2816b99b90a1d484cbac9aa20da9ffcbec86ecac98da460",
+      "replay_batch_id": "main/step00006",
+      "step": 6
+    },
+    {
+      "batch_hash_match": true,
+      "bin_hashes_match": true,
+      "lanes_match": true,
+      "ok": true,
+      "original_batch_hash": "80b60f9345aa0c14b82a2f0cf9939f715bdba28f4fa2d4151f6f50aa688f02dd",
+      "original_batch_id": "main/step00007",
+      "planner_fingerprint_match": true,
+      "replay_batch_hash": "80b60f9345aa0c14b82a2f0cf9939f715bdba28f4fa2d4151f6f50aa688f02dd",
+      "replay_batch_id": "main/step00007",
+      "step": 7
+    },
+    {
+      "batch_hash_match": true,
+      "bin_hashes_match": true,
+      "lanes_match": true,
+      "ok": true,
+      "original_batch_hash": "8b452c6486437633b3aeee78fb59c844feb36bfeb5ed7e312bd07fcd361cb3e7",
+      "original_batch_id": "main/step00008",
+      "planner_fingerprint_match": true,
+      "replay_batch_hash": "8b452c6486437633b3aeee78fb59c844feb36bfeb5ed7e312bd07fcd361cb3e7",
+      "replay_batch_id": "main/step00008",
+      "step": 8
+    },
+    {
+      "batch_hash_match": true,
+      "bin_hashes_match": true,
+      "lanes_match": true,
+      "ok": true,
+      "original_batch_hash": "349ec154c9ad64d3fb63ef810b720f08a2296511d8e370e7c379d29cb1f58c00",
+      "original_batch_id": "main/step00009",
+      "planner_fingerprint_match": true,
+      "replay_batch_hash": "349ec154c9ad64d3fb63ef810b720f08a2296511d8e370e7c379d29cb1f58c00",
+      "replay_batch_id": "main/step00009",
+      "step": 9
+    }
+  ],
+  "steps_replayed": 5
+}
