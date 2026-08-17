@@ -6,7 +6,7 @@ Every attention mechanism from the session, in the order it was **actually launc
 2026 — with an honest trade-off for each and a stated source for every date.
 
 - **Live app:** **https://era-v5-attention-timeline.netlify.app**
-- **Repo:** https://github.com/amukka/ERA_V5 — `session8_ModernAttentionVariants/`
+- **Repo:** https://github.com/amukka/ERA_V5/tree/main/session8_ModernAttentionVariants
 - **Timeline page:** `site/index.html` — the submission
 - **Interactive companion:** `site/session8.html` — 15 live widgets that build the mechanisms from
   first principles, every number computed in the browser
