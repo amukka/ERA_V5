@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node site/smoke.mjs",
     "dev": "npx --yes serve site -l 5008",
-    "deploy": "netlify deploy --dir site --prod"
+    "deploy": "netlify deploy --dir site --prod --site 6329be15-fdaf-46bd-beb7-880c6af1c709"
   },
   "devDependencies": {
     "jsdom": "^30.0.1"
