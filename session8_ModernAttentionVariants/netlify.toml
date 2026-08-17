@@ -1,0 +1,24 @@
+# Git-based continuous deployment for the Session 8 site.
+#
+# Read by Netlify when the project's BASE DIRECTORY is set to
+# session8_ModernAttentionVariants — paths below are relative to that base.
+#
+# There is no build step: the site is static ES modules, so `publish` points
+# straight at site/ and no command runs.
+#
+# NOTE: site/netlify.toml also exists and is used for manual CLI deploys made
+# from inside site/. This file is the one Git builds use.
+
+[build]
+  publish = "site"
+  command = ""
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/data/*.js"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
