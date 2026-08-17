@@ -1,0 +1,15 @@
+{
+  "name": "era-v5-session8-attention",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ERA V5 Session 8 — Modern Attention Variants. Interactive site; site/ is the Netlify publish root.",
+  "scripts": {
+    "test": "node site/smoke.mjs",
+    "dev": "npx --yes serve site -l 5008",
+    "deploy": "netlify deploy --dir site --prod"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.1"
+  }
+}

@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Modern Attention Variants · ERA V5 · Session 8</title>
+<meta name="description" content="Attention built from scratch, then the two bills it sends: quadratic compute and a per-user KV cache. Every number computed live in the browser." />
+<link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand"><a href="index.html" style="color:inherit">ERA V5 <span class="dot">·</span> Session 8</a></span>
+    <ul>
+      <li><a href="#s2">Attention</a></li>
+      <li><a href="#s3">Two bills</a></li>
+      <li><a href="#s4">Softmax off</a></li>
+      <li><a href="#s5">Add-only</a></li>
+      <li><a href="#s6">Delta rule</a></li>
+      <li><a href="#s7">Top-k</a></li>
+      <li><a href="#s8">RoPE</a></li>
+      <li><a href="#s9">DroPE</a></li>
+      <li><a href="#s10">Cache bill</a></li>
+      <li><a href="#s11">GQA</a></li>
+      <li><a href="#s12">Compression</a></li>
+      <li><a href="#s13">Schedules</a></li>
+      <li><a href="#s14">Memory Stream</a></li>
+      <li><a href="#s15">Readiness</a></li>
+      <li><a href="#s16">V5 board</a></li>
+      <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="index.html">← Timeline</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Session 8</p>
+    <h1 class="title">Modern Attention<br />Variants</h1>
+    <p class="subtitle">
+      Session 7 turned every token into a vector of width D. Attention is the first place
+      those tokens start talking to each other. We build the ordinary version first — then ask
+      what breaks when the context gets long.
+    </p>
+  </div>
+</header>
+
+<!-- ============================ §2 ============================ -->
+<section class="sec" id="s2">
+  <div class="wrap">
+    <p class="sec-num">02 · the mechanism</p>
+    <h2>Attention</h2>
+
+    <p class="lede">
+      We have used the word <em>attention</em> since Session 1 and deliberately not built it.
+      Now we will. One token enters the layer as a vector <strong>x</strong>, and the layer makes
+      three different projections of that same vector.
+    </p>
+
+<pre class="ascii">             ┌── Wq ──&gt; query
+x ───────────┼── Wk ──&gt; key
+             └── Wv ──&gt; value</pre>
+
+    <p>
+      Why three? Because looking for information and giving information are different jobs.
+    </p>
+
+    <ul class="plain">
+      <li><strong>query</strong> — what am I looking for?</li>
+      <li><strong>key</strong> — what kind of information do I contain?</li>
+      <li><strong>value</strong> — what should I give you if you choose me?</li>
+    </ul>
+
+    <p>
+      Take the sequence <strong>The cat sat on the mat</strong>. When the model processes
+      <em>sat</em>, its query may strongly match the key for <em>cat</em>, because knowing who sat
+      matters. If that match is strong, more of <em>cat</em>'s value flows into the representation
+      for <em>sat</em>. That is attention in one sentence: <strong>each token asks a question,
+      every other token advertises what it contains, and the best matches contribute the most
+      information.</strong>
+    </p>
+
+    <div class="eq">Attention(Q, K, V) = softmax( <em>Q Kᵀ</em> / √d<sub>k</sub> ) <em>V</em></div>
+
+    <p>Read it from the inside out:</p>
+    <ul class="plain">
+      <li><strong>Q Kᵀ</strong> compares every query with every key and produces the score matrix.</li>
+      <li>Dividing by <strong>√d<sub>k</sub></strong> keeps those scores from growing too large as
+        the query/key width increases.</li>
+      <li><strong>softmax</strong> runs across each query's row, turning it into positive weights
+        that add to one.</li>
+      <li>Multiplying by <strong>V</strong> uses those weights to combine the value vectors.</li>
+    </ul>
+
+    <p>
+      For a decoder there is one extra rule — the <strong>causal mask</strong>. M is 0 where
+      attention is allowed and −∞ for a future token, added before softmax, so every forbidden
+      position receives weight zero.
+    </p>
+
+    <div class="eq">CausalAttention(Q, K, V) = softmax( <em>Q Kᵀ</em> / √d<sub>k</sub> + <em>M</em> ) <em>V</em></div>
+
+    <p>
+      During training we want the whole sequence processed in parallel, so we do not physically
+      stop the computation at each token. We set every forbidden future score to −∞ before softmax,
+      and because <strong>softmax(−∞) = 0</strong> the future receives exactly zero attention. That
+      is what lets us train on the whole sequence at once while preserving left-to-right generation.
+    </p>
+
+    <div id="w-s02-walkthrough"></div>
+
+    <p>Two facts from this section will matter for the rest of the session.</p>
+
+    <p>
+      <strong>Fact 1: every token is compared with every other token.</strong> Six tokens give 36
+      scores. Six hundred give 360,000. Ten thousand give one hundred million. This exact
+      all-to-all comparison is both the strength and the cost of attention.
+    </p>
+
+    <p>
+      <strong>Fact 2: attention itself does not know token order.</strong> If token 0 and token 4
+      contain the same word and enter with the same vector, their Q, K and V projections are
+      identical too. Something else has to say which came first — that is §8.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §3 ============================ -->
+<section class="sec" id="s3">
+  <div class="wrap">
+    <p class="sec-num">03 · the cost</p>
+    <h2>The two bills attention sends</h2>
+
+    <p class="lede">
+      The 6 × 6 score matrix looks harmless because six is small. The first problem appears when
+      the context grows: every new token has more other tokens to compare with.
+    </p>
+
+<pre class="ascii">T = 1,000   →       1,000,000 query-key scores
+T = 10,000  →     100,000,000 scores
+T = 100,000 →  10,000,000,000 scores</pre>
+
+    <p>
+      That is the first bill: <strong>compute</strong>. Pairwise attention work grows roughly as
+      T². Double the context and this part becomes about four times larger.
+    </p>
+
+    <p>
+      There is a second bill, and it belongs to a different moment — <strong>generation</strong>.
+      When a model writes a reply one token at a time it has already computed the key and value for
+      the earlier tokens. Throwing those away and recomputing them every step would be wasteful,
+      so it keeps them. That growing list is the <strong>KV cache</strong>.
+    </p>
+
+    <p>
+      Model weights are a useful comparison. They are mostly fixed: load them once and many users
+      share them. A KV cache is not shared — each active conversation owns its own. So a longer
+      context creates two separate engineering questions: <strong>does attention become too
+      expensive to compute, or does the saved conversation history become too large to
+      store?</strong>
+    </p>
+
+    <div id="w-s03-bills"></div>
+
+    <p class="note">
+      This widget introduces only the two growth patterns. The full cache bill — layers, KV heads,
+      head dimension, bytes per number and concurrent users — is §10, once the cache itself has
+      become familiar.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §4 ============================ -->
+<section class="sec" id="s4">
+  <div class="wrap">
+    <p class="sec-num">04 · the first lever</p>
+    <h2>What happens if you remove the softmax</h2>
+
+    <p class="lede">
+      Start with one strange question: what if we remove the softmax? Forget production
+      architectures for a moment — this is a small arithmetic experiment. One query, three old
+      key-value pairs.
+    </p>
+
+<pre class="ascii">query q = 2
+
+key k₁ = 0.5    value v₁ = 10
+key k₂ = 1.0    value v₂ = 20
+key k₃ = 1.5    value v₃ = 30</pre>
+
+    <p>
+      Compare the query with each key — <code>2×0.5 = 1</code>, <code>2×1.0 = 2</code>,
+      <code>2×1.5 = 3</code> — and without softmax, use those scores directly on the values:
+      <strong>1×10 + 2×20 + 3×30 = 140</strong>.
+    </p>
+
+    <p>
+      Now change <em>only the order of operations</em>. Every term contains the same q, so factor
+      it out:
+    </p>
+
+<pre class="ascii">direct:     (q×k₁)×v₁ + (q×k₂)×v₂ + (q×k₃)×v₃
+
+factored:   q × (k₁v₁ + k₂v₂ + k₃v₃)
+                 └────────  S  ────────┘</pre>
+
+    <p>
+      The part inside the brackets never mentions the query, so it can be computed while the old
+      tokens arrive: <code>S = 0.5×10 + 1.0×20 + 1.5×30 = 70</code>. The new query then reads only
+      S: <code>2 × 70 = 140</code>. <strong>Both routes return exactly the same answer.</strong>
+    </p>
+
+    <p>
+      That precomputed S is the <strong>running state</strong>. Instead of a growing list of
+      key-value pairs we continually update one object, <code>S = S + key×value</code>. With real
+      vectors S is a matrix rather than a single number, and the same distributive rule applies:
+    </p>
+
+    <div class="eq">direct: <em>y</em> = Σ (q · kⱼ) vⱼ &nbsp;&nbsp;&nbsp; regrouped: <em>S</em> = Σ vⱼ kⱼᵀ , &nbsp; <em>y</em> = S q</div>
+
+<pre class="ascii">after 10 tokens        → one 4×4 matrix
+after 1,000 tokens     → one 4×4 matrix
+after 1,000,000 tokens → one 4×4 matrix</pre>
+
+    <div id="w-s04-softmax-off"></div>
+
+    <p>
+      Now put softmax back. The scores <code>[1, 2, 3]</code> get exponentiated to
+      <code>[2.72, 7.39, 20.09]</code>, and every one is divided by the shared total
+      <code>30.20</code>. The important part is not the new answer of 25.8 — it is that
+      <strong>denominator</strong>. To find the weight of key 1 you need the scores of keys 2 and 3.
+      Change one score and all three weights change.
+    </p>
+
+    <p>
+      That is what it means to say softmax <strong>ties the scores together</strong>. A different
+      query creates different scores, a different denominator and different weights for every key,
+      so exact softmax attention needs the individual old keys still available when each new query
+      arrives.
+    </p>
+
+    <p class="note">
+      <b>The conclusion is not that softmax was bad.</b> It made weights positive, made them sum to
+      one, created competition between keys, and gave every query a fresh distribution over exact
+      old keys. Removing it gives up all four guarantees and buys a fixed-size state with linear
+      sequence work. Practical linear-attention systems add some of that behaviour back through
+      feature maps, explicit normalisation, gates and decay.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §5 ============================ -->
+<section class="sec" id="s5">
+  <div class="wrap">
+    <p class="sec-num">05 · the cost of that trade</p>
+    <h2>A new state can still carry the old contribution</h2>
+
+    <p class="lede">
+      The previous section compressed the past into one fixed-size state. Think of that state as a
+      small scratchpad with two jobs: <strong>WRITE</strong> connects a clue to an answer, and
+      <strong>READ</strong> uses the clue to recover it.
+    </p>
+
+    <p>
+      Write <code>key A → old answer</code> and a read with key A returns it. So the state can act
+      as a memory. But later the answer changes — <code>key A → new answer</code> — and the new
+      answer should <em>replace</em> the old one. Look at how the update is actually calculated:
+    </p>
+
+<pre class="ascii">new state = old state + new write</pre>
+
+    <p>
+      After the update there is only <strong>one</strong> matrix. But its numbers were computed
+      starting from the old state, so the old association's contribution is still inside the sum.
+      If key A currently returns 40 and should now return 55, an add-only write gives:
+    </p>
+
+<pre class="ascii">new read for A = 40 + 55 = 95   ← not 55</pre>
+
+    <div id="w-s05-add-only-state"></div>
+
+    <p>Three things are worth separating:</p>
+    <ul class="plain">
+      <li>There is only <strong>one</strong> current matrix after each write — never two records.</li>
+      <li>Its <strong>fixed size is not the problem</strong>; the matrix never needed to grow.</li>
+      <li>The <strong>add-only write rule</strong> always carries the old contribution forward. It
+        has no correction term to cancel what is no longer wanted.</li>
+    </ul>
+
+    <p>
+      A useful memory must do more than remember new information. It must also know how to correct
+      old information. The next section gives the state that missing ability: read the old answer
+      first, then write only the difference.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §6 ============================ -->
+<section class="sec" id="s6">
+  <div class="wrap">
+    <p class="sec-num">06 · the fix</p>
+    <h2>The delta rule: write only what needs to change</h2>
+
+    <p class="lede">
+      The arithmetic is simple. It matters because a fixed-size attention state has to be able to
+      <em>update</em> its memory, not merely pile up more information.
+    </p>
+
+    <p>
+      Key A currently returns 40, and the answer should now be 55. Adding the complete new answer
+      repeats §5's mistake — <code>40 + 55 = 95</code>. The delta rule measures the gap first:
+    </p>
+
+<pre class="ascii">current answer:     40
+wanted answer:      55
+correction (delta): 55 − 40 = 15
+
+write the correction: 40 + 15 = 55</pre>
+
+    <p>
+      That is the whole rule: <strong>read what memory says, find the difference, and write only
+      that difference.</strong>
+    </p>
+
+    <div id="w-s06-delta-rule"></div>
+
+    <p>
+      Why does this matter for attention? Removing softmax gave us a compact state, but an add-only
+      state could not revise an old association. The delta rule turns that state into an
+      <strong>updateable memory</strong> — and note that a correction can be negative, so the rule
+      can remove information as well as add it. Modern variants also learn how strongly to write,
+      or when old information should fade, but those are later refinements rather than new ideas.
+    </p>
+
+    <p class="note">
+      The delta rule is much older than attention — it is Widrow–Hoff, 1960. Its use inside a
+      linear-attention state is the 2021 fast-weight-programmers work, and making it trainable in
+      parallel over a long sequence took until 2024 (DeltaNet). The idea was never the hard part;
+      the efficient kernel was.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §7 ============================ -->
+<section class="sec" id="s7">
+  <div class="wrap">
+    <p class="sec-num">07 · the other lever</p>
+    <h2>Do not look at everything</h2>
+
+    <p class="lede">
+      Linear attention changed the <em>kind of memory</em> the model uses. Sparse attention takes a
+      different route entirely: <strong>keep normal softmax attention, but let each query use only a
+      small number of keys.</strong>
+    </p>
+
+<pre class="ascii">compare the query with the candidate keys
+                    ↓
+             keep the best k
+                    ↓
+apply softmax to those k scores and combine those k values</pre>
+
+    <p>
+      If k is much smaller than the context length T, the final calculation uses far fewer value
+      vectors — <code>k</code> instead of <code>T</code>. This works when most of the useful
+      attention is concentrated on a few tokens, but that is an <strong>empirical property, not a
+      guarantee</strong>: some queries need evidence from many places, and dropping a useful key
+      changes the answer.
+    </p>
+
+    <div id="w-s07-topk"></div>
+
+    <p>
+      There is a catch hidden in the phrase <em>keep the best k</em>: <strong>how do we know which
+      keys are best?</strong> The naive method scores every key, sorts, and only then keeps the top
+      k. That reduces the work after selection but not the cost of scoring every candidate — so if
+      scoring was the expensive part, naive top-k has not solved the main problem.
+    </p>
+
+    <p>
+      Practical systems need a cheaper proposal step: a local window, a learned router, or a
+      compressed index that suggests where to look, with exact attention running only on those
+      candidates. The real trade-off is <strong>cheaper candidate search versus the risk of failing
+      to propose a useful key.</strong> Sparse attention is not simply full attention with most
+      entries deleted.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §8 ============================ -->
+<section class="sec" id="s8">
+  <div class="wrap">
+    <p class="sec-num">08 · position</p>
+    <h2>Position, and the part that is usually skipped</h2>
+
+    <p class="lede">
+      §2 left one problem unresolved. The query–key dot product compares the <em>content</em> of two
+      token vectors. By itself that number does not say whether the tokens are next to each other or
+      hundreds of positions apart.
+    </p>
+
+    <p>
+      The causal mask handles one part of order — it stops a token reading the future. But among the
+      tokens it <em>is</em> allowed to see, the dot product still needs a clue about distance.
+      Imagine the same word appearing twice:
+    </p>
+
+<pre class="ascii">position 2  → "bank"
+position 20 → "bank"</pre>
+
+    <p>
+      If both occurrences produce the same key vector, a content-only comparison cannot tell which
+      one is nearby. Position has to become part of the query–key comparison itself.
+    </p>
+
+    <p>
+      <strong>Rotary position embedding (RoPE)</strong> does this with rotation. Take two dimensions
+      of a query or key and view them as one arrow on a 2D plane. Choose a small angle θ per step of
+      the sequence, then rotate each token's arrow by its position × θ — so a query at position
+      <em>i</em> turns by <em>i</em>θ and a key at position <em>j</em> turns by <em>j</em>θ.
+    </p>
+
+    <p>
+      The useful part appears in the dot product, which depends on the angle <em>between</em> the two
+      arrows. Both absolute rotations cancel and only their difference survives:
+    </p>
+
+    <div class="eq">R(<em>i</em>θ)q · R(<em>j</em>θ)k &nbsp; = &nbsp; q · R((<em>j</em> − <em>i</em>)θ)k</div>
+
+    <p>
+      So the positional part of the score depends on <strong>i − j</strong> — the distance. Move both
+      tokens ten places forward and both arrows turn further, but they turn <em>together</em>, so the
+      angle between them is unchanged. <strong>RoPE turns relative token distance into relative
+      rotation inside the attention score.</strong>
+    </p>
+
+    <div id="w-s08-rope"></div>
+
+    <p>
+      <strong>The implementation detail people often miss:</strong> a real head has more than two
+      dimensions, so RoPE groups them into 2D pairs and rotates each pair at a different rate. That
+      lets one head represent distance at several scales at once. Not every dimension has to be
+      rotated either — DeepSeek-V4 applies RoPE to the last 64 dimensions and leaves the rest
+      unchanged.
+    </p>
+
+    <p class="note">
+      There is a boundary to the claim. Because RoPE computes rotations from a function, it has no
+      finite lookup-table wall — the function can be evaluated at a position beyond the training
+      length. That does not prove the model will behave well there. §9 is that separate problem.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §9 ============================ -->
+<section class="sec" id="s9">
+  <div class="wrap">
+    <p class="sec-num">09 · extension</p>
+    <h2>DroPE, and how eight thousand became two hundred and fifty-six thousand</h2>
+
+    <p class="lede">
+      RoPE solved one positional problem: it replaced a finite lookup table with a rotation that can
+      be calculated at any token position. But <strong>being calculable is not the same as working
+      well.</strong>
+    </p>
+
+    <p>
+      Take a model trained only on sequences up to 8K. We can still ask RoPE for the rotation at
+      position 256K, and the formula will return an answer. That tells us one thing:
+    </p>
+
+<pre class="ascii">the positional rule is defined at 256K</pre>
+
+    <p>It does not tell us this:</p>
+
+<pre class="ascii">the model can use a 256K context reliably</pre>
+
+    <p>
+      The second claim is about the whole trained model. Every layer learned to operate with the
+      positional patterns it met inside 8K. Far beyond that range the rotations may repeat, or
+      combine in ways the model never learned to interpret. <strong>Long-context extension needs
+      evidence.</strong>
+    </p>
+
+    <div id="w-s09-drope"></div>
+
+    <p>
+      This is where DroPE appears in the V4 record: trained at 8K, reported at 256K, a
+      <strong>32× extension</strong>, with positional recalibration applied <em>before annealing</em>.
+      That last detail matters — it means the positional behaviour changed while the model still had
+      training steps and learning rate available to adapt. DroPE is not a switch flipped at inference
+      time.
+    </p>
+
+    <p class="note warn">
+      <b>Evidence boundary.</b> The record establishes that V4 trained at 8K, reportedly reached
+      256K, and used a step called DroPE before annealing. It does <b>not</b> establish the exact
+      DroPE algorithm or which rotary dimensions it changes — anything more detailed is a hypothesis
+      until checked against the reference implementation. A reported extension factor is evidence for
+      that specific model and procedure, not a promise that every model or every longer target will
+      work.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §10 ============================ -->
+<section class="sec" id="s10">
+  <div class="wrap">
+    <p class="sec-num">10 · the memory bill</p>
+    <h2>The cache bill, done properly</h2>
+
+    <p class="lede">
+      §3 introduced the KV cache as the saved keys and values from earlier tokens. Now we can
+      calculate exactly how much memory that history needs. Start with one token in one layer: it
+      stores <strong>one key and one value</strong>. That is where the leading 2 comes from.
+    </p>
+
+    <p>
+      Each vector holds <code>head_dim</code> numbers, and there is one pair per KV head. Every layer
+      makes its own keys and values. Every token in the conversation left its own record behind. And
+      every stored number occupies memory:
+    </p>
+
+    <div class="eq">cache bytes per user = 2 × layers × kv_heads × head_dim × <em>T</em> × bytes_per_number</div>
+
+    <p>The formula looks long, but every factor answers a simple question:</p>
+
+<pre class="ascii">2                 key and value
+layers            each layer has its own cache
+kv_heads          each KV head stores its own vectors
+head_dim          numbers in each vector
+T                 tokens saved for this conversation
+bytes_per_number  storage used by each number</pre>
+
+    <p>
+      That is for <em>one</em> active conversation. A server handles several at once and their
+      histories cannot be shared, so there is one more multiplier — the batch:
+    </p>
+
+    <div class="eq">total = 2 × layers × kv_heads × head_dim × <em>T</em> × <em>batch</em> × bytes_per_number</div>
+
+    <div id="w-s10-cache-bill"></div>
+
+    <p>
+      For this lesson's yardstick — 48 layers, 8 KV heads, head dimension 128, bf16 — the raw cache
+      at 32,768 tokens is <strong>≈ 6.44 GB for one user</strong> and <strong>≈ 51.54 GB for
+      eight</strong>. Double the context and both double. Hold the context and double the users, and
+      the total doubles too.
+    </p>
+
+    <p>
+      <strong>Context length sets the cache cost of one conversation. Concurrency multiplies that
+      cost by the number of active conversations.</strong> That is the operational meaning of calling
+      KV cache a per-user serving cost: model weights are loaded once and shared, conversation
+      history is private to each active sequence.
+    </p>
+
+    <p class="note">
+      This counts only the raw K and V tensors. A real inference server also needs memory for model
+      weights, activations, temporary attention workspaces and allocator headroom — the formula
+      explains the cache bill, it does not predict total accelerator memory by itself.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §11 ============================ -->
+<section class="sec" id="s11">
+  <div class="wrap">
+    <p class="sec-num">11 · the baseline</p>
+    <h2>Grouped-query attention, and why it is the baseline rather than the answer</h2>
+
+    <p class="lede">
+      Keep your eye on just two terms of that formula:
+      <strong>cache size ∝ kv_heads × context length</strong>. Grouped-query attention reduces the
+      first one.
+    </p>
+
+    <p>
+      In ordinary multi-head attention every query head can have its own key and value head, so every
+      token adds many K/V vectors to the cache. GQA keeps the separate query heads — they can still
+      ask different questions — but lets several of them share one K/V head:
+    </p>
+
+<pre class="ascii">query heads 1, 2, 3, 4  ──>  shared K/V head A
+query heads 5, 6, 7, 8  ──>  shared K/V head B</pre>
+
+    <p>Compare eight query heads in three arrangements:</p>
+
+<pre class="ascii">MHA:  8 query heads, 8 K/V heads
+GQA:  8 query heads, 2 K/V heads
+MQA:  8 query heads, 1 K/V head</pre>
+
+    <div id="w-s11-gqa"></div>
+
+    <p>
+      So why is GQA a <em>baseline</em> rather than the final answer? Because it changes how much we
+      store per token, but it still stores something for <strong>every</strong> token:
+    </p>
+
+<pre class="ascii">MHA cache:  8 × T
+GQA cache:  2 × T
+MQA cache:  1 × T</pre>
+
+    <p>
+      Every one of those still has a T in it. <strong>GQA lowers the slope of the line. It does not
+      make the line stop growing.</strong> Double the context and the GQA cache still doubles; at a
+      million tokens it still contains entries from a million positions.
+    </p>
+
+    <p>
+      GQA is a strong practical baseline because K/V sharing buys a large cache saving at a useful
+      quality cost. But it does not solve long-context memory. The next section asks what happens if
+      we reduce the other term — <em>how many token positions must be stored at all.</em>
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §12 ============================ -->
+<section class="sec" id="s12">
+  <div class="wrap">
+    <p class="sec-num">12 · the other term</p>
+    <h2>Compressing the sequence itself</h2>
+
+    <p class="lede">
+      §11 reduced the number of K/V heads stored for each token. But even with GQA the cache still
+      keeps an entry for <em>every token position</em>. This section changes the other part of the
+      problem: <strong>what if several nearby positions could share one stored entry?</strong>
+    </p>
+
+<pre class="ascii">t1 → KV1
+t2 → KV2          becomes          t1, t2, t3, t4 → compressed block 1
+t3 → KV3
+t4 → KV4</pre>
+
+    <p>
+      If every block contains m tokens, the number of long-range entries falls from roughly T to
+      <strong>T / m</strong>. GQA stores fewer heads for each position; sequence compression stores
+      fewer positions.
+    </p>
+
+    <p>
+      <strong>DeepSeek-V4's Compressed Sparse Attention</strong> adds a second saving. Having made the
+      block summaries, it does not run expensive attention over every one of them — it selects only
+      the top-k summaries that look most relevant to the current query:
+    </p>
+
+<pre class="ascii">all tokens
+    ↓  compress nearby tokens
+fewer block summaries
+    ↓  select top-k blocks
+fewer expensive attention reads</pre>
+
+    <p>These two steps reduce <em>different</em> costs:</p>
+
+    <ul class="plain">
+      <li><strong>compression</strong> → fewer entries <em>stored</em></li>
+      <li><strong>top-k</strong> → fewer summaries <em>read</em> by expensive attention</li>
+    </ul>
+
+    <div id="w-s12-compression"></div>
+
+    <p>
+      Selecting the best blocks creates the same practical question §7 raised: if we must run full
+      attention over every block just to find the best ones, we have not saved much work. DeepSeek
+      uses a small <strong>low-rank indexer</strong> to rank the block summaries cheaply. The indexer
+      does not produce the final attention output — it only chooses which blocks deserve the more
+      expensive read.
+    </p>
+
+    <p class="note warn">
+      <b>The trade-off is real.</b> Compression can lose token-level detail, because one summary now
+      speaks for several tokens. Approximate top-k can also miss a useful block. A real architecture
+      must protect important recent detail and train the summaries and indexer well — the widget
+      demonstrates the storage-and-read scaling idea, not the model's quality.
+    </p>
+
+    <p>
+      The reported DeepSeek-V4 architecture also interleaves a heavily compressed dense form with the
+      top-k sparse form. The shared idea is the same either way: <strong>old history does not have to
+      keep one equally expensive representation for every original token.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §13 ============================ -->
+<section class="sec" id="s13">
+  <div class="wrap">
+    <p class="sec-num">13 · the mixture</p>
+    <h2>Schedules across depth</h2>
+
+    <p class="lede">
+      So far each mechanism may have sounded like a complete replacement for the others — standard
+      attention <em>or</em> linear attention <em>or</em> sparse attention. But a deep model does not
+      have to make that choice once for the whole network. <strong>Different layers can use different
+      memory systems.</strong>
+    </p>
+
+    <p>
+      A <strong>fixed-state layer</strong> compresses the past into a small running state. Cheap to
+      serve, because its memory does not grow with every earlier token — but the old sequence is no
+      longer available token by token. A <strong>sparse-attention layer</strong> keeps keys and values
+      and lets a query read selected earlier tokens directly. Exact access is restored, but every
+      such layer adds a KV cache that grows with context.
+    </p>
+
+<pre class="ascii">many fixed-state layers
+    → process and combine information cheaply
+
+occasional sparse-attention layers
+    → revisit selected earlier tokens directly</pre>
+
+    <p>
+      The order of those layers is the <strong>depth schedule</strong>. LightningLM V4 used this
+      repeating eight-layer motif, where D is a DeltaNet fixed-state layer and G is a
+      sparse-attention layer:
+    </p>
+
+<pre class="ascii">D D D G D D D G</pre>
+
+    <div id="w-s13-schedule"></div>
+
+    <p>
+      <strong>Why not use G everywhere?</strong> More G layers give more frequent chances to read
+      exact earlier tokens, but create more per-sequence KV cache. In the V4 configuration, changing
+      from one sparse-attention layer per eight to eight per eight makes the KV state
+      <strong>8.0× larger</strong> while the estimated mixing compute rises only about
+      <strong>1.41×</strong>. For this configuration the main price of more G layers is
+      <em>serving memory, not FLOPs.</em>
+    </p>
+
+    <p>
+      <strong>Why not use D everywhere?</strong> A fixed recurrent state is cheap, but it is a
+      compressed summary. If every layer uses only that state, the model never gets another direct
+      look at the exact old token representations.
+    </p>
+
+    <p class="note">
+      V4 kept DDDGDDDG from the 1.78B seed model to the 120B run, which is meaningful evidence that
+      the mixture works across scale. It is <b>not</b> evidence that six D layers and two G layers is
+      the best possible ratio — the neighbouring schedules were never cleanly ablated.
+      <b>DDDGDDDG is a successful design choice, not a proven optimum.</b> The broader lesson matters
+      more than the exact motif: not every layer needs the same memory system, and the schedule
+      itself is part of the architecture.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §14 ============================ -->
+<section class="sec" id="s14">
+  <div class="wrap">
+    <p class="sec-num">14 · across the boundary</p>
+    <h2>State that outlives the window</h2>
+
+    <p class="lede">
+      Everything so far has described memory <em>inside</em> the current sequence window. Now split a
+      very long document into chunks. Chunk 1 ends, its internal attention state is discarded, chunk 2
+      begins. What information crosses that boundary? <strong>Without an explicit mechanism, the
+      answer may be: none of it.</strong>
+    </p>
+
+    <p>
+      V4 adds a <strong>Memory Stream</strong>. It carries exactly one thing forward: at the end of a
+      chunk, take its final hidden state and use it as one summary vector for the next chunk.
+    </p>
+
+<pre class="ascii">chunk 1 ──writes──> one memory vector ──nudges──> chunk 2</pre>
+
+    <p>
+      The vector has the same width as the model, and it does not get longer when the document does.
+      After two chunks or two thousand, the stream is still one model-width vector — that is
+      fixed-size, or <strong>O(1)</strong>, cross-chunk state. It is also a severe compression: one
+      vector cannot preserve every sentence from every earlier chunk, only a useful summary signal.
+    </p>
+
+    <div id="w-s14-memory-stream"></div>
+
+    <p>
+      Two small rules make the stream practical. First, the vector is written with
+      <strong>stop-gradient</strong> — the next chunk can read the memory during the forward pass, but
+      its training loss cannot send gradients backward through the boundary into all previous chunks.
+      That avoids building one enormous training graph across the complete document.
+    </p>
+
+    <div class="eq">updated token = current token + scale × gate × memory</div>
+
+    <p>
+      Second, each token gets a small <strong>learned gate</strong> between zero and one. A gate near
+      0 means this token mostly ignores the old summary; a small gate gives it a nudge; a large gate
+      lets the old summary begin to dominate the present. It is learned because different tokens need
+      different amounts of old information — a question referring to the previous chunk may use the
+      stream, while an unrelated token largely ignores it.
+    </p>
+
+    <p>
+      The reported V4 injection scale starts near <strong>0.078</strong> and reaches about
+      <strong>0.391</strong> by the 2B stage, with the average injected memory only about
+      <strong>6%</strong> of the current embedding magnitude. That is the right mental model:
+      <strong>the Memory Stream is a small nudge from the previous chunk, not a copy of the old chunk
+      and not a replacement for the current token.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §15 ============================ -->
+<section class="sec" id="s15">
+  <div class="wrap">
+    <p class="sec-num">15 · the system</p>
+    <h2>Long context is a system, not a number</h2>
+
+    <p class="lede">
+      When somebody says <em>"our model supports 256K context"</em>, that sounds like one
+      specification. It is not. For the claim to be meaningful, several different things must work at
+      the same time.
+    </p>
+
+    <ol class="plain">
+      <li><strong>Position must still make sense</strong> at the target length — either trained there
+        natively, or extended successfully by DroPE, NTK-aware scaling or YaRN.</li>
+      <li><strong>The cache must fit.</strong> A theoretical 1M-token model is not useful if one
+        sequence consumes all accelerator memory. This is where GQA, MQA and sequence compression
+        matter.</li>
+      <li><strong>Compute must be affordable.</strong> Even if the cache fits, full quadratic
+        attention over the whole context may be too expensive — sparse attention, top-k and linear
+        attention live here.</li>
+      <li><strong>State outside the active window must be handled.</strong> If the system chunks
+        documents, some mechanism may be needed to carry information forward.</li>
+      <li><strong>Training must expose the model to the behaviour we expect.</strong> "Architecture is
+        mathematically defined at 256K" is not the same as "model has learned to use 256K well".</li>
+      <li><strong>Evaluation has to test understanding, not only retrieval.</strong> A model can find
+        one planted sentence in a huge context while failing to combine evidence or follow long
+        dependencies.</li>
+    </ol>
+
+    <p>
+      <strong>Context length is not one number. It is the point where position, memory, compute,
+      training and evaluation all still work together.</strong>
+    </p>
+
+    <div id="w-s15-readiness"></div>
+
+    <p>
+      There is one more dimension that matters specifically for the model we are building. Context
+      windows are advertised in <em>tokens</em>. Users do not think in tokens — they have documents,
+      code, legal files, textbooks and conversations. Session 3 showed why that difference matters: if
+      the same meaning costs <strong>English 1× tokens</strong> and <strong>Telugu ~3×</strong>, then a
+      fixed 256K-token window holds roughly a third as much comparable Telugu content.
+    </p>
+
+    <p>
+      The accelerator does not care — it charges per token either way. Tokenizer efficiency determines
+      how quickly a language consumes the window; embedding and architecture choices determine what
+      the model costs; attention determines what happens when that window becomes long.
+      <strong>For an India-first model, long context is therefore not just a premium feature — it also
+      recovers some of the effective document length lost when a language needs more tokens for the
+      same content.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ============================ §16 ============================ -->
+<section class="sec" id="s16">
+  <div class="wrap">
+    <p class="sec-num">16 · the decision</p>
+    <h2>What V5 has to decide</h2>
+
+    <p class="lede">
+      We should not end by pretending V5's attention architecture has already been chosen. V4 is
+      finished, and its configuration gives us <em>evidence</em> — it does not automatically give us
+      the V5 configuration. The frontier moved after those choices were made, the hardware changed,
+      the kernels changed, and some of our own V4 choices were never ablated.
+    </p>
+
+    <p>So the useful question is not <em>what did V4 use?</em> It is:</p>
+
+<pre class="ascii">Which V4 decisions are now evidence,
+which are merely defaults,
+and what must be re-tested for V5?</pre>
+
+    <div id="w-s16-v5-board"></div>
+
+    <p>
+      This is a useful state to be in. We are not searching the entire architecture space from zero —
+      we know the broad design pressures, and what remains is an experimental question about which
+      mixture and which ratios give the best trade at V5's actual target.
+    </p>
+
+    <p class="note">
+      <b>We know the shape of the decision. We do not yet know the winning configuration.</b> Getting
+      to this shape is itself the part that took the field years; the remaining questions are narrow
+      enough that well-designed proxy runs can actually settle them. This is also where the cohort
+      contributes — the candidate techniques and ablations from these sessions are inputs into the V5
+      architecture review.
+    </p>
+  </div>
+</section>
+
+<!-- ========================== timeline ========================== -->
+<section class="sec" id="timeline">
+  <div class="wrap">
+    <p class="sec-num">aside · chronology</p>
+    <h2>The order we teach is not the order it happened</h2>
+
+    <p class="lede">
+      This session is arranged to build understanding: mechanism first, then its two bills, then
+      each lever that reduces one of them. The actual research timeline interleaves very
+      differently, and four of the inversions are worth knowing.
+    </p>
+
+<pre class="ascii">2014        additive attention (Bahdanau)
+2017 Jun    Transformer — scaled dot-product, multi-head, sinusoidal position   §2
+2018        learned absolute position tables; relative position (Shaw)
+2019 Jan    Transformer-XL — segment recurrence with stop-gradient             §14
+2019 Apr    Sparse Transformer                                                 §7
+2019 Nov    MQA — "One Write-Head is All You Need" (Shazeer)                   §11
+2019 Nov    Compressive Transformer                                            §12
+2020        linear attention — Transformers are RNNs, Performer, Linformer      §4
+2021 Feb    fast-weight programmers — names add-only interference, delta rule  §5 §6
+2021 Apr    RoPE (RoFormer)                                                    §8
+2023        Position Interpolation → NTK-aware scaling → YaRN                  §9
+2023 May    GQA (Ainslie et al.)                                               §11
+2024        DeltaNet parallelised over sequence length; Gated DeltaNet          §6
+2024        hybrid depth schedules — Griffin, Jamba, Samba                     §13
+2025        Native Sparse Attention (DeepSeek)                                 §12</pre>
+
+    <ul class="plain">
+      <li><strong>§14 is the oldest advanced idea, not the newest.</strong> Stop-gradient
+        cross-segment recurrence is Transformer-XL, January 2019 — it predates linear attention,
+        RoPE and GQA. V4's Memory Stream is that mechanism squeezed down to one vector.</li>
+      <li><strong>§7 sparse came before §4–6 linear.</strong> Sparsity was the first response to
+        the T² bill; deleting softmax came a year later.</li>
+      <li><strong>§11 spans four years.</strong> MQA (2019) is earlier than everything in §4–§9;
+        GQA (2023) is later. MQA sat largely ignored for three years until serving costs made it
+        urgent.</li>
+      <li><strong>§3's two bills were not simultaneous.</strong> Compute drove 2019–2020 research;
+        the KV-cache bill only became dominant around 2022–2024 with serving at scale.</li>
+    </ul>
+
+    <p>
+      Where the session order <em>is</em> genuinely historical: §4 → §5 → §6 is exactly the
+      argument of the 2021 fast-weight paper, in order. And §13's "you don't have to choose one" is
+      not a synthesis invented for this course — it is where the field actually landed in 2024–25.
+    </p>
+
+    <p class="note warn">
+      <b>Evidence boundary.</b> Everything dated above is public literature. The
+      <em>DroPE</em> step in §9, and the <em>LightningLM V4</em>, <em>DeepSeek-V4</em> and
+      <em>Qwen3.6</em> configurations quoted throughout, come from internal course record rather
+      than published papers. The widgets mark those separately and do not simulate mechanisms the
+      record does not specify.
+    </p>
+  </div>
+</section>
+
+<!-- ========================== roadmap ========================== -->
+<section class="sec" id="roadmap">
+  <div class="wrap">
+    <p class="sec-num">build status</p>
+    <h2>Sections still to come</h2>
+    <p>
+      Built two at a time. Each new widget reuses the step-sequencer, matrix-heatmap and
+      growth-chart primitives established above.
+    </p>
+
+    <div class="roadmap">
+      <div class="rm done"><div class="n">§2</div><div class="t">Attention</div><div class="s">Five-step walkthrough · live</div></div>
+      <div class="rm done"><div class="n">§3</div><div class="t">The two bills</div><div class="s">Compute vs cache growth · live</div></div>
+      <div class="rm"><div class="n">§2b</div><div class="t">Live transformer</div><div class="s">32 dims, 4 heads, 2 blocks</div></div>
+      <div class="rm done"><div class="n">§4</div><div class="t">Removing softmax</div><div class="s">Two routes, one answer · live</div></div>
+      <div class="rm done"><div class="n">§5</div><div class="t">Add-only state</div><div class="s">Why key A returns 95 · live</div></div>
+      <div class="rm done"><div class="n">§6</div><div class="t">The delta rule</div><div class="s">Write only the correction · live</div></div>
+      <div class="rm done"><div class="n">§7</div><div class="t">Top-k sparse</div><div class="s">The selection-cost catch · live</div></div>
+      <div class="rm done"><div class="n">§8</div><div class="t">RoPE</div><div class="s">Distance as relative rotation · live</div></div>
+      <div class="rm done"><div class="n">§9</div><div class="t">DroPE</div><div class="s">Defined is not proven · live</div></div>
+      <div class="rm done"><div class="n">§10</div><div class="t">The cache bill</div><div class="s">Progressive formula · live</div></div>
+      <div class="rm done"><div class="n">§11</div><div class="t">GQA / MQA</div><div class="s">Lower slope, still rising · live</div></div>
+      <div class="rm done"><div class="n">§12</div><div class="t">Sequence compression</div><div class="s">Blocks plus top-k · live</div></div>
+      <div class="rm done"><div class="n">§13</div><div class="t">Depth schedules</div><div class="s">DDDGDDDG and neighbours · live</div></div>
+      <div class="rm done"><div class="n">§14</div><div class="t">Memory Stream</div><div class="s">O(1) cross-chunk state · live</div></div>
+      <div class="rm done"><div class="n">§15</div><div class="t">Readiness board</div><div class="s">Six conditions, one binding · live</div></div>
+      <div class="rm done"><div class="n">§16</div><div class="t">V5 decision board</div><div class="s">Candidate specification · live</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>
+      ERA V5 · Session 8 — Modern Attention Variants. Every number on this page is computed in the
+      browser from the matrices shown; nothing is a pre-rendered picture.
+    </p>
+    <p>
+      Section 17 of the source material was truncated in capture and is not yet represented here.
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

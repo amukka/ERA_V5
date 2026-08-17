@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How Attention Works Now · a timeline</title>
+<meta name="description" content="Every attention mechanism in the order it actually appeared, 2014 to 2026. Each one explained as an answer to the problem that existed at that moment, with honest trade-offs and every date checked against the primary source." />
+<link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand">How attention works <span class="dot">now</span></span>
+    <ul>
+      <li><a href="#arc">The arc</a></li>
+      <li><a href="#act-exact">Timeline</a></li>
+      <li><a href="#corrections">Corrections</a></li>
+      <li><a href="#next">What's next</a></li>
+      <li><a href="#method">Dates</a></li>
+      <li><a href="session8.html">Interactive →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">ERA V5 · Session 8</p>
+    <h1 class="title">How attention<br />works now</h1>
+    <p class="subtitle">
+      Every mechanism in the order it was actually launched — 2014 to 2026, oldest first. Not
+      grouped by family, not in teaching order. Chronological, because that is the only order in
+      which you can watch the field change its mind.
+    </p>
+  </div>
+</header>
+
+<!-- ═══════════════════════ the arc ═══════════════════════ -->
+<section class="sec" id="arc">
+  <div class="wrap">
+    <p class="lede-big" style="text-align:center">
+      <strong>Vanilla attention was never wrong. It was expensive.</strong> Every single thing that
+      follows is somebody looking at that bill and trying to pay less of it — and each one pays with
+      something different.
+    </p>
+  </div>
+
+  <div class="arc">
+    <div class="arc-step">
+      <div class="k">Act I · 2014–2017</div>
+      <div class="t">It wants exactness</div>
+      <div class="s">Attention is invented, and it is exact. Sequences are short, so nobody
+        minds that it costs T².</div>
+    </div>
+    <div class="arc-step">
+      <div class="k">Act II · 2019–2021</div>
+      <div class="t">The bill arrives</div>
+      <div class="s">Read fewer keys, or delete the softmax and keep a fixed state. Both trade
+        exactness away, and both lose quality doing it.</div>
+    </div>
+    <div class="arc-step">
+      <div class="k">Act III · 2021–2024</div>
+      <div class="t">It wants length</div>
+      <div class="s">Position becomes the wall. Rotations replace tables, then get rescaled to
+        stretch short-trained models over long windows.</div>
+    </div>
+    <div class="arc-step">
+      <div class="k">Act IV · 2023–2026</div>
+      <div class="t">It wants memory back</div>
+      <div class="s">Serving cost replaces training cost. Compress heads, features and sequence
+        — and stop picking one mechanism per network.</div>
+    </div>
+  </div>
+
+  <div class="wrap" style="margin-top:30px">
+    <p class="note">
+      Two things you can only see from a timeline. <b>The order is not the teaching order</b> —
+      segment recurrence (2019) is older than RoPE (2021), and MQA (2019) is older than everything
+      in Acts II and III despite being ignored for four years. And <b>the field reverses direction
+      twice</b>: it gives up exactness for cost, then FlashAttention makes exactness cheap again and
+      retires a chunk of that work.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ timeline ═══════════════════════ -->
+<section class="sec" style="padding-bottom:0">
+  <div class="wrap">
+    <p class="sec-num">the timeline</p>
+    <h2>In the order it happened</h2>
+    <p>
+      Click any entry to open it: the problem that existed at that moment, what the mechanism did
+      about it, what it buys, what it gives up, and when you would actually pick it. Every entry
+      also carries a <em>date verification</em> note recording exactly what was confirmed against
+      the primary source — and what could not be.
+    </p>
+    <p class="note">
+      ★ marks a turning point — a mechanism that changed what people did next, rather than
+      refining what they were already doing. <span style="color:var(--orange);font-weight:700">≈</span>
+      marks a date I could not pin exactly; there is one.
+    </p>
+  </div>
+  <div id="tl-controls"></div>
+  <span id="tl-count"></span>
+</section>
+
+<div id="timeline"></div>
+
+<!-- ═══════════════════════ corrections ═══════════════════════ -->
+<section class="sec" id="corrections">
+  <div class="wrap">
+    <p class="sec-num">date integrity</p>
+    <h2>Three things I got wrong, or nearly did</h2>
+
+    <p>
+      You asked us not to trust a confident sentence. These are the places where checking changed
+      the answer — including one where a search engine confidently attributed a technique to a paper
+      that does not contain it.
+    </p>
+
+    <div class="correction">
+      <h3>1 · "DroPE" is three different things, and two of them are not what Session 8 meant</h3>
+      <ol>
+        <li><b>DroPE — LLM context extension.</b> <code>arXiv:2512.12167</code>, 13 Dec 2025,
+          Gelberg, Eguchi, Akiba &amp; Cetin at <b>Sakana AI</b>: "Extending the Context of
+          Pretrained LLMs by Dropping Their Positional Embeddings". <b>This is the one the session
+          meant</b> — pretrain with RoPE, then remove positional embeddings and briefly recalibrate
+          at the original context length. Verified from the arXiv abstract page and the Sakana
+          project page.</li>
+        <li><b>DRoPE — autonomous driving.</b> <code>arXiv:2503.15029</code>, 19 Mar 2025,
+          "Directional Rotary Position Embedding for Efficient Agent Interaction Modeling". Adapts
+          RoPE to encode <em>vehicle headings</em> for trajectory generation. Nothing to do with
+          context length. A name collision that will mislead anyone who searches carelessly.</li>
+        <li><b>A hallucinated attribution.</b> A web search told me
+          <code>arXiv:2606.07404</code> ("Reversible Foundations: Training a 120B Sparse MoE",
+          Rohan Shravan, 5 Jun 2026) describes DroPE, complete with a plausible mechanism summary.
+          I fetched the paper. It <b>does not mention DroPE at all</b>. This is precisely the
+          failure mode you warned about, and it came from a search summary rather than from me —
+          which is worse, because it reads as sourced.</li>
+      </ol>
+    </div>
+
+    <div class="correction">
+      <h3>2 · YaRN's date is August, not November</h3>
+      <ol>
+        <li>The arXiv submission history for <code>2309.00071</code> is <b>v1 31 Aug 2023</b>,
+          v2 1 Nov 2023, v3 6 Feb 2026. Secondary sources routinely cite November, which is the
+          <em>revision</em>. I had November in my head too.</li>
+        <li>It matters for ordering: v1 puts YaRN <b>before</b> StreamingLLM (29 Sep 2023), not
+          after. Using v2 would have put two entries in the wrong sequence — in a submission whose
+          entire premise is the sequence.</li>
+        <li>The timeline therefore uses arXiv <b>v1</b> dates throughout, and the page runs an
+          automated ascending-order check at load. Its result is printed below.</li>
+      </ol>
+    </div>
+
+    <div class="correction">
+      <h3>3 · One date genuinely cannot be pinned, and I have said so rather than guessing</h3>
+      <ol>
+        <li><b>NTK-aware scaled RoPE has no paper.</b> It is a
+          <code>r/LocalLLaMA</code> post by <b>bloc97</b>, with a Dynamic-NTK follow-up by
+          <b>emozilla</b>. There is no arXiv v1 stamp to check.</li>
+        <li>Sources agree on mid-2023 and confirm it influenced CodeLlama and Qwen. The timeline
+          places it at 28 Jun 2023, flagged <span style="color:var(--orange);font-weight:700">≈</span>,
+          and its ordering relative to PI (27 Jun 2023) and YaRN (31 Aug 2023) is reliable even
+          though the exact day is not.</li>
+        <li>Qwen3-Next's release day is similarly approximate — the month is solid, the day is taken
+          from vLLM's day-0 support post of 11 Sep 2025.</li>
+      </ol>
+    </div>
+
+    <div id="order-check"></div>
+
+    <p class="note warn">
+      <b>And one thing for you to check on me.</b> The session notes say V4 used DroPE to go from 8K
+      to 256K, a 32× extension. DroPE is real and published, as above. But
+      <code>arXiv:2606.07404</code> — the only LightningLM paper I could find, the 120B one — reports
+      <b>8K context</b> and does not mention DroPE, DeltaNet layers, DDDGDDDG, a Memory Stream, or
+      sparse-attention budgets anywhere. So the <em>mechanism</em> is verified and the
+      <em>combination</em> is not: I could not find a public source for V4 specifically reaching 256K
+      via DroPE. It may be internal, or in a paper I did not find. Worth a sentence in class either
+      way. Separately, that paper reports "a released training loss of 1.78 at 120B scale", while the
+      session notes describe a "1.78B seed model" — the same number in two very different roles,
+      which is the kind of coincidence worth double-checking.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ what's next ═══════════════════════ -->
+<section class="sec" id="next">
+  <div class="wrap">
+    <p class="sec-num">the point of the exercise</p>
+    <h2>What the arc suggests comes next</h2>
+    <p>
+      You said the reason for the timeline is that once you see it you can guess what comes next.
+      These are the five guesses the ordering actually supports — stated as open questions with the
+      evidence for each, not predictions.
+    </p>
+    <div id="next-list"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ method ═══════════════════════ -->
+<section class="sec" id="method">
+  <div class="wrap">
+    <p class="sec-num">method</p>
+    <h2>How the dates were checked</h2>
+
+    <ul class="plain">
+      <li><strong>One rule:</strong> the date is the <strong>arXiv v1 submission date</strong>, read
+        off the abstract page. Not the conference date, not the journal date, not a later revision,
+        not a blog post about the paper.</li>
+      <li><strong>For non-paper releases</strong> — Qwen3-Next, DeepSeek-V3.2-Exp, NTK-aware scaling
+        — the public release or post date, with the source named and the entry flagged if the exact
+        day is uncertain.</li>
+      <li><strong>Every entry was fetched individually.</strong> No date on this page came from
+        memory. Where the abstract page did not confirm a mechanism detail — sinusoidal position in
+        the Transformer paper, Mistral's window size — the entry says so under <em>date
+        verification</em> rather than quietly asserting it.</li>
+      <li><strong>The ordering is checked by code,</strong> not by eye. The page asserts ascending
+        date order at load and prints the result in the Corrections section above.</li>
+    </ul>
+
+    <p class="note">
+      <b>Where I stopped short.</b> I verified titles, authors and dates from primary sources, plus
+      whatever the abstract explicitly stated. I did <em>not</em> re-read every full paper, so the
+      trade-off descriptions draw on the abstracts, the project pages and prior knowledge. If a
+      trade-off here contradicts something you know from a paper's body, the paper wins — and please
+      tell me, because that is the half of this I could not mechanically check.
+    </p>
+
+    <p>
+      Full source list, one line per mechanism, is in the
+      <a href="https://github.com/amukka/ERA_V5/tree/main/session8_ModernAttentionVariants">repo
+      README</a>. The interactive companion — fifteen live widgets that build scaled dot-product
+      attention, the linear-attention state, the delta rule, RoPE and the cache formulas from first
+      principles, with every number computed in the browser — is at
+      <a href="session8.html">the Session 8 page</a>.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>
+      ERA V5 · Session 8 — Modern Attention Variants. Built with an AI agent; every date
+      independently verified against arXiv or an official release page, and the three places
+      verification changed the answer are written up rather than quietly fixed.
+    </p>
+    <p>
+      If you find a date wrong here, it is a bug and I want to know. The whole point of the
+      exercise was to be right about them.
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="js/timeline.js"></script>
+</body>
+</html>
