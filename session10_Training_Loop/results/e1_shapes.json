@@ -1,0 +1,815 @@
+{
+  "machine": {
+    "chip": "Apple M4",
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O",
+    "python": "3.14.5",
+    "torch": "2.13.0",
+    "device": "mps"
+  },
+  "config": {
+    "vocab_size": 10001,
+    "n_layer": 4,
+    "n_head": 4,
+    "d_model": 256,
+    "d_ff": 1024,
+    "max_seq": 256,
+    "tie_embeddings": false
+  },
+  "n_params": 8336384,
+  "n_params_non_embedding": 3150336,
+  "accum": 4,
+  "micro_batch_rows": 8,
+  "micro_batch_tokens": [
+    899,
+    940,
+    995,
+    1221
+  ],
+  "global_batch_tokens": 4055,
+  "activations": [
+    {
+      "name": "inputs",
+      "shape": [
+        8,
+        192
+      ],
+      "dtype": "int64",
+      "numel": 1536,
+      "meaning": "B=rows in the micro-batch, T=positions; each entry is a token id in [0, V)"
+    },
+    {
+      "name": "mask",
+      "shape": [
+        8,
+        192
+      ],
+      "dtype": "bool",
+      "numel": 1536,
+      "meaning": "B=rows, T=positions; True where the position holds a real token rather than padding"
+    },
+    {
+      "name": "tok_emb",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; one learned vector per token id"
+    },
+    {
+      "name": "pos_emb",
+      "shape": [
+        1,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 49152,
+      "meaning": "1=broadcast over rows, T=positions, D=d_model; one learned vector per absolute position"
+    },
+    {
+      "name": "resid_in",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream as it enters block 0"
+    },
+    {
+      "name": "attn_bias",
+      "shape": [
+        8,
+        1,
+        192,
+        192
+      ],
+      "dtype": "float32",
+      "numel": 294912,
+      "meaning": "B=rows, 1=broadcast over heads, T_q=querying position, T_k=attended position; 0 where the edge is allowed and -inf where it is not (future positions and padding)"
+    },
+    {
+      "name": "block0.ln1",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream normalised per position before attention reads it"
+    },
+    {
+      "name": "block0.attn.qkv",
+      "shape": [
+        8,
+        192,
+        768
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "B=rows in the micro-batch, T=positions, 3D=query, key and value packed into one projection so it is a single matmul"
+    },
+    {
+      "name": "block0.attn.q",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=attention heads, T=positions asking the question, Dh=d_model/H, the slice of the channel each head owns"
+    },
+    {
+      "name": "block0.attn.k",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions being asked about, Dh=per-head width"
+    },
+    {
+      "name": "block0.attn.v",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions whose content gets carried, Dh=per-head width"
+    },
+    {
+      "name": "block0.attn.scores",
+      "shape": [
+        8,
+        4,
+        192,
+        192
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "B=rows, H=heads, T_q=querying position, T_k=attended position; entry (b,h,i,j) is how much position i wants position j"
+    },
+    {
+      "name": "block0.attn.weights",
+      "shape": [
+        8,
+        4,
+        192,
+        192
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "same axes as scores, now a distribution over T_k for each (row, head, T_q) -- each slice sums to 1"
+    },
+    {
+      "name": "block0.attn.context",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions, Dh=per-head width; the value vectors averaged with the attention weights"
+    },
+    {
+      "name": "block0.attn.merged",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the heads concatenated back into one channel axis"
+    },
+    {
+      "name": "block0.attn.out",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; attention's contribution to the residual stream"
+    },
+    {
+      "name": "block0.resid_attn",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream after attention has been added back"
+    },
+    {
+      "name": "block0.ln2",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream normalised again before the MLP reads it"
+    },
+    {
+      "name": "block0.mlp.hidden",
+      "shape": [
+        8,
+        192,
+        1024
+      ],
+      "dtype": "float32",
+      "numel": 1572864,
+      "meaning": "B=rows, T=positions, F=d_ff, the wide inner width where the per-position nonlinearity happens"
+    },
+    {
+      "name": "block0.mlp.out",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the MLP's contribution to the residual stream"
+    },
+    {
+      "name": "block0.resid_mlp",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream leaving this block"
+    },
+    {
+      "name": "block1.ln1",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream normalised per position before attention reads it"
+    },
+    {
+      "name": "block1.attn.qkv",
+      "shape": [
+        8,
+        192,
+        768
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "B=rows in the micro-batch, T=positions, 3D=query, key and value packed into one projection so it is a single matmul"
+    },
+    {
+      "name": "block1.attn.q",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=attention heads, T=positions asking the question, Dh=d_model/H, the slice of the channel each head owns"
+    },
+    {
+      "name": "block1.attn.k",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions being asked about, Dh=per-head width"
+    },
+    {
+      "name": "block1.attn.v",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions whose content gets carried, Dh=per-head width"
+    },
+    {
+      "name": "block1.attn.scores",
+      "shape": [
+        8,
+        4,
+        192,
+        192
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "B=rows, H=heads, T_q=querying position, T_k=attended position; entry (b,h,i,j) is how much position i wants position j"
+    },
+    {
+      "name": "block1.attn.weights",
+      "shape": [
+        8,
+        4,
+        192,
+        192
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "same axes as scores, now a distribution over T_k for each (row, head, T_q) -- each slice sums to 1"
+    },
+    {
+      "name": "block1.attn.context",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions, Dh=per-head width; the value vectors averaged with the attention weights"
+    },
+    {
+      "name": "block1.attn.merged",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the heads concatenated back into one channel axis"
+    },
+    {
+      "name": "block1.attn.out",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; attention's contribution to the residual stream"
+    },
+    {
+      "name": "block1.resid_attn",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream after attention has been added back"
+    },
+    {
+      "name": "block1.ln2",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream normalised again before the MLP reads it"
+    },
+    {
+      "name": "block1.mlp.hidden",
+      "shape": [
+        8,
+        192,
+        1024
+      ],
+      "dtype": "float32",
+      "numel": 1572864,
+      "meaning": "B=rows, T=positions, F=d_ff, the wide inner width where the per-position nonlinearity happens"
+    },
+    {
+      "name": "block1.mlp.out",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the MLP's contribution to the residual stream"
+    },
+    {
+      "name": "block1.resid_mlp",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream leaving this block"
+    },
+    {
+      "name": "block2.ln1",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream normalised per position before attention reads it"
+    },
+    {
+      "name": "block2.attn.qkv",
+      "shape": [
+        8,
+        192,
+        768
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "B=rows in the micro-batch, T=positions, 3D=query, key and value packed into one projection so it is a single matmul"
+    },
+    {
+      "name": "block2.attn.q",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=attention heads, T=positions asking the question, Dh=d_model/H, the slice of the channel each head owns"
+    },
+    {
+      "name": "block2.attn.k",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions being asked about, Dh=per-head width"
+    },
+    {
+      "name": "block2.attn.v",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions whose content gets carried, Dh=per-head width"
+    },
+    {
+      "name": "block2.attn.scores",
+      "shape": [
+        8,
+        4,
+        192,
+        192
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "B=rows, H=heads, T_q=querying position, T_k=attended position; entry (b,h,i,j) is how much position i wants position j"
+    },
+    {
+      "name": "block2.attn.weights",
+      "shape": [
+        8,
+        4,
+        192,
+        192
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "same axes as scores, now a distribution over T_k for each (row, head, T_q) -- each slice sums to 1"
+    },
+    {
+      "name": "block2.attn.context",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions, Dh=per-head width; the value vectors averaged with the attention weights"
+    },
+    {
+      "name": "block2.attn.merged",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the heads concatenated back into one channel axis"
+    },
+    {
+      "name": "block2.attn.out",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; attention's contribution to the residual stream"
+    },
+    {
+      "name": "block2.resid_attn",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream after attention has been added back"
+    },
+    {
+      "name": "block2.ln2",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream normalised again before the MLP reads it"
+    },
+    {
+      "name": "block2.mlp.hidden",
+      "shape": [
+        8,
+        192,
+        1024
+      ],
+      "dtype": "float32",
+      "numel": 1572864,
+      "meaning": "B=rows, T=positions, F=d_ff, the wide inner width where the per-position nonlinearity happens"
+    },
+    {
+      "name": "block2.mlp.out",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the MLP's contribution to the residual stream"
+    },
+    {
+      "name": "block2.resid_mlp",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream leaving this block"
+    },
+    {
+      "name": "block3.ln1",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream normalised per position before attention reads it"
+    },
+    {
+      "name": "block3.attn.qkv",
+      "shape": [
+        8,
+        192,
+        768
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "B=rows in the micro-batch, T=positions, 3D=query, key and value packed into one projection so it is a single matmul"
+    },
+    {
+      "name": "block3.attn.q",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=attention heads, T=positions asking the question, Dh=d_model/H, the slice of the channel each head owns"
+    },
+    {
+      "name": "block3.attn.k",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions being asked about, Dh=per-head width"
+    },
+    {
+      "name": "block3.attn.v",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions whose content gets carried, Dh=per-head width"
+    },
+    {
+      "name": "block3.attn.scores",
+      "shape": [
+        8,
+        4,
+        192,
+        192
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "B=rows, H=heads, T_q=querying position, T_k=attended position; entry (b,h,i,j) is how much position i wants position j"
+    },
+    {
+      "name": "block3.attn.weights",
+      "shape": [
+        8,
+        4,
+        192,
+        192
+      ],
+      "dtype": "float32",
+      "numel": 1179648,
+      "meaning": "same axes as scores, now a distribution over T_k for each (row, head, T_q) -- each slice sums to 1"
+    },
+    {
+      "name": "block3.attn.context",
+      "shape": [
+        8,
+        4,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, H=heads, T=positions, Dh=per-head width; the value vectors averaged with the attention weights"
+    },
+    {
+      "name": "block3.attn.merged",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the heads concatenated back into one channel axis"
+    },
+    {
+      "name": "block3.attn.out",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; attention's contribution to the residual stream"
+    },
+    {
+      "name": "block3.resid_attn",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream after attention has been added back"
+    },
+    {
+      "name": "block3.ln2",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream normalised again before the MLP reads it"
+    },
+    {
+      "name": "block3.mlp.hidden",
+      "shape": [
+        8,
+        192,
+        1024
+      ],
+      "dtype": "float32",
+      "numel": 1572864,
+      "meaning": "B=rows, T=positions, F=d_ff, the wide inner width where the per-position nonlinearity happens"
+    },
+    {
+      "name": "block3.mlp.out",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; the MLP's contribution to the residual stream"
+    },
+    {
+      "name": "block3.resid_mlp",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream leaving this block"
+    },
+    {
+      "name": "ln_f",
+      "shape": [
+        8,
+        192,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream normalised one last time before the output head"
+    },
+    {
+      "name": "logits",
+      "shape": [
+        8,
+        192,
+        10001
+      ],
+      "dtype": "float32",
+      "numel": 15361536,
+      "meaning": "B=rows, T=positions, V=vocab size; an unnormalised score for every token the model could name next, at every position"
+    },
+    {
+      "name": "per_token_loss",
+      "shape": [
+        1536
+      ],
+      "dtype": "float32",
+      "numel": 1536,
+      "meaning": "B*T=every position in the micro-batch flattened; the cross entropy of the true next token at that position, zeroed wherever the mask says there is no target"
+    }
+  ],
+  "grad_shapes_match": true,
+  "optimizer_state_numel": 16672768,
+  "bytes_per_weight": 16,
+  "training_state_mib": 127.203125
+}

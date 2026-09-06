@@ -1,0 +1,465 @@
+{
+  "machine": {
+    "chip": "Apple M4",
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O",
+    "python": "3.14.5",
+    "torch": "2.13.0",
+    "device": "mps"
+  },
+  "roofline_fp32": {
+    "dtype": "float32",
+    "best_tflops": 2.1580442081811215,
+    "sizes": [
+      {
+        "n": 1024,
+        "seconds": 0.033862833000057435,
+        "tflops": 1.9025138694063408
+      },
+      {
+        "n": 2048,
+        "seconds": 0.23882554099964182,
+        "tflops": 2.1580442081811215
+      },
+      {
+        "n": 3072,
+        "seconds": 1.53722208399995,
+        "tflops": 1.1315617782134701
+      },
+      {
+        "n": 4096,
+        "seconds": 3.3064050420007334,
+        "tflops": 1.2470246542042036
+      }
+    ]
+  },
+  "roofline_bf16": {
+    "dtype": "bfloat16",
+    "best_tflops": 1.4277173159028878,
+    "sizes": [
+      {
+        "n": 2048,
+        "seconds": 0.36099308299981203,
+        "tflops": 1.4277173159028878
+      },
+      {
+        "n": 4096,
+        "seconds": 3.059477458999936,
+        "tflops": 1.3476708553714125
+      }
+    ]
+  },
+  "peak_tflops": 2.1580442081811215,
+  "baseline": {
+    "batch_size": 8,
+    "seq_len": 256,
+    "accum": 4,
+    "d_model": 256,
+    "n_layer": 4,
+    "dtype": "float32",
+    "timed_steps": 19,
+    "tokens": 155648,
+    "seconds": 8.897427168001741,
+    "tokens_per_second": 17493.596414002088,
+    "achieved_tflops": 0.6544228464584,
+    "flops_per_token": {
+      "n_matmul_params": 5710592,
+      "dense_6N": 34263552,
+      "attention_12LDT": 3145728,
+      "total": 37409280,
+      "attention_share": 0.08408950934099774
+    },
+    "phase_seconds": {
+      "forward": 3.327006875000734,
+      "backward": 5.322405040997182,
+      "optimizer": 0.21642279299885558
+    },
+    "phase_share": {
+      "forward": 0.3739290934536462,
+      "backward": 0.5981959661483279,
+      "optimizer": 0.02432419944691288
+    },
+    "loader_seconds_per_step": 0.0035459633600112284,
+    "loader_share_if_inline": 0.007572223134628323,
+    "mfu": 0.3032481188186462
+  },
+  "batch_sweep": [
+    {
+      "batch_size": 8,
+      "seq_len": 256,
+      "accum": 1,
+      "d_model": 256,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 20480,
+      "seconds": 1.2793738310001572,
+      "tokens_per_second": 16007.830943352696,
+      "achieved_tflops": 0.5988414299525452,
+      "flops_per_token": {
+        "n_matmul_params": 5710592,
+        "dense_6N": 34263552,
+        "attention_12LDT": 3145728,
+        "total": 37409280,
+        "attention_share": 0.08408950934099774
+      },
+      "phase_seconds": {
+        "forward": 0.44067991800238815,
+        "backward": 0.731214748997445,
+        "optimizer": 0.1037124570020751
+      },
+      "phase_share": {
+        "forward": 0.3444496888433964,
+        "backward": 0.5715411174432214,
+        "optimizer": 0.08106501359418719
+      },
+      "loader_seconds_per_step": 0.0008185922857332376,
+      "loader_share_if_inline": 0.006398382285913247,
+      "mfu": 0.2774926610318473,
+      "knob": "batch/seq"
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 256,
+      "accum": 1,
+      "d_model": 256,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 40960,
+      "seconds": 2.6027960829987933,
+      "tokens_per_second": 15736.922407232234,
+      "achieved_tflops": 0.5887069366704247,
+      "flops_per_token": {
+        "n_matmul_params": 5710592,
+        "dense_6N": 34263552,
+        "attention_12LDT": 3145728,
+        "total": 37409280,
+        "attention_share": 0.08408950934099774
+      },
+      "phase_seconds": {
+        "forward": 0.9510845839995454,
+        "backward": 1.5143274999991263,
+        "optimizer": 0.13166295899918623
+      },
+      "phase_share": {
+        "forward": 0.36540879641395496,
+        "backward": 0.5818079679351617,
+        "optimizer": 0.05058519945499982
+      },
+      "loader_seconds_per_step": 0.0008668690714850007,
+      "loader_share_if_inline": 0.003330530106247292,
+      "mfu": 0.27279651382425035,
+      "knob": "batch/seq"
+    },
+    {
+      "batch_size": 32,
+      "seq_len": 256,
+      "accum": 1,
+      "d_model": 256,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 81920,
+      "seconds": 4.598796291998951,
+      "tokens_per_second": 17813.356973981547,
+      "achieved_tflops": 0.6663848587796284,
+      "flops_per_token": {
+        "n_matmul_params": 5710592,
+        "dense_6N": 34263552,
+        "attention_12LDT": 3145728,
+        "total": 37409280,
+        "attention_share": 0.08408950934099774
+      },
+      "phase_seconds": {
+        "forward": 1.728786793002655,
+        "backward": 2.740397209998264,
+        "optimizer": 0.12377537500015023
+      },
+      "phase_share": {
+        "forward": 0.3759215853962529,
+        "backward": 0.5958944549829364,
+        "optimizer": 0.026914733147779632
+      },
+      "loader_seconds_per_step": 0.0012887469999571164,
+      "loader_share_if_inline": 0.0028023572216044797,
+      "mfu": 0.30879110643487784,
+      "knob": "batch/seq"
+    },
+    {
+      "batch_size": 64,
+      "seq_len": 256,
+      "accum": 1,
+      "d_model": 256,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 163840,
+      "seconds": 9.506594207999115,
+      "tokens_per_second": 17234.352957039067,
+      "achieved_tflops": 0.6447247353887023,
+      "flops_per_token": {
+        "n_matmul_params": 5710592,
+        "dense_6N": 34263552,
+        "attention_12LDT": 3145728,
+        "total": 37409280,
+        "attention_share": 0.08408950934099774
+      },
+      "phase_seconds": {
+        "forward": 3.7245089999996708,
+        "backward": 5.658039083999029,
+        "optimizer": 0.11982441599957383
+      },
+      "phase_share": {
+        "forward": 0.3917816326761654,
+        "backward": 0.5951699378562089,
+        "optimizer": 0.012604347401170253
+      },
+      "loader_seconds_per_step": 0.0011083482142696863,
+      "loader_share_if_inline": 0.0011658730666520834,
+      "mfu": 0.2987541835077141,
+      "knob": "batch/seq"
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 512,
+      "accum": 1,
+      "d_model": 256,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 40960,
+      "seconds": 2.867752457998904,
+      "tokens_per_second": 14282.962215149344,
+      "achieved_tflops": 0.5792456468990793,
+      "flops_per_token": {
+        "n_matmul_params": 5710592,
+        "dense_6N": 34263552,
+        "attention_12LDT": 6291456,
+        "total": 40555008,
+        "attention_share": 0.15513388630079916
+      },
+      "phase_seconds": {
+        "forward": 1.126273291997677,
+        "backward": 1.6239367070020307,
+        "optimizer": 0.11331483400044817
+      },
+      "phase_share": {
+        "forward": 0.3927372771859054,
+        "backward": 0.5662750641089858,
+        "optimizer": 0.03951346417100394
+      },
+      "loader_seconds_per_step": 0.0011496844999783207,
+      "loader_share_if_inline": 0.004009008855598931,
+      "mfu": 0.26841231736734844,
+      "knob": "batch/seq"
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 512,
+      "accum": 1,
+      "d_model": 256,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 81920,
+      "seconds": 5.618487377000747,
+      "tokens_per_second": 14580.436780073433,
+      "achieved_tflops": 0.5913097302593723,
+      "flops_per_token": {
+        "n_matmul_params": 5710592,
+        "dense_6N": 34263552,
+        "attention_12LDT": 6291456,
+        "total": 40555008,
+        "attention_share": 0.15513388630079916
+      },
+      "phase_seconds": {
+        "forward": 2.25614837500234,
+        "backward": 3.234576499996365,
+        "optimizer": 0.12312750200089795
+      },
+      "phase_share": {
+        "forward": 0.40155796811751737,
+        "backward": 0.5757023702210473,
+        "optimizer": 0.021914706528472383
+      },
+      "loader_seconds_per_step": 0.0010240386428189854,
+      "loader_share_if_inline": 0.0018226233754851582,
+      "mfu": 0.2740026029206092,
+      "knob": "batch/seq"
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 1024,
+      "accum": 1,
+      "d_model": 256,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 81920,
+      "seconds": 6.913611998998931,
+      "tokens_per_second": 11849.088437688108,
+      "achieved_tflops": 0.5550878949289721,
+      "flops_per_token": {
+        "n_matmul_params": 5710592,
+        "dense_6N": 34263552,
+        "attention_12LDT": 12582912,
+        "total": 46846464,
+        "attention_share": 0.2685989704580478
+      },
+      "phase_seconds": {
+        "forward": 3.009822543000155,
+        "backward": 3.7649369150012717,
+        "optimizer": 0.11651345799873525
+      },
+      "phase_share": {
+        "forward": 0.435347332687453,
+        "backward": 0.544568731300863,
+        "optimizer": 0.016852762060642977
+      },
+      "loader_seconds_per_step": 0.000933410714294171,
+      "loader_share_if_inline": 0.0013501057253854077,
+      "mfu": 0.25721803697284795,
+      "knob": "batch/seq"
+    }
+  ],
+  "width_sweep": [
+    {
+      "batch_size": 16,
+      "seq_len": 512,
+      "accum": 1,
+      "d_model": 256,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 81920,
+      "seconds": 5.568940541999837,
+      "tokens_per_second": 14710.158850175492,
+      "achieved_tflops": 0.596570609850138,
+      "flops_per_token": {
+        "n_matmul_params": 5710592,
+        "dense_6N": 34263552,
+        "attention_12LDT": 6291456,
+        "total": 40555008,
+        "attention_share": 0.15513388630079916
+      },
+      "phase_seconds": {
+        "forward": 2.2480980020009156,
+        "backward": 3.1999694979995184,
+        "optimizer": 0.11658920799891348
+      },
+      "phase_share": {
+        "forward": 0.40368504297113783,
+        "backward": 0.5746101029210112,
+        "optimizer": 0.020935617308107526
+      },
+      "loader_seconds_per_step": 0.0009660862857085054,
+      "loader_share_if_inline": 0.0017347757233579274,
+      "mfu": 0.2764404026518759,
+      "knob": "d_model"
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 512,
+      "accum": 1,
+      "d_model": 512,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 81920,
+      "seconds": 12.961203497999122,
+      "tokens_per_second": 6320.400726108987,
+      "achieved_tflops": 0.751234942445208,
+      "flops_per_token": {
+        "n_matmul_params": 17712640,
+        "dense_6N": 106275840,
+        "attention_12LDT": 12582912,
+        "total": 118858752,
+        "attention_share": 0.10586441291256364
+      },
+      "phase_seconds": {
+        "forward": 4.992305918000056,
+        "backward": 7.7081529159995625,
+        "optimizer": 0.25555095600066124
+      },
+      "phase_share": {
+        "forward": 0.3851730218394257,
+        "backward": 0.5947096592680999,
+        "optimizer": 0.019716607029595035
+      },
+      "loader_seconds_per_step": 0.0008800922856997724,
+      "loader_share_if_inline": 0.0006790204982397168,
+      "mfu": 0.3481091534627904,
+      "knob": "d_model"
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 512,
+      "accum": 1,
+      "d_model": 768,
+      "n_layer": 4,
+      "dtype": "float32",
+      "timed_steps": 10,
+      "tokens": 81920,
+      "seconds": 24.128049415001442,
+      "tokens_per_second": 3395.218510662815,
+      "achieved_tflops": 0.797574963249007,
+      "flops_per_token": {
+        "n_matmul_params": 36006144,
+        "dense_6N": 216036864,
+        "attention_12LDT": 18874368,
+        "total": 234911232,
+        "attention_share": 0.08034680947056631
+      },
+      "phase_seconds": {
+        "forward": 9.252185500999076,
+        "backward": 14.404081707001751,
+        "optimizer": 0.46621974800200405
+      },
+      "phase_share": {
+        "forward": 0.3834618100229269,
+        "backward": 0.5969849223719724,
+        "optimizer": 0.0193227284967402
+      },
+      "loader_seconds_per_step": 0.0011959940714275166,
+      "loader_share_if_inline": 0.000495686182855675,
+      "mfu": 0.3695823098643713,
+      "knob": "d_model"
+    }
+  ],
+  "best_measured": {
+    "batch_size": 16,
+    "seq_len": 512,
+    "accum": 1,
+    "d_model": 768,
+    "n_layer": 4,
+    "dtype": "float32",
+    "timed_steps": 10,
+    "tokens": 81920,
+    "seconds": 24.128049415001442,
+    "tokens_per_second": 3395.218510662815,
+    "achieved_tflops": 0.797574963249007,
+    "flops_per_token": {
+      "n_matmul_params": 36006144,
+      "dense_6N": 216036864,
+      "attention_12LDT": 18874368,
+      "total": 234911232,
+      "attention_share": 0.08034680947056631
+    },
+    "phase_seconds": {
+      "forward": 9.252185500999076,
+      "backward": 14.404081707001751,
+      "optimizer": 0.46621974800200405
+    },
+    "phase_share": {
+      "forward": 0.3834618100229269,
+      "backward": 0.5969849223719724,
+      "optimizer": 0.0193227284967402
+    },
+    "loader_seconds_per_step": 0.0011959940714275166,
+    "loader_share_if_inline": 0.000495686182855675,
+    "mfu": 0.3695823098643713,
+    "knob": "d_model"
+  },
+  "target_mfu": 0.4,
+  "figure": "e5_mfu.png"
+}

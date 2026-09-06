@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# derived from data/corpus_slice.jsonl.gz on first run, in about three seconds
+data/tokens_cache.npz
+
+# run logs; results/*.json and results/*.md are the evidence and are committed
+results/*_run.log

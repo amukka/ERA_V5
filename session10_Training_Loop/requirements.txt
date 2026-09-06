@@ -1,0 +1,8 @@
+# Session 10 — the training loop.
+# Everything runs on CPU; CUDA or Apple MPS is used automatically if present.
+torch>=2.4
+numpy>=1.26
+matplotlib>=3.8
+# only needed to open or re-execute session10.ipynb
+jupyter>=1.0
+nbformat>=5.9

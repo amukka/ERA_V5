@@ -1,0 +1,713 @@
+Axiom
+Axiom
+Dashboard
+Courses
+
+ERA V5
+EAG V3
+Calendar
+Grades
+Settings
+
+Collapse
+Courses
+ERA V5
+Session 10 - The Training Loop
+
+Search...
+766
+51
+
+Mark Complete
+Exit
+Session 10: The Training Loop
+1. What this session is
+Session 9 left us holding a single number. The model reads a batch, produces logits, compares them against the truth, and hands back one scalar called the loss.
+
+tokens
+
+model
+
+logits
+
+loss
+one number
+
+One number, for a model with 536.9M weights in its output head alone and several billion more behind it. Which raises the question we spend today on:
+
+How does a single number reach back and move billions of weights, and while it runs for weeks, how do we know it is working?
+
+Two ideas have been quietly doing work in this course without ever being properly introduced, and today they finally get the introduction they deserve.
+
+The first is backpropagation, the method by which that one loss value travels back through every layer and tells each weight how much it contributed to the mistake.
+
+
+The second is the floating point number, which we have written as bf16 since Session 7 as though its meaning were self-evident. It is not, and the newer formats only become readable once the original is clear.
+
+Session 9
+prediction to loss
+
+Session 10
+loss to weight update
+
+Session 11
+which optimiser, which schedule
+
+Every section today answers one of two questions.
+
+Two questions: What does one training step actually do? And what does it cost V5 to take that step, over and over, for weeks?
+
+2. The words we will need
+Before we follow a loss backwards, it is worth agreeing on the words for the pieces involved, because they are used loosely almost everywhere else and the confusion is avoidable.
+
+A gradient is one number attached to one weight, saying how much the loss would change if that single weight moved.
+
+A step is one complete pass of the loop: read some data, compute the loss, compute every gradient, then move every weight.
+
+A batch is the group of samples read in a single step.
+
+A micro-batch is what a batch gets broken into when the whole thing will not fit in memory at once, which for a model of our size is nearly always.
+
+Carry this forward: a gradient belongs to one weight, and a step moves all of them at once.
+
+3. Where a gradient comes from
+We can begin without any calculus at all.
+
+Imagine a model with a single weight sitting at 3.0, and a loss measuring how wrong its answer currently is. Raise that weight a very small amount and compute the loss again, and the size of the shift turns out to be the most useful number in all of training.
+
+Weight	Loss
+3.000	16.000
+3.001	16.064
+The loss rose by 
+0.064
+0.064 when the weight rose by 
+0.001
+0.001, so:
+
+0.064
+0.001
+=
+64
+0.001
+0.064
+​
+ =64
+
+The loss climbs about 64 units for every unit we raise this weight, which also tells us that to bring it down we should move the weight the other way. A large value means this weight matters a great deal right now, and a value near zero means the optimiser can leave it alone.
+
+
+A training loop visualised one step at a time. A small network attempts to predict a value, the loss is displayed as a coloured bar, and as you click "step" the loss decreases while the weights inside the network change colour to show which of them moved and in which direction. Goal: you should leave with a working sense of the cycle that runs through every training step, which is a forward pass that produces a prediction, a comparison against the correct answer, and a backward pass that updates every weight in the network.
+
+Carry this forward: a gradient is the answer to a nudge. Which way, and how urgently.
+
+
+The nudge, done live. Move the weight, then change how big the nudge is, and watch the slope settle on the same answer from either side.
+
+4. Following the loss backwards
+A real model is a long chain of steps, and a weight near the front never touches the loss directly. It has to work through everything downstream of it.
+
+x
+
+h = w1 · x
+
+y = w2 · h
+
+loss = (y − t)²
+
+Here 
+t
+t is the target, meaning the answer we wanted. If we feed in 2 and hope for 20, then 
+t
+t is 20 and everything the model does is measured against it.
+
+Putting real numbers through:
+
+Quantity	Calculation	Value
+h
+h	
+w
+1
+×
+x
+=
+3
+×
+2
+w 
+1
+​
+ ×x=3×2	6
+y
+y	
+w
+2
+×
+h
+=
+4
+×
+6
+w 
+2
+​
+ ×h=4×6	24
+loss	
+(
+24
+−
+20
+)
+2
+(24−20) 
+2
+ 	16
+If we nudge 
+w
+1
+w 
+1
+​
+ , how much does the loss move? Since it reaches the loss only through 
+h
+h and then 
+y
+y, we walk back one link at a time, multiplying as we go.
+
+∂
+L
+∂
+y
+=
+2
+(
+y
+−
+t
+)
+=
+8
+∂
+L
+∂
+w
+2
+=
+8
+×
+h
+=
+48
+∂
+L
+∂
+h
+=
+8
+×
+w
+2
+=
+32
+∂
+L
+∂
+w
+1
+=
+32
+×
+x
+=
+64
+∂y
+∂L
+​
+ 
+∂w 
+2
+​
+ 
+∂L
+​
+ 
+∂h
+∂L
+​
+ 
+∂w 
+1
+​
+ 
+∂L
+​
+ 
+​
+  
+=2(y−t)=8
+=8×h=48
+=8×w 
+2
+​
+ =32
+=32×x=64
+​
+ 
+That is the whole of backpropagation, and it sounds grander than it is: one number comes back from the loss, and each link multiplies it by one local factor. Nudging 
+w
+1
+w 
+1
+​
+  and measuring, as we did above, gives 64.0000, agreeing to eight decimals.
+
+Carry this forward: backpropagation is the chain rule, applied one link at a time, from the loss towards the inputs.
+
+
+One link at a time. Step backwards through the chain and watch each multiplication as it happens, ending on the 64 we found by nudging.
+
+5. What autograd is doing for us
+Four links by hand is pleasant enough, but several hundred layers is not, so the computer keeps notes for us. Every time it multiplies or adds during the forward pass it records what it did and what went in, and that record is the computation graph.
+
+Walking it backwards while multiplying by each local factor is precisely what loss.backward() does. The machinery keeping those notes is autograd, and it is not doing anything cleverer than the section above, simply doing it a few billion times without losing its place.
+
+Carry this forward: autograd is bookkeeping, not magic. The mathematics is the chain rule you just did by hand.
+
+6. One step, start to finish
+Everything above assembles into five lines, and every training run in the world is these five lines repeated until the data runs out.
+
+logits = model(batch)          # forward
+loss   = loss_fn(logits, y)    # one number
+loss.backward()                # fill in every gradient
+optimizer.step()               # move every weight
+optimizer.zero_grad()          # wipe before the next batch
+That last line surprises people. Gradients add up rather than replace, so each call to backward() piles the new gradient onto whatever was already there, and forgetting to wipe means batch two trains on top of batch one.
+
+The loss will still fall, the model will simply be learning from a stale blend of everything it has seen, and nothing will raise an error. That looks like a defect until the next section, which is why it was built this way on purpose.
+
+
+The whole step on one screen. Press Step and watch the loss return as gradients, the gradients become an update, and the weights move. Change the target and the gradients change sign. The two bars beneath each weight are what the optimiser keeps between steps, and Session 11 explains why.
+
+Carry this forward: a step is forward, loss, backward, update, wipe. The wipe is not optional.
+
+7. Borrowing a bigger batch
+There is a tension at the centre of every run. We want a large batch, because averaging over more samples gives a steadier gradient, and the accelerator wants a small one, because a large batch will not fit.
+
+Gradient accumulation settles it using the behaviour that looked like a bug a moment ago. Run several small batches in turn, let their gradients pile up, and take one step once they have all contributed.
+
+micro-batch 1
+
+micro-batch 2
+
+micro-batch 3
+
+step once
+then wipe
+
+Quantity	Meaning	Example
+micro-batch	what actually fits	8 sequences
+accumulation steps	how many we gather	4
+global batch	what the optimiser sees	32 sequences
+For scale, V4 trained with a micro-batch of 7 per GPU and a global batch of 56 across one eight-GPU node, which is a good deal smaller than most people imagine.
+
+Carry this forward: the batch the optimiser sees is a choice, and it is independent of what fits in memory.
+
+
+Gradients piling up. Add micro-batches one at a time and watch the buffer fill, then compare the result against the same examples run as a single large batch.
+
+8. A mistake worth studying
+A bug lived inside every major training framework until 2024, and it is worth walking through because the lesson generalises far past this one case.
+
+Take three micro-batches holding different numbers of real tokens, as sequences naturally differ in length.
+
+Micro-batch	Valid tokens	Average loss
+1	4	2.0
+2	4	2.0
+3	2	5.0
+The correct combination adds up all the loss and divides by all the tokens, so every token carries equal weight:
+
+4
+(
+2.0
+)
++
+4
+(
+2.0
+)
++
+2
+(
+5.0
+)
+4
++
+4
++
+2
+=
+26.0
+10
+=
+2.6000
+4+4+2
+4(2.0)+4(2.0)+2(5.0)
+​
+ = 
+10
+26.0
+​
+ =2.6000
+
+What the frameworks did instead was average the three averages:
+
+2.0
++
+2.0
++
+5.0
+3
+=
+3.0000
+3
+2.0+2.0+5.0
+​
+ =3.0000
+
+The short micro-batch, holding half as many tokens, was given exactly the same vote as the long ones, and the result comes out 15.4% wrong.
+
+What makes it worth a section is how it hid. The error vanishes whenever micro-batches happen to hold equal token counts, which in casual testing they usually do, so the loss curves looked reasonable while being wrong.
+
+Carry this forward: a number that looks plausible is not evidence. This is the theme of the rest of the session.
+
+
+The bug, and how it hid. Both ways of combining the losses, side by side, at 15.4% apart. Now make the token counts equal and watch the error drop to zero.
+
+9. How a computer holds a number
+A computer has a fixed number of bits and must store values as large as 50,000 and as small as 0.00000001 in the same box. Plain counting cannot stretch that far, so the bits are divided between three jobs.
+
+Piece	Its job	Bits
+sign	positive or negative	always 1
+exponent	how big the number is	a few
+mantissa	the digits themselves	whatever remains
+It is the arrangement we use writing 
+6.02
+×
+10
+23
+6.02×10 
+23
+ , where the power of ten says how large, and the 6.02 says which.
+
+fp32
+=
+1
+ sign
++
+8
+ exponent
++
+23
+ mantissa
+=
+32
+ bits
+fp32=1 sign+8 exponent+23 mantissa=32 bits
+
+Every format we will meet is simply a different way of dividing the bits between those last two jobs, and the trade is always the same one.
+
+Carry this forward: exponent bits buy range, mantissa bits buy detail. More of one always means less of the other.
+
+
+Every step of the construction, shown. The exponent bits added from their place values, the bias taken off, the mantissa read as a binary fraction, then the three pieces multiplied together. Click any bit to flip it, or build your own format with the two sliders.
+
+10. Why bf16 replaced fp16
+Three formats matter for training, and one column of this table explains why the industry settled where it did.
+
+Format	Bits	Exponent	Mantissa	Smallest it holds	Decimal digits
+fp32	32	8	23	
+1.18
+×
+10
+−
+38
+1.18×10 
+−38
+ 	7.2
+fp16	16	5	10	
+6.1
+×
+10
+−
+5
+6.1×10 
+−5
+ 	3.3
+bf16	16	8	7	
+1.18
+×
+10
+−
+38
+1.18×10 
+−38
+ 	2.4
+Look at the exponent column. bf16 keeps all eight exponent bits that fp32 had, so it reaches just as far, paying for that reach with detail, from 7.2 decimal digits down to 2.4.
+
+fp16 made the opposite bargain, and that is what breaks it. Late in a run the gradients become genuinely tiny, and fp16 cannot hold anything below about 
+5.96
+×
+10
+−
+8
+5.96×10 
+−8
+ .
+
+Gradient	In fp16	In bf16
+10
+−
+4
+10 
+−4
+ 	fine	fine
+10
+−
+6
+10 
+−6
+ 	losing digits	fine
+10
+−
+8
+10 
+−8
+ 	becomes exactly zero	fine
+A gradient of zero means that weight does not move, so the model quietly stops learning exactly where the signal was faintest, which is usually where something was left to learn.
+
+The rescue is loss scaling, as blunt as it sounds. Multiply the loss by about 1024 before the backward pass so the gradients clear the floor, then divide back down before the optimiser sees them.
+
+10
+−
+8
+×
+1024
+=
+1.02
+×
+10
+−
+5
+survives, then divide back
+10 
+−8
+ ×1024=1.02×10 
+−5
+ survives, then divide back
+
+It works, and it is one more setting to tune and eventually get wrong. bf16's floor sits at 
+9.18
+×
+10
+−
+41
+9.18×10 
+−41
+ , which nothing in training will ever reach, so the whole apparatus becomes unnecessary.
+
+Carry this forward: bf16 is less accurate than fp16 and won anyway, because range mattered more than digits.
+
+
+A gradient shrinking. Slide it down and watch fp16 give up while bf16 keeps going. Then switch loss scaling on and watch the same gradient survive.
+
+11. The newer formats
+Once the trade is clear, the 2026 formats read easily.
+
+Format	Bits	Exponent	Mantissa	Decimal digits
+fp8 E4M3	8	4	3	1.2
+fp8 E5M2	8	5	2	0.9
+fp4 E2M1	4	2	1	0.6
+Six tenths of a decimal digit ought to worry you, and on its own it should. fp4 works only because its numbers are never alone. Sixteen of them share a single exponent, stored once for the whole block.
+
+16
+×
+4
+ bits
++
+8
+ bits of shared scale
+16
+=
+4.5
+ bits per value
+16
+16×4 bits+8 bits of shared scale
+​
+ =4.5 bits per value
+
+This is the same idea as int8, which the widget shows in its last row. An int8 tensor has no exponent anywhere in it, only whole numbers and one scale shared by everything.
+
+As of 2026, fp8 is a production recipe using E4M3 throughout, and NVFP4 runs about 1.73 times faster than fp8, though it needs five things working together to converge, including leaving attention in higher precision because softmax amplifies whatever noise you hand it.
+
+Carry this forward: we do not shrink everything equally. We shrink where the error does not accumulate.
+
+
+Sixteen numbers sharing one exponent. Change the block size and watch the cost per value fall, then put an outlier in and watch what sharing costs you.
+
+12. Guarding against one bad batch
+A single unusual batch can end a run that has gone well for weeks. The gradients come back enormous, the weights take a stride far outside anything sensible, and the model lands somewhere it will not recover from.
+
+The guard is a cap. We measure the combined size of all the gradients, and when it exceeds a threshold we shrink every one by the same factor, leaving the direction untouched and changing only the length.
+
+norm
+=
+8.4
+,
+cap
+=
+1.0
+,
+so scale everything by 
+1.0
+8.4
+=
+0.119
+norm=8.4,cap=1.0,so scale everything by  
+8.4
+1.0
+​
+ =0.119
+
+That combined figure is called the grad norm, and it turns out to be worth rather more than the clipping it enables.
+
+Carry this forward: the grad norm moves before the loss does. A run about to fail often shows it there thousands of steps early, which makes it the most useful trace on any dashboard.
+
+
+The norm and the loss, on one axis. The spike arrives in the norm at step 24 and only reaches the loss at step 26. Set the cap and watch it hold.
+
+13. What a step costs us
+Running a finished model requires only its weights. Training one requires far more, and this arithmetic sets up the next three sessions.
+
+What must be held	Bytes per weight
+the weight itself, in bf16	2
+its gradient, in bf16	2
+a full-precision copy, in fp32	4
+the optimiser's two running numbers	8
+total	16
+Sixteen bytes for every single weight, and that is before a single activation is stored.
+
+Model	Training state alone
+2B	29.8 GiB
+9B	134.1 GiB
+20B	298.0 GiB
+120B	1,788 GiB
+An 80 GB accelerator therefore holds about a 5.4B model and has nothing left over for the activations it also needs.
+
+Activation checkpointing buys some back by discarding intermediates during the forward pass and recomputing them during the backward pass, costing about 30% more compute for a large share of the memory.
+
+Carry this forward: 16 bytes per weight is why Sessions 12 and 13 exist. One card is not enough, and this table is the reason.
+
+
+Five things held for every weight. Slide the model size up and find the point where one 80 GB card runs out, which happens sooner than most people expect.
+
+14. Watching a run that lasts weeks
+Four traces, each catching something the others cannot.
+
+Trace	What it catches
+loss	whether the model is learning at all
+grad norm	trouble, before the loss shows it
+tokens per second	whether something quietly got slower
+MFU	whether the machine is being wasted
+The last needs explaining, because it is the one most often skipped.
+
+MFU, or Model FLOPs Utilisation, asks what fraction of the machine we are genuinely using. A forward and backward pass costs roughly 
+6
+N
+6N operations per token for a model with 
+N
+N weights:
+
+MFU
+=
+6
+×
+N
+×
+tokens per second
+what the machine can do per second
+MFU= 
+what the machine can do per second
+6×N×tokens per second
+​
+ 
+
+Taking a 9B model producing 12,000 tokens per second on eight H100s:
+
+Quantity	Value
+what we achieved	648 TFLOP/s
+what we are paying for	7,912 TFLOP/s
+MFU	8.2%
+A healthy run sits between 35% and 50%, and the reason to watch it is uncomfortable: at 8% the loss curve looks exactly as it does at 45%. The model learns perfectly well, we simply pay four times as much and wait four times as long, and nothing in the loss will ever mention it.
+
+Carry this forward: the loss tells you whether it is learning. MFU tells you whether you are being robbed.
+
+
+What the machine is actually doing. The same run at 8% and at 45%, with the days it would take shown beside each. The loss curve is identical in both.
+
+15. The failures that stay quiet
+V4 recorded eight failures during its run, and what they share matters more than any one of them.
+
+Failure	What happened
+Silent checkpoint misload	the checkpoint did not match the model, and loaded without complaint
+Flush divergence at scale	a technique that worked below 1B diverged at 120B
+Clone-family collapse	copied experts died before they learned to differ
+Role-blind expansion	auxiliary heads inflated when expanded like experts
+Curriculum accounting	the data guarantee was never actually measured
+Spectral upcycling	variety was created, function was not preserved
+Mixture-shift instability	routing destabilised as the expert count changed
+The write-up puts it plainly: several of these pass every cheap check while staying silent. Not one raised an exception, and several produced loss curves that looked normal.
+
+Two details from the run are worth carrying. Dropout was set to zero in every reversible model, because a reversible backward pass needs a repeatable forward pass and one dropout mask would have broken it silently. And the routers trained more slowly than the rest of the model, deliberately.
+
+Carry this forward: the dangerous failures do not crash. They produce a plausible number and let you keep going.
+
+16. What V5 has to decide
+Three things this session settles for us.
+
+Gradients accumulate, and the loss is normalised by token rather than by micro-batch. Clipping is on from step one, and the grad norm is logged from step one. Every memory decision in the next three sessions begins from the 16 bytes per weight above.
+
+Four things remain open.
+
+Question	What would settle it
+What precision do we train in? bf16 is safe, fp8 is proven, NVFP4 is faster and needs Blackwell.	A short run in each on our real architecture, comparing loss and throughput.
+What clip threshold?	The grad norm distribution over the first thousand steps. Choose it from data rather than from habit.
+What MFU will we accept before stopping to fix the loop?	A number agreed before the run begins, so nobody is negotiating it at three in the morning.
+Activation checkpointing everywhere, or only in some layers?	A memory against throughput sweep on the cluster we actually rent.
+17. The assignment
+Take a small model and a real loop, and make it tell you the truth about itself.
+
+Print every tensor shape in the step, and write one line saying what each dimension means.
+
+Verify one gradient by hand. Nudge a weight, measure how the loss changed, and compare against what backward() reported. They should agree to several decimals, and if they do not, you have found something worth understanding.
+
+Break gradient accumulation on purpose. Use the average of the averages with micro-batches of different lengths, and plot both curves together so you see the gap rather than take my word for it.
+
+Log the grad norm at every step, then find one step where it moved before the loss did.
+
+Compute your own MFU, report it honestly, and say what you believe is costing you the distance to 40%.
+
+Take the number 0.1 and write out by hand what it looks like in fp32, bf16 and fp8 E4M3, showing the bits. Then say which one you would train in, and why.
+
+Print things and check things. Every serious training bug is silent, and the loss curve is not going to be the one that tells you.
+
+Transcript
+
+Video
+Studio
+
+
+GMeet
+
+
+Previous
+Session 9 - Loss Functions & Output Heads
+
