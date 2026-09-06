@@ -46,7 +46,7 @@ The control arm holds every sequence to 91 tokens — the geometric mean of the 
 | setting                                       | correct | broken | gap (nats) | relative |
 | --------------------------------------------- | ------: | -----: | ---------: | -------: |
 | micro-batches of different lengths (bucketed) |  4.5150 | 4.5540 |    +0.0389 |   +0.86% |
-| control: every micro-batch 91 tokens long     |  4.5560 | 4.5560 |    +0.0000 |   +0.00% |
+| control: every micro-batch 91 tokens long     |  4.5560 | 4.5560 |    -0.0000 |   -0.00% |
 
 ![gradient accumulation](e3_accumulation.png)
 
@@ -54,7 +54,7 @@ The left panel is the gap — plotted from step 80 because the opening
 descent from 7.6 to 4.7 nats would otherwise squash it flat, which is precisely
 how a gap this size stays invisible on a real dashboard. The middle panel is the
 identical experiment with the token counts made equal, where the gap is
-+0.0000 nats: the bug hiding, reproduced. The right panel is the
+-0.0000 nats: the bug hiding, reproduced. The right panel is the
 difference between the two curves in each setting, which is the only view where
 neither of them can be mistaken for the other.
 

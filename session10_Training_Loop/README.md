@@ -107,7 +107,7 @@ one common token-weighted validation set:
 | | correct | broken | gap |
 |---|---:|---:|---:|
 | bucketed lengths | 4.5150 | 4.5540 | **+0.0389 nats** |
-| control, every micro-batch 91 tokens | 4.5560 | 4.5560 | **+0.0000** |
+| control, every micro-batch 91 tokens | 4.5560 | 4.5560 | **0.0000** |
 
 **The most uncomfortable number here is a small one.** The broken run's *printed* loss was off by
 −0.33% on average — inside the step-to-step noise of any dashboard, plausible at every single step
