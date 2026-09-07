@@ -83,7 +83,7 @@ the other until the story looked however I wanted it to.
 ## 3. What the trace costs, and where the cap should go
 
 The grad norm is one sum of squares over tensors that are already in memory and
-that the optimiser is about to read anyway: **2.20 ms**, against a median step of 223 ms — 0.99% of the clock. It is the cheapest trace on the dashboard and the only one that is ever
+that the optimiser is about to read anyway: **2.04 ms**, against a median step of 159 ms — 1.28% of the clock. It is the cheapest trace on the dashboard and the only one that is ever
 early. The loss answers *is it learning*; the norm answers *is it about to
 stop*.
 

@@ -170,7 +170,7 @@
     "p05_relative_update": 2.9955061108921655e-05,
     "p95_relative_update": 0.06654184311628342,
     "n_weights": 8336384,
-    "pct_updates_lost_in_bf16": 51.59220112701142,
+    "pct_updates_lost_in_bf16": 51.59221312262007,
     "pct_updates_lost_in_fp8_e4m3": 91.39812897294559
   },
   "stagnation": {

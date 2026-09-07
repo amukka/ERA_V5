@@ -43,9 +43,32 @@ def sync(device):
 
 
 def matmul_roofline(device, dtype=torch.float32, sizes=(1024, 2048, 3072, 4096),
-                    iters=30):
-    """The best sustained matmul throughput this machine actually reaches."""
+                    iters=30, repeats=3):
+    """The best sustained matmul throughput this machine actually reaches.
+
+    Each size is timed ``repeats`` times and the *best* sample kept. Contention
+    and thermal throttling only ever measure a machine as slower than it is, so
+    the maximum is the estimate least polluted by whatever else was running.
+
+    The spread across repeats is returned with it, because it is the only thing
+    in this experiment that can tell you the denominator is untrustworthy — and
+    an MFU is only ever as honest as its denominator. A wide spread means the
+    machine was busy and every number below it is deflated.
+    """
     best, rows = 0.0, []
+    # Warm the device *once*, before anything is timed. A cold accelerator runs
+    # its first matmuls at roughly 60% of its sustained speed while the clocks
+    # ramp, and whichever size happened to be measured first would otherwise
+    # carry that penalty into the denominator -- and a deflated denominator
+    # inflates every MFU divided by it.
+    try:
+        w = torch.randn(2048, 2048, device=device, dtype=dtype)
+        for _ in range(30):
+            w @ w
+        sync(device)
+        del w
+    except RuntimeError:
+        pass
     for n in sizes:
         try:
             a = torch.randn(n, n, device=device, dtype=dtype)
@@ -56,18 +79,23 @@ def matmul_roofline(device, dtype=torch.float32, sizes=(1024, 2048, 3072, 4096),
         for _ in range(5):
             a @ b
         sync(device)
-        t0 = time.perf_counter()
-        for _ in range(iters):
-            a @ b
-        sync(device)
-        dt = time.perf_counter() - t0
-        flops = 2 * (n ** 3) * iters
-        tflops = flops / dt / 1e12
-        rows.append({"n": n, "seconds": dt, "tflops": tflops})
+        samples = []
+        for _ in range(repeats):
+            t0 = time.perf_counter()
+            for _ in range(iters):
+                a @ b
+            sync(device)
+            dt = time.perf_counter() - t0
+            samples.append(2 * (n ** 3) * iters / dt / 1e12)
+        tflops = max(samples)
+        rows.append({"n": n, "tflops": tflops, "samples": samples,
+                     "spread_pct": 100 * (tflops - min(samples)) / tflops})
         best = max(best, tflops)
         del a, b
     return {"dtype": str(dtype).replace("torch.", ""), "best_tflops": best,
-            "sizes": rows}
+            "sizes": rows, "repeats": repeats,
+            "worst_spread_pct": max((r["spread_pct"] for r in rows
+                                     if "spread_pct" in r), default=0.0)}
 
 
 def flops_per_token(cfg: Config, model: TinyGPT, seq_len: int):
@@ -250,15 +278,32 @@ def main(verbose: bool = True, smoke: bool = False) -> dict:
 
     p.append("\n## The denominator, measured\n")
     p.append(table([
-        (f"{r['n']}×{r['n']}", f"{r['tflops']:.2f}")
+        (f"{r['n']}×{r['n']}", f"{r['tflops']:.2f}", f"{r['spread_pct']:.1f}%")
         for r in roof32["sizes"] if "tflops" in r
-    ], ["fp32 square matmul", "TFLOP/s"], ["l", "r"]))
+    ], ["fp32 square matmul", "TFLOP/s (best of "
+        f"{roof32.get('repeats', 1)})", "spread"], ["l", "r", "r"]))
     p.append(f"\nBest sustained: **{peak:.2f} TFLOP/s fp32**. "
              + (f"(bf16 on the same device reaches "
                 f"{roof16['best_tflops']:.2f} TFLOP/s, which is the ceiling a "
                 f"bf16 loop would be measured against — the loop below runs in "
                 f"fp32, so fp32 is the matched denominator.)\n"
                 if "best_tflops" in roof16 else "\n"))
+    spread = roof32.get("worst_spread_pct", 0.0)
+    p.append(f"""
+Each size is timed {roof32.get('repeats', 1)} times and the best sample kept, because
+contention and thermal throttling only ever measure a machine as *slower* than it
+is. The widest spread across repeats here was **{spread:.1f}%**{
+' — small enough that the denominator is stable and the MFU below can be read to two digits.'
+if spread < 10 else
+' — wide enough that this machine was busy while measuring, and every number below it is deflated. Re-run it on an idle machine before believing it.'}
+
+This matters more than it sounds. An earlier run of this same experiment, on this
+same machine, measured the fp32 peak at 2.16 TFLOP/s and bf16 at 1.43 — bf16
+*below* fp32, which this hardware cannot actually do — and reported an MFU of
+30.3%. The tell was in the denominator, not the loop. **An MFU is only ever as
+honest as the peak you divide by, and a single unrepeated measurement of that peak
+cannot tell you it was wrong.**
+""")
     p.append("This is deliberately the strictest available denominator: a "
              "throughput this exact machine has been observed to sustain, on "
              "the one operation a transformer is almost entirely made of.\n")
@@ -291,11 +336,17 @@ def main(verbose: bool = True, smoke: bool = False) -> dict:
         ("machine measured at", f"{peak:.2f} TFLOP/s"),
         ("**MFU**", f"**{100*baseline['mfu']:.2f}%**"),
     ], ["quantity", "value"], ["l", "r"]))
+    mfu_pct = 100 * baseline["mfu"]
+    band = ("inside" if 35 <= mfu_pct <= 50 else
+            "below" if mfu_pct < 35 else "above")
+    to40 = 40.0 - mfu_pct
     p.append(f"""
-**{100*baseline['mfu']:.1f}%**, which is inside the 35-50% band the session calls
-healthy. I did not expect that and spent a while trying to find the mistake, so
-the rest of this section is mostly about why the number is high and what it is
-still hiding.
+**{mfu_pct:.1f}%**, which is {band} the 35-50% band the session calls healthy and
+**{abs(to40):.1f} points {"short of" if to40 > 0 else "past"} the 40% the assignment
+asks about**. The rest of this section is the accounting for those
+{abs(to40):.1f} points — measured rather than guessed — and for why the number is
+nonetheless higher than I expected, which took a while to stop looking like a
+mistake.
 """)
 
     p.append("\n## Why this is not the triumph it looks like\n")
@@ -359,7 +410,7 @@ that.
 the model fixed and grows the micro-batch: {min(100*r['mfu'] for r in sweeps if r['seq_len']==256):.1f}% →
 {max(100*r['mfu'] for r in sweeps if r['seq_len']==256):.1f}% from
 {min(r['batch_size'] for r in sweeps if r['seq_len']==256)}×256 to
-{max(r['batch_size'] for r in sweeps if r['seq_len']==256)}×256 — a 8× increase
+{max(r['batch_size'] for r in sweeps if r['seq_len']==256)}×256 — an {max(r['batch_size'] for r in sweeps if r['seq_len']==256)//min(r['batch_size'] for r in sweeps if r['seq_len']==256)}× increase
 in work per kernel buying about {max(100*r['mfu'] for r in sweeps if r['seq_len']==256)-min(100*r['mfu'] for r in sweeps if r['seq_len']==256):.0f}
 points. Real, and much smaller than the width effect.
 
@@ -405,14 +456,15 @@ it should.
 **6. The loader is not the problem, but it would be if left inline.** Building
 one step's micro-batches costs {baseline['loader_seconds_per_step']*1e3:.1f} ms
 against a {1e3*baseline['seconds']/baseline['timed_steps']:.1f} ms step —
-{100*baseline['loader_share_if_inline']:.0f}% of a step. It is prebuilt and
+{100*baseline['loader_share_if_inline']:.1f}% of a step. It is prebuilt and
 timed separately above rather than quietly counted as compute, because counting
 it as compute is a way to report a throughput number that is not true.
 
 ## What I would actually do
 
 Widen the model. On measurement it is worth
-{ys[-1]-ys[0]:.0f} points and everything else on this list is worth less. Then
+{ys[-1]-ys[0]:.0f} points, {"which on its own covers the " + format(to40, ".1f") + " still needed for 40%" if to40 > 0 else "and the run is already past 40%"},
+and everything else on this list is worth less. Then
 raise the micro-batch until memory objects, keep accumulating, and only then
 reach for `torch.compile`, a fused optimiser and a fused attention kernel — in
 that order, because that is the order the measurements put them in and not the

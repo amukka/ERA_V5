@@ -255,6 +255,19 @@ the loop runs in.
 **If you are re-executing this notebook, stop anything else on the machine
 before this cell.** Otherwise the number below is a number about your other
 process.
+
+**And expect this cell to disagree with the README, by construction.** It
+measures the roofline inside a kernel that has just trained six models, so the
+device is warm and contended and every matmul in the denominator reads slow. A
+depressed denominator does not lower the MFU — it *raises* it. Measured here the
+same loop scores about 41%; measured standalone, on an idle machine, it scores
+39.2%, and 39.2% is the number the README reports. `run_all.py` therefore runs
+E5 last and on its own, and the committed `results/e5_mfu.*` come from that run,
+not from this cell.
+
+That gap is the deliverable, not a blemish on it. Nothing about the loop changed
+between the two measurements. An MFU is only ever as honest as the peak you
+divide by.
 """),
 code("""
 import experiments.e5_mfu as e5

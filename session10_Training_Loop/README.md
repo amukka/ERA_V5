@@ -26,7 +26,7 @@ from the session notes without being recomputed first.
 | 2 | Verify one gradient by hand | [`experiments/e2_grad_check.py`](experiments/e2_grad_check.py) | nudge vs `backward()` agree to **10.6 decimals** in float64 — and to only **4.8** in float32 |
 | 3 | Break gradient accumulation on purpose | [`experiments/e3_accumulation.py`](experiments/e3_accumulation.py) | printed loss wrong by **0.33%**, gradient wrong by **17.3%** and **8.4°** |
 | 4 | Log the grad norm, find a step where it led the loss | [`experiments/e4_grad_norm.py`](experiments/e4_grad_norm.py) | step 345, unprompted: norm at 5.5σ, loss silent for **62 more steps** |
-| 5 | Compute your own MFU, honestly | [`experiments/e5_mfu.py`](experiments/e5_mfu.py) | **30.3%** — and the denominator matters more than anything in the loop |
+| 5 | Compute your own MFU, honestly | [`experiments/e5_mfu.py`](experiments/e5_mfu.py) | **37.8%** (37.8–39.4% over 5 runs) — mismeasured denominators put the same loop at 30.3% and at 41.0% |
 | 6 | Write 0.1 in fp32, bf16, fp8 E4M3 by hand | [`experiments/e6_float_bits.py`](experiments/e6_float_bits.py) | every hand-derived bit pattern matches hardware; **51.6%** of real updates vanish in bare bf16 |
 
 ---
@@ -138,7 +138,7 @@ entirely. (The first version of this experiment tested only for the loss rising,
 and was wrong.)
 
 **Cost and threshold.** The norm is one sum of squares over tensors the optimiser is about to read
-anyway: **2.20 ms against a 223 ms step, 0.99% of the clock**. Cheapest trace on the dashboard and
+anyway: **2.04 ms against a median 159 ms step, 1.28% of the clock**. Cheapest trace on the dashboard and
 the only one that is ever early. Measure the norm *before* clipping — logged after, it sits pinned
 at the threshold and tells you nothing. And choose the cap from the distribution: median 0.814, p99
 1.994, contaminated batch 10.8. A cap of 1.0 sits at the 82nd percentile and clips a fifth of
@@ -154,41 +154,82 @@ alone, low enough to still cut step 300 by 5×.
 | | |
 |---|---:|
 | micro-batch × accumulation | 8×256 tokens × 4 |
-| tokens per second | 17,494 |
-| achieved | 0.654 TFLOP/s |
-| machine, measured (best sustained fp32 matmul) | 2.16 TFLOP/s |
-| **MFU** | **30.32%** |
+| tokens per second | 34,663 |
+| achieved | 1.297 TFLOP/s |
+| machine, measured (best sustained fp32 matmul, best of 3) | 3.43 TFLOP/s |
+| **MFU** | **37.76%** |
 
-**The honest part is the denominator.** MFU is a ratio and its denominator is a *choice* that moves
-the answer more than any change to the loop would. The same run scores 30.3% against measured fp32,
-45.8% against measured bf16, 34.4% against the matmul size this model actually uses. The session's
-own 8.2% example is measured against a *datasheet* peak; mine was produced by `torch.matmul` on the
-same device through the same framework the model's matmuls go through — which makes the ratio
-honest and also makes it flattering, and both are worth saying. **This loop would not score 40% on
-an H100**: no `torch.compile`, no fused optimiser, no FlashAttention, no bf16, and every one of
-those is worth more on hardware whose peak assumes them.
+**The first honest thing here is that the first version of this number was wrong.** An earlier run
+of this same script reported **30.3%** against a measured fp32 peak of 2.16 TFLOP/s — and, on the
+same device, a bf16 peak of 1.43, i.e. bf16 *slower than* fp32, which this hardware cannot actually
+do. That impossible ordering was the only tell, and it was in the denominator, not in the loop. The
+peak had been measured on a cold device whose clocks were still ramping, so whichever size was timed
+first carried the penalty into the roofline. The fix is unglamorous — warm the device once before
+anything is timed, time each size three times, keep the best sample, and *report the spread* — and
+it moved the reported MFU by eight points without changing one line of the training loop. **An MFU
+is only ever as honest as the peak you divide by, and a single unrepeated measurement of that peak
+cannot tell you it was wrong.**
 
-**What is costing me the distance, measured rather than guessed** — and the measurements disagreed
-with the story I expected:
+**It happened again, in the other direction, while assembling this submission.** The notebook runs
+the same `e5.main()` — but in a kernel that has just trained six models. Every roofline size came
+back depressed (bf16 3.50 against 3.74 standalone) and the *same loop* scored **41.0%**. Nothing got
+faster; the denominator got slower. That is why `run_all.py` runs E5 last and alone, why the
+notebook cell says in advance that it will disagree with this page, and why the number above is the
+standalone one.
 
-1. **Width, not batch size.** Holding micro-batch fixed and widening: 27.6% → 34.8% → 37.0% at
-   d_model 256 → 512 → 768. **Nine points from one knob.** A 256×256 weight matrix cannot saturate
-   a unit that peaks at 4096×4096; the bare-matmul roofline shows the identical climb. The model is
-   too small for the machine and no loop engineering fixes that.
-2. **Micro-batch size helps far less than I assumed.** 8×256 → 64×256 is 8× the work per kernel for
-   about 4 points (27.3% → 30.9%).
-3. **Long sequences cost throughput even though attention is only 8.4% of the counted FLOPs.** At
-   matched token counts the shorter sequence wins every time (8,192 tokens: 30.9% at 32×256, 27.4%
-   at 16×512, 25.7% at 8×1024). Longer T is *credited* with more FLOPs and still scores lower —
-   that is the unfused attention path materialising two B×H×T×T matrices of memory traffic no FLOP
-   count sees. FlashAttention exists for exactly this.
-4. **Accumulation is free throughput.** Baseline (accum 4) 30.3% vs the same micro-batch at accum 1,
-   27.8%. The optimiser is 2.4% of a step; running it once per four micro-batches instead of once
-   per one is the difference. Section 7 adopted accumulation to buy a bigger global batch — it also
-   amortises an update that is almost pure overhead.
-5. **Where the time goes:** forward 37.4%, backward 59.8%, optimiser 2.4%. Backward at roughly twice
-   forward is the textbook ratio.
-6. **The loader is 0.8% of a step** (3.5 ms against 468.3 ms) — prebuilt and timed separately rather
+**So here is the spread, rather than my favourite sample.** Five standalone runs on this machine:
+
+| | across 5 runs |
+|---|---|
+| measured fp32 peak (the denominator) | 3.42 – 3.44 TFLOP/s |
+| tokens per second (the numerator) | 34,663 – 36,248 |
+| **MFU** | **37.8% – 39.4%** |
+
+The repeated-best fix did what it was supposed to: the denominator is now stable to about ±0.3%.
+What is left moves the numerator — the loop's own throughput drifts by ~4% with the thermal state
+of the machine. The committed run above is the coldest-start one and therefore the *lowest* of the
+five. Quoting 39.4% would not have been false, which is exactly the problem with quoting one number.
+
+**The second honest thing is that the denominator is a choice.** It moves the answer more than any
+change to the loop would. Same run, same numerator:
+
+| denominator | TFLOP/s | MFU |
+|---|---:|---:|
+| best sustained fp32 matmul — matched to the loop, and the number reported | 3.43 | **37.8%** |
+| best sustained bf16 matmul — what this loop scores the day it moves to bf16, without getting any faster | 3.74 | 34.7% |
+| fp32 matmul at 1024×1024 — the size this model actually uses; flattering, and therefore the wrong one | 3.26 | 39.7% |
+
+The session's own 8.2% example is measured against a *datasheet* peak. Mine was produced by
+`torch.matmul` on the same device through the same framework the model's own matmuls go through, so
+numerator and denominator are not measuring different machines — which makes the ratio honest and
+also makes it flattering, and both are worth saying. **This loop would not score 38% on an H100**:
+no `torch.compile`, no fused optimiser, no FlashAttention, no bf16, and every one of those is worth
+more on hardware whose peak assumes them.
+
+**What is costing me the distance to 40%** — 2.2 points — **measured rather than guessed**, and the
+measurements disagreed with the story I expected:
+
+1. **Width, not batch size.** Holding the micro-batch fixed and widening: 38.5% → 50.8% → 59.9% at
+   d_model 256 → 512 → 768. **21.4 points from one knob**, and the first step of it covers the 2.2
+   many times over. A 256×256 weight matrix cannot saturate a unit that only reaches its own peak at
+   2048×2048 and above — the bare-matmul roofline climbs 3.26 → 3.43 over the same range. The model
+   is too small for the machine and no loop engineering fixes that.
+2. **Micro-batch size helps far less than I assumed.** 8×256 → 64×256 is an 8× increase in work per
+   kernel for **5.6 points** (36.2% → 41.9%) — and note that 41.9% is the one configuration here
+   that clears 40% without touching the model.
+3. **Long sequences cost throughput even though attention is only 8.4% of the counted FLOPs.** At a
+   matched 8,192 tokens per micro-batch: **39.6%** at 32×256, **39.2%** at 16×512, **35.7%** at
+   8×1024. Longer T is *credited* with more FLOPs and still scores lower — that is the unfused
+   attention path materialising two B×H×T×T matrices of memory traffic no FLOP count sees. The
+   256-vs-512 gap is inside this run's noise; the 1024 penalty is not, and it is the one that
+   matters. FlashAttention exists for exactly this.
+4. **Accumulation is free throughput.** Baseline (accum 4) 37.8% vs the same micro-batch at accum 1,
+   36.2% — **1.5 points**. The optimiser is 4.1% of a step; running it once per four micro-batches
+   instead of once per one is the difference. Section 7 adopted accumulation to buy a bigger global
+   batch — it also amortises an update that is almost pure overhead.
+5. **Where the time goes:** forward 37.0%, backward 58.2%, optimiser 4.1%. Backward at roughly twice
+   forward is the textbook ratio, and the one part of this that looks exactly as it should.
+6. **The loader is 1.7% of a step** (3.9 ms against 236.3 ms) — prebuilt and timed separately rather
    than quietly counted as compute, because counting it as compute is a way to report a throughput
    number that is not true.
 
@@ -196,7 +237,7 @@ Order I would actually work in, because it is the order the measurements put the
 order I would have guessed: widen the model, raise the micro-batch until memory objects, keep
 accumulating, *then* reach for `torch.compile`, a fused optimiser and a fused attention kernel.
 
-And the part that does not change: at 30.3% and at 37% this model draws the same loss curve.
+And the part that does not change: at 37.8% and at 59.9% this model draws the same loss curve.
 
 ---
 
@@ -270,8 +311,14 @@ To rebuild the notebook from the same scripts and re-execute it (15–25 minutes
 models):
 
 ```bash
-python tools/build_notebook.py
+python tools/build_notebook.py --run
+python run_all.py e5              # then re-run E5 alone: see below
 ```
+
+The notebook calls the same `experiments/*.py` modules, so executing it **overwrites `results/`** —
+including `results/e5_mfu.*`, which it measures inside a kernel that has just trained six models.
+That measurement is contended and its denominator reads low. Re-run E5 on its own afterwards so the
+committed evidence is the uncontended one.
 
 ### What is where
 
@@ -295,12 +342,12 @@ From the session's own list of open questions, with what the measurements here s
 |---|---|
 | What precision? | **bf16 + fp32 master weights and moments, no loss scaling.** fp8 E4M3 on linears only after an A/B on the real architecture — 91.4% of updates vanish if it touches the weights. |
 | What clip threshold? | **≈2.0, from the distribution, not from habit.** 1.0 sits at the 82nd percentile of this run's norms and clips a fifth of ordinary steps. |
-| What MFU before stopping to fix the loop? | Agree it before the run — and agree the *denominator* with it, since that choice moved this same run between 30.3% and 45.8%. |
+| What MFU before stopping to fix the loop? | Agree it before the run — and agree the *denominator* with it, since that choice moves this same run between 34.7% and 39.7%, and mismeasuring it moved the reported number by eight points in one direction and three in the other. |
 | Activation checkpointing everywhere or in some layers? | Not measured here; needs the memory-vs-throughput sweep on the cluster actually rented. |
 
 Settled either way: gradients accumulate, the loss is normalised **by token** and never by
 micro-batch, clipping is on from step one, and the grad norm is logged from step one — measured
-before the cap, at 1% of a step.
+before the cap, at 1.3% of a step.
 
 ---
 
