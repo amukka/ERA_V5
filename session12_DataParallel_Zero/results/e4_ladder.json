@@ -1,0 +1,460 @@
+{
+  "machine": {
+    "chip": "Apple M4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.5",
+    "torch": "2.13.0",
+    "cores": 10,
+    "device": "cpu (virtual GPUs are threads; nothing here uses an accelerator)"
+  },
+  "worlds": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64
+  ],
+  "measured_matches_formula": true,
+  "measured": {
+    "data parallel|1": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 0.0,
+      "activation_bytes": 459776,
+      "peak_bytes": 15046656,
+      "stage": 0
+    },
+    "data parallel|2": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 1.0,
+      "activation_bytes": 459776,
+      "peak_bytes": 15046656,
+      "stage": 0
+    },
+    "data parallel|4": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 1.5,
+      "activation_bytes": 459776,
+      "peak_bytes": 15046656,
+      "stage": 0
+    },
+    "data parallel|8": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 1.75,
+      "activation_bytes": 459776,
+      "peak_bytes": 15046656,
+      "stage": 0
+    },
+    "data parallel|16": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 1.875,
+      "activation_bytes": 459776,
+      "peak_bytes": 15046656,
+      "stage": 0
+    },
+    "data parallel|32": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 1.9375,
+      "activation_bytes": 459776,
+      "peak_bytes": 15046656,
+      "stage": 0
+    },
+    "data parallel|64": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 1.96875,
+      "activation_bytes": 459776,
+      "peak_bytes": 15046656,
+      "stage": 0
+    },
+    "ZeRO-1|1": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 0.0,
+      "activation_bytes": 459776,
+      "peak_bytes": 15046656,
+      "stage": 1
+    },
+    "ZeRO-1|2": {
+      "bytes_per_weight": 10.0,
+      "formula": 10.0,
+      "wire_in_P": 1.0,
+      "activation_bytes": 459776,
+      "peak_bytes": 9822720,
+      "stage": 1
+    },
+    "ZeRO-1|4": {
+      "bytes_per_weight": 7.0,
+      "formula": 7.0,
+      "wire_in_P": 1.5,
+      "activation_bytes": 459776,
+      "peak_bytes": 7210752,
+      "stage": 1
+    },
+    "ZeRO-1|8": {
+      "bytes_per_weight": 5.5,
+      "formula": 5.5,
+      "wire_in_P": 1.75,
+      "activation_bytes": 459776,
+      "peak_bytes": 5904768,
+      "stage": 1
+    },
+    "ZeRO-1|16": {
+      "bytes_per_weight": 4.75,
+      "formula": 4.75,
+      "wire_in_P": 1.875,
+      "activation_bytes": 459776,
+      "peak_bytes": 5251776,
+      "stage": 1
+    },
+    "ZeRO-1|32": {
+      "bytes_per_weight": 4.375,
+      "formula": 4.375,
+      "wire_in_P": 1.9375,
+      "activation_bytes": 459776,
+      "peak_bytes": 4925280,
+      "stage": 1
+    },
+    "ZeRO-1|64": {
+      "bytes_per_weight": 4.1875,
+      "formula": 4.1875,
+      "wire_in_P": 1.96875,
+      "activation_bytes": 459776,
+      "peak_bytes": 4762032,
+      "stage": 1
+    },
+    "ZeRO-2|1": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 0.0,
+      "activation_bytes": 459776,
+      "peak_bytes": 15440896,
+      "stage": 2
+    },
+    "ZeRO-2|2": {
+      "bytes_per_weight": 9.0,
+      "formula": 9.0,
+      "wire_in_P": 1.0,
+      "activation_bytes": 459776,
+      "peak_bytes": 9346304,
+      "stage": 2
+    },
+    "ZeRO-2|4": {
+      "bytes_per_weight": 5.5,
+      "formula": 5.5,
+      "wire_in_P": 1.5,
+      "activation_bytes": 459776,
+      "peak_bytes": 6299008,
+      "stage": 2
+    },
+    "ZeRO-2|8": {
+      "bytes_per_weight": 3.75,
+      "formula": 3.75,
+      "wire_in_P": 1.75,
+      "activation_bytes": 459776,
+      "peak_bytes": 4775360,
+      "stage": 2
+    },
+    "ZeRO-2|16": {
+      "bytes_per_weight": 2.875,
+      "formula": 2.875,
+      "wire_in_P": 1.875,
+      "activation_bytes": 459776,
+      "peak_bytes": 4013536,
+      "stage": 2
+    },
+    "ZeRO-2|32": {
+      "bytes_per_weight": 2.4375,
+      "formula": 2.4375,
+      "wire_in_P": 1.9375,
+      "activation_bytes": 459776,
+      "peak_bytes": 3632624,
+      "stage": 2
+    },
+    "ZeRO-2|64": {
+      "bytes_per_weight": 2.21875,
+      "formula": 2.21875,
+      "wire_in_P": 1.96875,
+      "activation_bytes": 459776,
+      "peak_bytes": 3442168,
+      "stage": 2
+    },
+    "ZeRO-3|1": {
+      "bytes_per_weight": 16.0,
+      "formula": 16.0,
+      "wire_in_P": 0.0,
+      "activation_bytes": 459776,
+      "peak_bytes": 15440896,
+      "stage": 3
+    },
+    "ZeRO-3|2": {
+      "bytes_per_weight": 8.0,
+      "formula": 8.0,
+      "wire_in_P": 1.5,
+      "activation_bytes": 459776,
+      "peak_bytes": 8475648,
+      "stage": 3
+    },
+    "ZeRO-3|4": {
+      "bytes_per_weight": 4.0,
+      "formula": 4.0,
+      "wire_in_P": 2.25,
+      "activation_bytes": 459776,
+      "peak_bytes": 4993024,
+      "stage": 3
+    },
+    "ZeRO-3|8": {
+      "bytes_per_weight": 2.0,
+      "formula": 2.0,
+      "wire_in_P": 2.625,
+      "activation_bytes": 459776,
+      "peak_bytes": 3251712,
+      "stage": 3
+    },
+    "ZeRO-3|16": {
+      "bytes_per_weight": 1.0,
+      "formula": 1.0,
+      "wire_in_P": 2.8125,
+      "activation_bytes": 459776,
+      "peak_bytes": 2381056,
+      "stage": 3
+    },
+    "ZeRO-3|32": {
+      "bytes_per_weight": 0.5,
+      "formula": 0.5,
+      "wire_in_P": 2.90625,
+      "activation_bytes": 459776,
+      "peak_bytes": 1945728,
+      "stage": 3
+    },
+    "ZeRO-3|64": {
+      "bytes_per_weight": 0.25,
+      "formula": 0.25,
+      "wire_in_P": 2.953125,
+      "activation_bytes": 459776,
+      "peak_bytes": 1728064,
+      "stage": 3
+    }
+  },
+  "ladder": [
+    {
+      "engine": "data parallel",
+      "by_world": {
+        "1": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        },
+        "2": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        },
+        "4": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        },
+        "8": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        },
+        "16": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        },
+        "32": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        },
+        "64": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        }
+      },
+      "fits_from": null
+    },
+    {
+      "engine": "ZeRO-1",
+      "by_world": {
+        "1": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        },
+        "2": {
+          "bytes_per_weight": 10.0,
+          "gib": 279.39677238464355,
+          "fits": false,
+          "largest_model_that_fits": 8000000000.0
+        },
+        "4": {
+          "bytes_per_weight": 7.0,
+          "gib": 195.5777406692505,
+          "fits": false,
+          "largest_model_that_fits": 11428571428.571428
+        },
+        "8": {
+          "bytes_per_weight": 5.5,
+          "gib": 153.66822481155396,
+          "fits": false,
+          "largest_model_that_fits": 14545454545.454546
+        },
+        "16": {
+          "bytes_per_weight": 4.75,
+          "gib": 132.7134668827057,
+          "fits": false,
+          "largest_model_that_fits": 16842105263.157894
+        },
+        "32": {
+          "bytes_per_weight": 4.375,
+          "gib": 122.23608791828156,
+          "fits": false,
+          "largest_model_that_fits": 18285714285.714287
+        },
+        "64": {
+          "bytes_per_weight": 4.1875,
+          "gib": 116.99739843606949,
+          "fits": false,
+          "largest_model_that_fits": 19104477611.9403
+        }
+      },
+      "fits_from": null
+    },
+    {
+      "engine": "ZeRO-2",
+      "by_world": {
+        "1": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        },
+        "2": {
+          "bytes_per_weight": 9.0,
+          "gib": 251.4570951461792,
+          "fits": false,
+          "largest_model_that_fits": 8888888888.88889
+        },
+        "4": {
+          "bytes_per_weight": 5.5,
+          "gib": 153.66822481155396,
+          "fits": false,
+          "largest_model_that_fits": 14545454545.454546
+        },
+        "8": {
+          "bytes_per_weight": 3.75,
+          "gib": 104.77378964424133,
+          "fits": false,
+          "largest_model_that_fits": 21333333333.333332
+        },
+        "16": {
+          "bytes_per_weight": 2.875,
+          "gib": 80.32657206058502,
+          "fits": false,
+          "largest_model_that_fits": 27826086956.52174
+        },
+        "32": {
+          "bytes_per_weight": 2.4375,
+          "gib": 68.10296326875687,
+          "fits": true,
+          "largest_model_that_fits": 32820512820.51282
+        },
+        "64": {
+          "bytes_per_weight": 2.21875,
+          "gib": 61.99115887284279,
+          "fits": true,
+          "largest_model_that_fits": 36056338028.169014
+        }
+      },
+      "fits_from": 32
+    },
+    {
+      "engine": "ZeRO-3",
+      "by_world": {
+        "1": {
+          "bytes_per_weight": 16.0,
+          "gib": 447.0348358154297,
+          "fits": false,
+          "largest_model_that_fits": 5000000000.0
+        },
+        "2": {
+          "bytes_per_weight": 8.0,
+          "gib": 223.51741790771484,
+          "fits": false,
+          "largest_model_that_fits": 10000000000.0
+        },
+        "4": {
+          "bytes_per_weight": 4.0,
+          "gib": 111.75870895385742,
+          "fits": false,
+          "largest_model_that_fits": 20000000000.0
+        },
+        "8": {
+          "bytes_per_weight": 2.0,
+          "gib": 55.87935447692871,
+          "fits": true,
+          "largest_model_that_fits": 40000000000.0
+        },
+        "16": {
+          "bytes_per_weight": 1.0,
+          "gib": 27.939677238464355,
+          "fits": true,
+          "largest_model_that_fits": 80000000000.0
+        },
+        "32": {
+          "bytes_per_weight": 0.5,
+          "gib": 13.969838619232178,
+          "fits": true,
+          "largest_model_that_fits": 160000000000.0
+        },
+        "64": {
+          "bytes_per_weight": 0.25,
+          "gib": 6.984919309616089,
+          "fits": true,
+          "largest_model_that_fits": 320000000000.0
+        }
+      },
+      "fits_from": 8
+    }
+  ],
+  "floors": {
+    "data parallel": 16.0,
+    "ZeRO-1": 4.0,
+    "ZeRO-2": 2.0,
+    "ZeRO-3": 0.0
+  },
+  "boundary": {
+    "bytes_per_weight": 4.0,
+    "card_gib": 74.50580596923828,
+    "params_that_fill_a_card": 20000000000.0,
+    "v5_params": 30000000000,
+    "v5_needs_gib": 111.75870895385742
+  },
+  "activation_bytes_per_rank": 459776,
+  "config": {
+    "n_layer": 4,
+    "d_model": 128,
+    "max_seq": 128,
+    "micro_batch": 1
+  }
+}

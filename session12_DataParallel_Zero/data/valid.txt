@@ -1,0 +1,347 @@
+# repo: openai/baselines
+# path: baselines/a2c/a2c.py
+def learn(
+    network,
+    env,
+    seed=None,
+    nsteps=5,
+    total_timesteps=int(80e6),
+    vf_coef=0.5,
+    ent_coef=0.01,
+    max_grad_norm=0.5,
+    lr=7e-4,
+    lrschedule='linear',
+    epsilon=1e-5,
+    alpha=0.99,
+    gamma=0.99,
+    log_interval=100,
+    load_path=None,
+    **network_kwargs):
+
+    '''
+    Main entrypoint for A2C algorithm. Train a policy with given network architecture on a given environment using a2c algorithm.
+
+    Parameters:
+    -----------
+
+    network:            policy network architecture. Either string (mlp, lstm, lnlstm, cnn_lstm, cnn, cnn_small, conv_only - see baselines.common/models.py for full list)
+                        specifying the standard network architecture, or a function that takes tensorflow tensor as input and returns
+                        tuple (output_tensor, extra_feed) where output tensor is the last network layer output, extra_feed is None for feed-forward
+                        neural nets, and extra_feed is a dictionary describing how to feed state into the network for recurrent neural nets.
+                        See baselines.common/policies.py/lstm for more details on using recurrent nets in policies
+
+
+    env:                RL environment. Should implement interface similar to VecEnv (baselines.common/vec_env) or be wrapped with DummyVecEnv (baselines.common/vec_env/dummy_vec_env.py)
+
+
+    seed:               seed to make random number sequence in the alorightm reproducible. By default is None which means seed from system noise generator (not reproducible)
+
+    nsteps:             int, number of steps of the vectorized environment per update (i.e. batch size is nsteps * nenv where
+                        nenv is number of environment copies simulated in parallel)
+
+    total_timesteps:    int, total number of timesteps to train on (default: 80M)
+
+    vf_coef:            float, coefficient in front of value function loss in the total loss function (default: 0.5)
+
+    ent_coef:           float, coeffictiant in front of the policy entropy in the total loss function (default: 0.01)
+
+    max_gradient_norm:  float, gradient is clipped to have global L2 norm no more than this value (default: 0.5)
+
+    lr:                 float, learning rate for RMSProp (current implementation has RMSProp hardcoded in) (default: 7e-4)
+
+    lrschedule:         schedule of learning rate. Can be 'linear', 'constant', or a function [0..1] -> [0..1] that takes fraction of the training progress as input and
+                        returns fraction of the learning rate (specified as lr) as output
+
+    epsilon:            float, RMSProp epsilon (stabilizes square root computation in denominator of RMSProp update) (default: 1e-5)
+
+    alpha:              float, RMSProp decay parameter (default: 0.99)
+
+    gamma:              float, reward discounting parameter (default: 0.99)
+
+    log_interval:       int, specifies how frequently the logs are printed out (default: 100)
+
+    **network_kwargs:   keyword arguments to the policy / network builder. See baselines.common/policies.py/build_policy and arguments to a particular type of network
+                        For instance, 'mlp' network architecture has arguments num_hidden and num_layers.
+
+    '''
+
+
+
+    set_global_seeds(seed)
+
+    # Get the nb of env
+    nenvs = env.num_envs
+    policy = build_policy(env, network, **network_kwargs)
+
+    # Instantiate the model object (that creates step_model and train_model)
+    model = Model(policy=policy, env=env, nsteps=nsteps, ent_coef=ent_coef, vf_coef=vf_coef,
+        max_grad_norm=max_grad_norm, lr=lr, alpha=alpha, epsilon=epsilon, total_timesteps=total_timesteps, lrschedule=lrschedule)
+    if load_path is not None:
+        model.load(load_path)
+
+    # Instantiate the runner object
+    runner = Runner(env, model, nsteps=nsteps, gamma=gamma)
+    epinfobuf = deque(maxlen=100)
+
+    # Calculate the batch_size
+    nbatch = nenvs*nsteps
+
+    # Start total timer
+    tstart = time.time()
+
+    for update in range(1, total_timesteps//nbatch+1):
+        # Get mini batch of experiences
+        obs, states, rewards, masks, actions, values, epinfos = runner.run()
+        epinfobuf.extend(epinfos)
+
+        policy_loss, value_loss, policy_entropy = model.train(obs, states, rewards, masks, actions, values)
+        nseconds = time.time()-tstart
+
+        # Calculate the fps (frame per second)
+        fps = int((update*nbatch)/nseconds)
+        if update % log_interval == 0 or update == 1:
+            # Calculates if value function is a good predicator of the returns (ev > 1)
+            # or if it's just worse than predicting nothing (ev =< 0)
+            ev = explained_variance(values, rewards)
+            logger.record_tabular("nupdates", update)
+            logger.record_tabular("total_timesteps", update*nbatch)
+            logger.record_tabular("fps", fps)
+            logger.record_tabular("policy_entropy", float(policy_entropy))
+            logger.record_tabular("value_loss", float(value_loss))
+            logger.record_tabular("explained_variance", float(ev))
+            logger.record_tabular("eprewmean", safemean([epinfo['r'] for epinfo in epinfobuf]))
+            logger.record_tabular("eplenmean", safemean([epinfo['l'] for epinfo in epinfobuf]))
+            logger.dump_tabular()
+    return model
+
+A: Hi , good morning , Miss ? what can I help you with ?
+B: Good morning I'd like to mail this box of books to Taiwan .
+A: OK , please put it on this scale.Airmail or by sea ?
+B: How long does it take to reach Taiwan by sea ?
+A: Usually about two month .
+B: That's too long.How long does it take to reach Taiwan by airmail ?
+A: About ten days .
+B: Then how much is that by airmail ?
+A: Let me see.It ' s 57 dollars , 20 cents , including tax .
+B: That's a little bit expensive .
+A: Although it's expensive to send it by airmail , it's quicker and safer than by sea .
+B: I guess I have to send it by airmail .
+A: Do you want to ensure the contents , Miss ?
+B: Yes , please .
+A: Please fill out this form , also please write the value of the items in this space .
+B: OK .
+
+= Trout Creek Mountains = 
+ The Trout Creek Mountains are a remote , semi @-@ arid Great Basin mountain range mostly in southeastern Oregon and partially in northern Nevada in the United States . The range 's highest point is Orevada View Benchmark , 8 @,@ 506 feet ( 2 @,@ 593 m ) above sea level , in Nevada . Disaster Peak , elevation 7 @,@ 781 feet ( 2 @,@ 372 m ) , is another prominent summit in the Nevada portion of the mountains . 
+ The mountains are characteristic of the Great Basin 's topography of mostly parallel mountain ranges alternating with flat valleys . Oriented generally north to south , the Trout Creek Mountains consist primarily of fault blocks of basalt , which came from an ancient volcano and other vents , on top of older metamorphic rocks . The southern end of the range , however , features many granitic outcrops . As a whole , the faulted terrain is dominated by rolling hills and ridges cut by escarpments and canyons . 
+ Most of the range is public land administered by the federal Bureau of Land Management . There is very little human development in the remote region — cattle grazing and ranching are the primary human uses — but former mines at the McDermitt Caldera produced some of the largest amounts of mercury in North America in the 20th century . Public lands in the mountains are open to recreation but are rarely visited . Vegetation includes large swaths of big sagebrush in addition to desert grasses and cottonwood and alder stands . Sage grouse and mountain chickadee are two bird species native to the range , and common mammals include pronghorn and jackrabbits . 
+ Despite the area 's dry climate , a few year @-@ round streams provide habitat for the rare Lahontan cutthroat trout . Fish populations in the Trout Creek Mountains declined throughout much of the 20th century . In the 1980s , the effects of grazing allotments on riparian zones and the fish led to land @-@ use conflict . The Trout Creek Mountain Working Group was formed in 1988 to help resolve disagreements among livestock owners , environmentalists , government agencies , and other interested parties . The stakeholders met and agreed on changes to land @-@ use practices , and since the early 1990s , riparian zones have begun to recover . 
+ = = Geography = = 
+ The Trout Creek Mountains are in a very remote area of southeastern Oregon and northern Nevada , in Harney and Humboldt counties . The nearest human settlements are the Whitehorse Ranch , about 20 miles ( 32 km ) directly north from the middle of the mountains ; Fields , Oregon , about 23 miles ( 37 km ) to the northwest ; Denio , Nevada , about 15 miles ( 24 km ) to the west ; and McDermitt , Nevada – Oregon , about 30 miles ( 48 km ) to the east . The mountains are about 150 miles ( 240 km ) directly southwest of Boise , Idaho , and about 190 miles ( 310 km ) northeast of Reno , Nevada . 
+ The range and surrounding non @-@ mountainous areas cover an area of 811 square miles ( 2 @,@ 100 km2 ) . The mountains run 51 miles ( 82 km ) north to south and 36 miles ( 58 km ) east to west . More of the range is in Oregon ( 78 % ) than in Nevada ( 22 % ) . The highest point in the range is Orevada View Benchmark , which is 8 @,@ 506 feet ( 2 @,@ 593 m ) above sea level and is located in Nevada about one mile south of the Oregon border . About two miles southeast of Orevada View is Disaster Peak , " a large , symmetrical butte that is visible throughout the region . " At 7 @,@ 781 feet ( 2 @,@ 372 m ) , Disaster Peak anchors the southern end of the mountains in a sub @-@ range called The Granites . 
+ The Oregon Canyon Mountains border the Trout Creek Mountains on the east along the Harney – Malheur county line ( according to the United States Geological Survey 's definitions ) , while the Pueblo Mountains are the next range west of the Trout Creek Mountains . The Bilk Creek Mountains in both Oregon and Nevada border the Trout Creek Mountains on the southwest ; the two ranges are separated by Log Cabin Creek and South Fork Cottonwood Creek . South of the Trout Creek Mountains is the Kings River Valley , which separates the Bilk Creek Mountains on the west from the Montana Mountains on the east . 
+ The terrain in the Trout Creek Mountains varies from broad , flat basins and rolling ridges to high rock escarpments cut by deep canyons . The canyons have steep walls with loose talus slopes at the bottoms . There are meadows around springs in the mountains , although most streams in the range do not flow year @-@ round . Major streams that flow off the north slopes of the mountains include ( from west to east ) Cottonwood Creek , Trout Creek , Willow Creek , and Whitehorse Creek . These streams all flow into endorheic basins in Harney County , Oregon . Trout Creek and Whitehorse Creek are the largest of the four . The Kings River and McDermitt Creek each drain an area on the south slopes of the Trout Creek Mountains . The Kings River begins in The Granites and flows south into Nevada , where it meets the Quinn River , which evaporates in the Black Rock Desert . McDermitt Creek begins in Oregon a few miles north of The Granites and flows generally east , crossing the Oregon – Nevada border five times before disappearing into the floor of the Quinn River Valley south of McDermitt . 
+ = = Geology = = 
+ The mountains lie within the Basin and Range Province or Great Basin of the Western United States , which is characterized by a series of parallel fault blocks that form long north – south mountain ranges separated by wide , high @-@ desert valleys . The Trout Creek Mountains are uplifted and tilted blocks with steep escarpments along the southern and eastern sides of the range . The southern area of the range , known as The Granites , has numerous outcroppings of Cretaceous age granite . These granite outcrops are commonly found in the eroded valleys below the volcanic ridgelines . 
+ The Trout Creek Mountains are composed mostly of basalt from a shield volcano that once stood where Steens Mountain is today . Crustal thinning and the Yellowstone hotspot , which was then beneath southeastern Oregon , induced eruptions from Steens and nearby vents about 17 million years ago , in the Miocene . The vents produced a series of lava flows that spread across the land now known as the Trout Creek Mountains . Eruptions from the Steens volcano lasted for about one million years , and at least 70 separate lava flows occurred . Under the resulting basalt rock lie much older metamorphic rocks that may be related to some of the Triassic age formations of the Blue Mountains in northeastern Oregon . Within these metamorphic rocks are diorite and granodiorite intrusive bodies which were presumably intruded during the Cretaceous Period . 
+ The broad McDermitt Caldera is a prominent geologic feature in the Trout Creek Mountains . The oval @-@ shaped caldera is a collapsed lava dome that straddles the Oregon – Nevada border on the eastern side of the range and south of the Oregon Canyon Mountains . It is about 28 miles ( 45 km ) long and 22 miles ( 35 km ) wide . The lava dome was created by volcanic eruptions in the early Miocene . A total of five large ash flows were produced along with a large rhyolite dome structure . The caldera formed when the dome collapsed about 16 million years ago . The caldera contains significant ore deposits , and mercury and uranium have been mined at eight or more sites in and around the caldera . Other areas in the caldera were mined for ores of antimony , cesium , and lithium . 
+ = = Climate = = 
+ The Trout Creek Mountains are semi @-@ arid because they are in the eastern rain shadow of mountain ranges to the west . When moist air from the Pacific Ocean moves eastward over the Oregon and California coastal ranges and the Cascade Range , most precipitation falls in those mountains before reaching the Trout Creek Mountains . As a result , the average annual precipitation in the Trout Creek Mountains is only 8 to 26 inches ( 200 to 660 mm ) per year , with most areas receiving between 8 and 12 inches ( 200 and 300 mm ) annually . Much of the annual precipitation occurs between the beginning of March and the end of June . Most of the rest falls as snow during the fall and winter months . Snowpack at elevations below 6 @,@ 000 feet ( 1 @,@ 800 m ) usually melts by April ; however , at the higher elevations , snow can remain until mid @-@ June . Local flooding often occurs in the spring as the snowpack melts . 
+ The prevailing winds are from the west @-@ southwest , and they are normally strongest in March and April . Brief , intense thunderstorms are common between April and October . Thunderstorms in the summer months tend to be more isolated and often produce dry lightning strikes . 
+ = = Ecology = = 
+ = = = Flora = = = 
+ Vegetation in the Trout Creek Mountains is dominated by big sagebrush and desert grasses . Other common shrubs include bitterbrush , snowberry , and Ceanothus . There are also patches of mountain mahogany in some areas . Common grass species include Idaho fescue , bluebunch wheatgrass , cheatgrass , western needlegrass , Sandberg 's bluegrass , Thurber 's needlegrass , and bottlebrush squirreltail , as well as basin wildrye in some well @-@ drained areas . 
+ Less than one percent of the range consists of meadow wetlands and riparian greenways ( vegetation along stream banks ) . However , these areas are vital to the local ecosystem . The meadows surround springs , which are mostly on gently sloping uplands or in stream bottoms , and range in size from about 1 to 5 acres ( 0 @.@ 40 to 2 @.@ 02 ha ) . Narrow riparian greenways follow the year @-@ round streams . Many greenway areas have quaking aspen and willow groves . Cottonwood and alder groves can be found at lower elevations where terrain is flatter and stream channels are wider . Sedges and rushes are also native to these stream bottoms . Years of heavy livestock grazing in parts of the range resulted in the loss of some grass species , riparian vegetation , and young aspen and willow trees . Restoration of riparian areas began in the early 1970s , and plans to reduce grazing were implemented in the 1980s and early 1990s . However , large wildfires in southeastern Oregon during the summer of 2012 burned much of the range 's vegetation , damaging riparian ecosystems and killing hundreds of grazing cattle . 
+ = = = Fauna = = = 
+ Animals in the Trout Creek Mountains are adapted to the environment of the High Desert . Pronghorn are common in the open , sagebrush @-@ covered basins , while mule deer live in the cottonwood and willow groves . There are also bighorn sheep , cougars , and bobcats in the high country . Jackrabbits and coyotes are prevalent throughout the range . Mustangs sometimes pass through the mountains as they roam the Great Basin . Some other mammals include the northern pocket gopher , mountain cottontail , and Belding 's ground squirrel . North American beavers live in and along streams , as do Pacific tree frogs , western spadefoot toads , and garter snakes . Native bird species include the sage grouse , mountain chickadee , gray @-@ headed junco , black @-@ throated gray warbler , Virginia 's warbler , MacGillivray 's warbler , pine siskin , red crossbill , bushtit , hermit thrush , northern goshawk , and species of raven and eagle . 
+ Several streams in the Trout Creek Mountains are home to trout , including the rare Lahontan cutthroat trout subspecies . These include Willow Creek , Whitehorse Creek , Little Whitehorse Creek , Doolittle Creek , Fifteen Mile Creek , Indian Creek , Sage Canyon Creek , Line Canyon Creek , and some tributaries of McDermitt Creek . Lahontan cutthroat trout live in small , isolated populations that are often confined to individual streams , many of them in the Trout Creek Mountains . These populations have significant genetic differences due to their history of isolation . For most of the 20th century , the trout 's numbers declined considerably . It was listed under federal law as an endangered species in 1970 and was reclassified as threatened in 1975 . Reasons for the fish 's decline included habitat degradation from cattle grazing , drought , overfishing , competition with other fish , and hybridization with introduced rainbow trout , which decreased the number of genetically pure Lahontan cutthroat trout . However , reductions in cattle grazing in riparian zones since the 1980s allowed fish habitat and populations to start to recover . 
+ = = Human uses = = 
+ The Bureau of Land Management ( BLM ) administers most land in the Trout Creek Mountains , but there are also some private lands and some roads in the area . The private lands are mainly used for ranching along mountain streams , while the BLM lands include large grazing allotments for local ranchers ' cattle . At least 100 mining claims in the mountains have been recorded since 1892 , some of which were staked for gold exploration . Commercial mining has occurred in some areas , mostly near the McDermitt Caldera , where uranium and large amounts of mercury have been extracted . Mines in what was called the Opalite Mining District produced 270 @,@ 000 flasks of mercury — " the richest supply of mercury in the western hemisphere " — from cinnabar extracted from the caldera in the 20th century . The two leading mercury @-@ producing mines in North America were the Cordero and McDermitt mines on the edge of the caldera in Nevada . Together , they operated from 1933 to 1989 . The McDermitt Mine , the last mercury mine in the United States , closed three years later , in 1992 . However , mineral exploration has continued at the Cordero Mine in the 21st century , and waste containing mercury and arsenic was returned there from the community of McDermitt as part of a U.S. Environmental Protection Agency cleanup project . 
+ The entire mountain range is very remote ; as a result , there are few visitors , and the range offers a wilderness @-@ like experience . Camping , hunting , fishing , and hiking are the most popular activities . The only developed recreation site nearby is at Willow Creek Hot Springs , just south of the Whitehorse Ranch , where nearby there are miles of trails designated for four @-@ wheel off @-@ road vehicles . Hunters come to the mountains seeking trophy mule deer , pronghorn , chukars , and rabbits . Fishing on some streams is sometimes permitted on a catch @-@ and @-@ release basis . The mountains are also suitable for hiking cross @-@ country or on game trails in natural corridors along canyons and creek bottoms . There are more than 100 archaeological sites in the range that document use by Northern Paiute people as long as 7 @,@ 000 years ago . 
+ Cattle grazing in the Trout Creek Mountains began in the late 19th century , and the BLM currently oversees grazing allotments in the area . Cattle can be found grazing in some areas during the spring and summer months . The effects of grazing on the local environment were the subject of controversy in the 1980s . 
+ = = Land @-@ management compromise = = 
+ By the 1970s and 1980s , a century of intense cattle grazing had reduced much of the riparian vegetation along stream banks in the Trout Creek Mountains and elsewhere in the Great Basin . As a result , stream banks were eroding and upland vegetation was encroaching into riparian zones . Aspen populations declined as grazing cattle eliminated young trees , decreasing shade over streams and raising water temperatures . These conditions put the rare Lahontan cutthroat trout population at risk . Since the Lahontan was officially designated as a threatened species , environmental groups began advocating the cancellation of grazing permits in the Trout Creek Mountains . 
+ Beginning in the early 1970s , the Bureau of Land Management identified damaged riparian zones and began projects to restore natural habitat in those areas . Approximately 20 @,@ 000 willow trees were planted along streams , small dams were put together to create more pools in the streams , and fencing was added to protect riparian zones from grazing . Next , the agency sought to reform land @-@ use plans to change grazing practices , which became a complex and controversial project . 
+ As environmentalists pressed the BLM to close much of the Trout Creek Mountains to grazing , frustrated ranchers joined the Sagebrush Rebellion seeking to protect their grazing allotments . Initially , it appeared that the issue of grazing in the range would produce prolonged litigation with appeals potentially lasting decades . However , in 1988 , interest groups representing all sides of the issue joined to form the Trout Creek Mountain Working Group . The group 's goal was to find a solution acceptable to everyone — a plan that would protect both the land 's ecological health and ranchers ' economic needs . 
+ Initial members of the Trout Creek Mountain Working Group included : 
+ Over the next several years , the group continued to meet and discuss options for restoring the land while meeting the economic needs of local ranchers . Meetings were all open to the public . 
+ The group eventually endorsed a grazing management plan that provided for both the ecological health of sensitive riparian areas and the economic well @-@ being of ranchers . In 1989 , the Whitehorse Ranch agreed to rest two grazing allotments totaling 50 @,@ 000 acres ( 20 @,@ 000 ha ) to restore critical stream greenways and mountain pastures . The ranch 's allotment on Fifteen Mile Creek was rested for three years , and its Willow Creek pasture received a five @-@ year rest before grazing was resumed . In addition , the grazing season in mountain pastures was reduced from four months to two , and the total number of cattle released in the allotment areas was reduced from 3 @,@ 800 to 2 @,@ 200 . Finally , sensitive areas were fenced to protect them from cattle , and additional water sources were constructed away from streams . Other ranches also agreed to rest specific pastures including the Trout Creek , Cottonwood Creek , and Whitehorse Butte allotments . 
+ In 1991 , the Bureau of Land Management approved a new grazing allotment management plan . It was based on the agreements made by the Trout Creek Mountain Working Group , and it took effect in 1992 . Since then , vegetation in riparian areas of the Trout Creek Mountains has recovered , and studies by the United States Fish and Wildlife Service have found that the Lahontan cutthroat trout population , still listed as threatened , is also recovering .
+
+# repo: openai/baselines
+# path: baselines/common/tf_util.py
+def _check_shape(placeholder_shape, data_shape):
+    ''' check if two shapes are compatible (i.e. differ only by dimensions of size 1, or by the batch dimension)'''
+
+    return True
+    squeezed_placeholder_shape = _squeeze_shape(placeholder_shape)
+    squeezed_data_shape = _squeeze_shape(data_shape)
+
+    for i, s_data in enumerate(squeezed_data_shape):
+        s_placeholder = squeezed_placeholder_shape[i]
+        if s_placeholder != -1 and s_data != s_placeholder:
+            return False
+
+    return True
+
+A: Taxi !
+B: Where will you go , sir ?
+A: Friendship Hotel .
+B: OK , it's not far from here .
+A: I have something important to do , can you fast the speed ?
+B: Sure , I'll try my best . Here we are .
+A: How much should I pay you ?
+B: The reading on the meter is 15 yuan .
+A: Here's 20 yuan , keep the change .
+B: Thank you very much .
+
+= M @-@ 82 ( Michigan highway ) = 
+ M @-@ 82 is a state trunkline in the Lower Peninsula in the US state of Michigan that travels between Fremont and Howard City . The section between Newaygo and Howard City travels through Fremont and along the southern edge of Manistee National Forest . The current version of M @-@ 82 is actually the second in the state ; the first usage appeared in the Upper Peninsula by 1919 . The Lower Peninsula routing has been in use since the 1920s . Various extensions and truncations have shifted the terminus as far west as New Era or Hesperia in the past . The current route was finalized in the late 1970s 
+ = = Route description = = 
+ M @-@ 82 begins at a junction with M @-@ 120 and B @-@ 96 west of Fremont . This junction is at a tripoint of county lines . M @-@ 120 forms the north – south Newaygo – Oceana and Newaygo – Muskegon county lines . B @-@ 96 , which forms the east – west Oceana – Muskegon county line runs due west of the intersection . M @-@ 82 exits the intersection to the east . The highway runs along 48th Street through rural farms into the community of Fremont . The road , now called Main Street , passes through the downtown area and M @-@ 82 turns south along Stewart Avenue out of town . The highway rounds a curve and transitions to 72nd Street running eastward through more farm land . As the trunkline approaches Newaygo , the terrain becomes more wooded near the Muskegon River . M @-@ 82 follows Fremont Street east to a junction with M @-@ 37 . The two highways merge and run concurrently over the river and into downtown on State Street . South of downtown , M @-@ 82 turns east again , independent of M @-@ 37 , and runs along 82nd Street on the southern edge of the Manistee National Forest . The east end of M @-@ 82 is at exit 118 on US 131 / M @-@ 46 west of Howard City . 
+ The Michigan Department of Transportation ( MDOT ) , as a part of its maintenance responsibilities , tracks the volume of traffic using its roadways . These levels are expressed in terms of a metric called average annual daily traffic ( AADT ) , which is a calculation of the traffic along a segment of road for any average day of the year . In 2009 , the department 's measurements indicated that a segment of M @-@ 82 west of Fremont had the peak volume for the highway at 16 @,@ 532 vehicles daily . The traffic nadir was 4 @,@ 018 vehicles east of Newaygo . In addition , MDOT has not had any section of the highway listed on the National Highway System , a network of roads important to the country 's economy , defense , and mobility . 
+ = = History = = 
+ = = = Previous designation = = = 
+ The first usage of M @-@ 82 was in the Upper Peninsula by July 1 , 1919 . The trunkline started at M @-@ 25 and ran north of Newberry to the vicinity of Eight Mile Corner . It was later replaced by M @-@ 48 in 1926 . 
+ = = = Current designation = = = 
+ The current M @-@ 82 dates back to 1926 . It ran from US 31 in Hart to the northern junction of US 131 and M @-@ 46 in Howard City . The highway was routed through Ferry , Hesperia and Fremont , replacing M @-@ 41 . In late 1936 , M @-@ 46 was extended along the section between Newaygo and Howard City , forming a M @-@ 46 / M @-@ 82 concurrency to fill a gap in the M @-@ 46 routing . This concurrent section became just M @-@ 46 in 1938 , shortening M @-@ 82 back to the northern M @-@ 37 junction in Newaygo . The highway was moved to a new alignment west of Ferry in late 1947 or early 1948 . Instead of heading northwesterly to Hart , it was continued west to end in Shelby . 
+ Two realignments in 1963 and 1964 rerouted the western end of the highway again . This time it was realigned to run from Hesperia to New Era , bypassing Ferry . A larger change around 1969 reconfigured the highway designations in Oceana County . M @-@ 20 replaced M @-@ 82 west of Hesperia , to end at New Era instead of Muskegon . The new M @-@ 120 designation replaced M @-@ 20 south of Hesperia . M @-@ 82 now ran from Hesperia to Newaygo only . The length of the highway was increased in 1973 when the eastern end was moved back to Howard City . M @-@ 46 was rerouted to follow the US 131 freeway south of Howard City to Cedar Springs , and replaced M @-@ 57 between Cedar Springs and Casnovia . This freed up the Newaygo to Howard City highway for a return to the M @-@ 82 designation . The last change came in 1978 when the concurrency with M @-@ 120 was eliminated in favor of M @-@ 120 . The M @-@ 82 designation was truncated at this time to the junction west of Fremont , resulting in the current highway routing . 
+ = = Major intersections = =
+
+# repo: openai/baselines
+# path: baselines/common/segment_tree.py
+def find_prefixsum_idx(self, prefixsum):
+        """Find the highest index `i` in the array such that
+            sum(arr[0] + arr[1] + ... + arr[i - i]) <= prefixsum
+
+        if array values are probabilities, this function
+        allows to sample indexes according to the discrete
+        probability efficiently.
+
+        Parameters
+        ----------
+        perfixsum: float
+            upperbound on the sum of array prefix
+
+        Returns
+        -------
+        idx: int
+            highest index satisfying the prefixsum constraint
+        """
+        assert 0 <= prefixsum <= self.sum() + 1e-5
+        idx = 1
+        while idx < self._capacity:  # while non-leaf
+            if self._value[2 * idx] > prefixsum:
+                idx = 2 * idx
+            else:
+                prefixsum -= self._value[2 * idx]
+                idx = 2 * idx + 1
+        return idx - self._capacity
+
+A: Excuse me , sir , I'm afraid you can't park your car here .
+B: Why not ? It's my parking space .
+A: I'm afraid not , sir .
+B: Oh ? That's a surprise . Let me see ... D 0411 Our dog's birthday . Yes , I'm sure this my parking space !
+A: But I saw a red car always parking here before .
+B: Oh , we've just repainted our car . It was red .
+A: Maybe . But the car of this space has a broken rearview mirror on the left .
+B: Yeah . It used to . We got that fixed yesterday too .
+A: Could you wait for a minute , sir ? I'd like to have a check .
+B: Sure , go ahead .
+A: Sorry , sir , my mistake . This is your parking space .
+B: That's all right . It's not your fault .
+
+= First Mongol invasion of Burma = 
+ The first Mongol invasions of Burma ( Myanmar ) ( Burmese : မွန ် ဂို – မြန ် မာ စစ ် ( ၁၂၇၇ – ၁၂၈၇ ) ) were a series of military conflicts between Kublai Khan 's Yuan dynasty , division of the Mongol Empire , and the Pagan Empire that took place between 1277 and 1287 . The invasions toppled the 250 @-@ year @-@ old Pagan Empire , and the Mongol army seized Pagan territories in present @-@ day Dehong , Yunnan and northern Burma to Tagaung . The invasions ushered in 250 years of political fragmentation in Burma and the rise of Tai @-@ Shan states throughout mainland Southeast Asia . 
+ The Mongols first demanded tribute from Pagan in 1271 – 72 , as part of their drive to encircle the Song dynasty of China . When King Narathihapate refused , Emperor Kublai Khan himself sent another mission in 1273 , again demanding tribute . It too was rejected . In 1275 , the emperor ordered the Yunnan government to secure the borderlands in order to block an escape path for the Song , and permitted a limited border war if Pagan contested . Pagan did contest but its army was driven back at the frontier by the Mongol Army in 1277 – 78 . After a brief lull , Kublai Khan in 1281 turned his attention to Southeast Asia , demanding tribute from Pagan , the Khmer Empire , Đại Việt and Champa . When the Burmese king again refused , the emperor ordered an invasion of northern Burma . Two dry season campaigns ( 1283 – 85 ) later , the Mongols had occupied down to Tagaung and Hanlin , forcing the Burmese king to flee to Lower Burma . The Mongols organized northern Burma as the province of Zhengmian . 
+ Ceasefire negotiations began in 1285 , and ended with Narathihapate finally agreeing to submit in June 1286 . The Burmese embassy , received by the emperor in Beijing in January 1287 , agreed to a treaty that acknowledged the suzerainty of the Yuan dynasty or the Mongol Empire over the Pagan Empire and annual payments in taxes to the Yunnan government in exchange for the evacuation of Mongol troops from northern Burma . But the treaty never really took effect as Narathihapate was assassinated in July 1287 , and no authority who could honor the treaty emerged . The Mongol command at Yunnan now deemed the imperial order to withdraw void , and ordered an invasion of central Burma . They may not have reached Pagan , and even if they did , after having suffered heavy casualties , they returned to Tagaung . 
+ The Pagan Empire disintegrated and anarchy ensued . The Mongols , who probably preferred the situation , did nothing to restore order in the next ten years . In March 1297 , they accepted the voluntary submission of King Kyawswa of Pagan although he controlled little beyond the capital city of Pagan ( Bagan ) . But Kyawswa was overthrown nine months later , and the Mongols were forced to intervene , leading to their second invasion in 1300 – 01 . 
+ Marco Polo reported the first invasions ( 1277 – 87 ) in his travelogue , Il Milione . The Burmese referred to the invaders as the Taruk ( after the central Asian Turkic troops that largely made up the Mongol invasion army ) ; today , the term Taruk ( တရုတ ် ) refers to the Han Chinese instead . King Narathihapate is unkindly remembered in Burmese history as Taruk @-@ Pye Min , ( " the King who Fled from the Taruk " ) . 
+ = = Background = = 
+ = = = Pagan and Dali = = = 
+ In the 13th century , the Pagan Empire , along with the Khmer Empire , was one of the two main empires in mainland Southeast Asia . For much of its history , Pagan 's neighbor to the northeast was not China but the independent Dali Kingdom and its predecessor Nanzhao , both with Dali as their capital city . Dali @-@ based kingdoms were a power in their own right , at times allying themselves with the Tibetan Empire to their west and at other times with China 's Tang and Song dynasties . Indeed , Nanzhao 's mounted armies ventured deep into what is today Burma and may have been behind the founding of the medieval city of Pagan and the Pagan Dynasty itself . 
+ Between the newly conquered Mongol territory and Pagan were a wide swath of borderlands stretching from present @-@ day Dehong , Baoshan and Lincang prefectures in Yunnan as well as the Wa and Palaung regions ( presumably in present @-@ day northern Shan State ) , which Pagan and Dali had both claimed and exercised overlapping spheres of influence . Then as now , the borderlands mostly consist of forbidding terrains of high mountain ranges . 
+ = = = Mongol conquest of Dali = = = 
+ The Mongol Empire first arrived at the doorstep of the Pagan Empire in 1252 by invading the Dali Kingdom in its attempt to outflank Song China . The Mongol armies captured the capital , Dali , on 7 January 1253 , and went on to pacify much of the kingdom by 1257 . 
+ The arrival of the Mongols did not initially upset the existing order at the borderlands as the Mongols were intent on finishing off the Song . For the next dozen years , they consolidated their hold over the newly conquered land , which not only provided them with a base from which to attack the Song from the rear but also was strategically located on the trade routes from China to Burma and India . The Mongols set up military garrisons , manned mostly by Turkic @-@ speaking Muslims from Central Asia , in 37 circuits of the former Dali Kingdom . 
+ = = = Decline of Pagan = = = 
+ By then , the Pagan Empire , despite outward appearances of calm , had been in long and slow decline since the early 13th century . The continuous growth of tax @-@ free religious wealth had greatly reduced the tax base of the kingdom . The crown had lost resources needed to retain the loyalty of courtiers and military servicemen , inviting a vicious circle of internal disorders and external challenges . Although it was able to put down the first batch of serious rebellions in 1258 – 60 in South Arakan and Martaban ( Mottama ) , the decline continued . On the eve of the Mongol invasions , between one and two @-@ thirds of Upper Burma 's cultivable land had been donated to religion . The crown 's ability to mobilize defenses was in serious jeopardy . 
+ = = Prelude to war = = 
+ = = = First Mongol mission ( 1271 – 72 ) = = = 
+ The period of calm for Pagan ended in the early 1270s . By then , the Song were on the ropes , and Emperor Kublai Khan , who officially founded the Yuan dynasty on 18 December 1271 , sought to cut off the retreat of Song refugees in all directions . In Pagan 's case , he had ordered the Mongol governor of Dali to tighten control of the borderlands , and in January 1271 to send a mission to Pagan to demand tribute . The tribute he demanded was nominal . Given his higher priority preoccupations elsewhere , the emperor was not looking to replace the regime at Pagan . At the border , the ruler of the Wa and Palaung regions submitted to the Mongols . 
+ When the Mongol envoys led by Qidai Tuoyin showed up , the Pagan court led by Chief Minister Ananda Pyissi was well aware of the military power of the Mongols and advised King Narathihapate to use diplomacy . The king was furious at the demand and kept the Mongol envoys waiting for weeks . The court finally devised a compromise : the envoys were sent back without ever seeing the king . Accompanying them was a Burmese envoy who carried a letter expressing friendly sentiments and the Burmese king 's wish to one day worship a Buddha tooth at Beijing . The king then promptly ordered an expedition , which retook the rebellious borderland regions in April 1272 . The rebel leader A @-@ Pi ( အပိ ) was brought back to Pagan . Dali relayed the news to Beijing but did not carry out any military action . 
+ = = = Second Mongol mission ( 1273 ) = = = 
+ At Beijing , Kublai Khan , who was preparing an invasion of Japan , decided against a war with Pagan — for the time being . On 3 March 1273 , he sent a 4 @-@ member delegation led by an imperial ambassador , the First Secretary to the Board Rites , to Pagan . The delegation carried a letter from the emperor . The letter says : 
+ " If you have finally decided to fulfill your duties towards the All @-@ Highest , send one of your brothers or senior ministers , to show men that all the world is linked with Us , and enter into a perpetual alliance . This will add to your reputation , and be in your own interests ; for if it comes to war , who will be the victor ? Ponder well , O king , Our words . " 
+ This time , the Burmese king received the imperial envoys but still refused to submit . ( The Burmese chronicles say that the king was so insulted that he had the envoys executed . But both Burmese inscriptional evidence and Yuan records indicate that the envoys were not executed . ) At any rate , the imperial envoys did not get back to Yunnan in due time . The newly formed Yunnan government sent another delegation to investigate the whereabouts of the delegation , but the delegation could not reach Pagan because of an ongoing rebellion en route . 
+ = = = Mongol consolidation of borderlands ( 1275 – 76 ) = = = 
+ Meanwhile , in 1274 , the former Dali Kingdom was officially reorganized as the Province of Yunnan , with Sayyid Ajjal Shams al @-@ Din Omar as governor . In May 1275 , the governor sent a report to the emperor stating that the embassy had not returned ; that the Burmese evidently had no intention of submitting ; and that war was the only way forward . 
+ But the emperor rejected an outright invasion . Just coming off a disastrous Japanese campaign , the emperor was unwilling to commit the central government troops to what he considered a low priority affair . He was now focused on delivering the final blow against the Song ; the emperor ordered the Yunnan provincial army to secure the borderlands in order to block the escape path of the Song refugees . He also sanctioned a limited border war if Pagan contested the takeover . As planned , the Yunnan army proceeded to consolidate the borderlands in 1275 – 76 . ( Elsewhere , the main Mongol armies had captured most of the Song territory by 1276 . ) 
+ By 1277 , at least one Burmese vassal state named " Gold Teeth " ( modern Yingjiang ) had submitted to the Mongols . Like in 1272 , the Burmese government responded by sending an army to reclaim the rebellious state ; but unlike in 1272 , the Mongols had posted a sizable garrison there . Though it was ultimately under Mongol command , many of the officers and most of the soldiers of the garrison were Turkic @-@ speaking peoples or people from the further west : Turks from Samarkand , Bukhara , Merv and Nishapur , but also captive soldiers from the Persian Khwarazmid empire , the Kipchaks , and even Bulgars from the lower Volga . 
+ = = Border war ( 1277 – 78 ) = = 
+ What followed was a border war in 1277 – 78 . It was reported mainly in the Yuan dynasty chronicle and the travelogue of Marco Polo . Although the Burmese chronicles have no record of the border war , a 1278 Burmese inscription mentions the army 's defeat at Ngasaunggyan . The Mongol accounts of the border war contain certain errors of location and numbers although the overall narrative is probably accurate . 
+ = = = Battle of Ngasaunggyan = = = 
+ According to the Yuan dynasty chronicle and Marco Polo 's accounts , a Burmese army " invaded " the Mongol territory of Gold Teeth , and was defeated by the Mongol army in April 1277 . The battle took place either at the Vochang valley ( in present @-@ day Baoshan Prefecture ) or 110 km southwest at Kanngai ( present @-@ day Yingjiang , Dehong Prefecture ) , which the Burmese called Ngasaunggyan . 
+ The Yuan Chronicle reports that only 700 men defeated a Burmese army of 40 @,@ 000 to 50 @,@ 000 with 10 @,@ 000 horses and 800 elephants . It also reports only one Mongol was killed , in trying to catch an elephant . According to Marco Polo , the Mongol army consisted of 12 @,@ 000 mounted archers , and the Burmese army numbered 60 @,@ 000 men with 2000 elephants , " on each of which was set a tower of timber , well @-@ framed and strong , and carrying from 12 to 16 well @-@ armed fighting men . " Even then , the 40 @,@ 000 to 60 @,@ 000 figures of the Burmese army strength were likely eye estimates and may still be too high ; the Mongols may have erred " on the side of generosity " not to " diminish their glory in defeating superior numbers . " 
+ According to Marco Polo 's account , in the early stages of the battle , the Turkish and Mongol horsemen " took such fright at the sight of the elephants that they would not be got to face the foe , but always swerved and turned back , " while the Burmese forces pressed on . But the Mongol commander Huthukh did not panic ; he ordered his troops to dismount , and from the cover of the nearby treeline , aim their bows directly at the advancing elephants . The Mongol archers ' arrows threw the animals into such pain that they fled . 
+ = = = Raid of Kaungsin = = = 
+ The Mongol army pressed on after the monsoon season . In the following dry season of 1277 – 78 , c . December 1277 , a Mongol army of 3800 led by Nasr al @-@ Din , son of Gov. Sayyid Ajjal , advanced to Kaungsin , which defended the Bhamo Pass . They occupied the fort and destroyed a large number of abandoned stockades . But they found the heat excessive and returned . 
+ = = Interlude ( 1278 – 83 ) = = 
+ Despite the Mongol military success , the control of the borderlands remained contested . Pagan did not relinquish its claim to the frontier regions , and the Burmese , apparently taking advantage of Mongol preoccupations elsewhere , rebuilt their forts at Kaungsin and Ngasaunggyan later in 1278 , posting permanent garrisons commanded by Einda Pyissi . But their control was short @-@ lived . The Great Khan 's attention turned to Southeast Asia once more in 1281 . He had had mixed success : his vaunted forces had finished off the last of the Song in 1279 but had again failed to take Japan in 1281 . That year , the Mongol emperor sent another mission to Pagan , demanding tribute yet again . The Burmese king was to send his ten senior ministers accompanied by one thousand cavalry officers to the emperor 's court . ( With Champa , the emperor summoned the king of Champa himself to Beijing . ) 
+ At Pagan , Narathihapate deliberated with his court for an appropriate response but ultimately refused to submit . The Burmese court may have been counting on another limited border war but the emperor now ordered an invasion of northern Burma . ( He also ordered an invasion of Champa , whose king too had refused to submit . ) The Burmese king 's troubles did not go unnoticed elsewhere in the kingdom . In the same year , a usurper named Wareru seized the southern port city of Martaban ( Mottama ) by killing its Pagan @-@ appointed governor . Although the king 's three sons were viceroys of the nearby Lower Burma cities ( in Bassein ( Pathein ) , Prome ( Pyay ) , and Dala ) , the king , preoccupied with much more serious threat in the north , did not ( or could not ) take any action on Martaban . 
+ Throughout 1282 , the Mongol command made preparations for the upcoming invasions of Champa and northern Burma . The objective of the Burma campaign was to take over northern Burma but no further ; the emperor did not sanction an attack on Pagan itself . At least one army consisted of 14 @,@ 000 men of the erstwhile Persian Khwarezmid Empire under the command of Yalu Beg was sent to Yunnan to reinforce the Burma invasion force , which again was made up of Turks and other central Asians . On the Burmese side , the king managed to raise an army although given his low standing with his vassals , he probably could not have raised a large one . By mid @-@ 1283 , a Burmese army led by generals Ananda Pyissi and Yanda Pyissi was deployed at a fort at Ngasaunggyan . 
+ = = Invasion ( 1283 – 85 ) = = 
+ = = = Battle of Ngasaunggyan ( 1283 ) = = = 
+ The invasion began on 22 September 1283 . Prince Sangqudar was the commander @-@ in @-@ chief of the invasion force ; his deputies were Vice Governor Taipn , and commander Yagan Tegin . The Mongol armies marched to the border in two columns . One column advanced along the Taping River using over 200 boats ; the other proceeded by land and joined the first column at the Burmese fort at Ngasaunggyan . The Burmese chronicles report an overwhelming number of Mongol forces laying siege to the fort although their numbers are greatly exaggerated . ( The chronicles say that the Burmese army numbered 400 @,@ 000 men while the Mongol army numbered 20 million men and 6 million horses . ) The Burmese withstood the siege for over two months but the fort fell on 3 December 1283 . 
+ = = = Invasion of northern Burma = = = 
+ The defeat at Ngasaunggyan broke the back of Burmese defenses . The Burmese army lost several thousand men as well as senior commanders . Kaungsin , the next fort inline , fell just six days later on 9 December 1283 . The Mongol sources say that the Burmese lost 10 @,@ 000 men at Kaungsin . The Mongol armies pushed farther south into the Irrawaddy valley . They took the ancient Burmese capital of Tagaung , about 380 km north of Pagan on 5 February 1284 . There , the invaders paused their advance . They found the heat of the searing Irrawaddy valley excessive , and evacuated Tagaung , allowing the Burmese to return to Tagaung on 10 May 1284 . But the Mongol army renewed their offensive in the following dry season . They retook Tagaung , and defeated another Burmese stand south of Tagaung , probably near Hanlin , on 26 January 1285 , opening the way to Pagan , about 270 km south . After the defeat , the king panicked , and fled to Lower Burma . The evacuation proved premature . The Mongol forces did not advance on Pagan as it was not part of their invasion plan . 
+ The country fell into chaos . In Lower Burma , the king found himself isolated , let alone plan a counterattack . Although his sons ruled the key Lower Burma ports ( Prome , Dala and Bassein ) , the king did not trust any of them , and he and his court settled at Hlegya , west of Prome . Without the full support of his sons , the presence of the king and his small army impressed no one . The governor of Pegu revolted that same year . The king managed to send two small expeditions to Pegu but they both failed . Now , the entire eastern half of Lower Burma ( Pegu and Martaban ) was in open revolt . 
+ = = Peace negotiations ( 1285 – 87 ) = = 
+ = = = Ceasefire = = = 
+ Given his precarious position , Narathihapate decided to buy time , and sue for peace with the Mongols . In November / December 1285 , the king ordered his generals Ananda Pyissi and Maha Bo to enter into ceasefire negotiations . The Mongol commanders at Hanlin , who had organized northern Burma as a protectorate named Zhengmian ( Chinese : 征緬 ; Wade – Giles : Cheng @-@ Mien ) , agreed to a ceasefire but insisted on a full submission . They repeated their 1281 demand that the Burmese king send a formal delegation to the emperor . The two sides had reached a tentative agreement by 3 March 1286 , which calls for a full submission of the Pagan Empire , and central Burma to be organized as the province of Mianzhong ( Chinese : 緬中 ; Wade – Giles : Mien @-@ Chung ) . After a long deliberation , the king agreed to submit but wanted the Mongol troops to withdraw . In June 1286 , he sent an embassy led by Shin Ditha Pamauk , a learned monk , to the emperor 's court . 
+ = = = Treaty of Beijing = = = 
+ In January 1287 , the embassy arrived at Beijing , and was received by the Yuan emperor . The Burmese delegation formally acknowledged Mongol suzerainty of their kingdom , and agreed to pay annual tribute tied to the agricultural output of the country . ( Indeed , the tribute was no longer nominal . ) In exchange , the emperor agreed to withdraw his troops . For the emperor , the Burma campaign was the only bright spot ; his other Southeast Asian expeditions had gone badly . He did not want to invest more troops pacify the rest of the kingdom . He preferred a vassal ruler . The Burmese embassy arrived back at Hlegya in May 1287 , and reported the terms to the king . 
+ = = = Breakdown = = = 
+ But the agreement broke down a month later . In late June , the defeated king and his small retinue left their temporary capital for Pagan . But on 1 July 1287 , the king was captured en route and assassinated by his second son Thihathu , the Viceroy of Prome . Anarchy ensued . Each region in the country which had not revolted broke away . No successor to Narathihapate , who could honor and enforce the terms of the treaty of Beijing , emerged . Indeed , a king would not emerge until May 1289 . 
+ = = Mongol intervention ( 1287 ) = = 
+ Given the chaos , the governor of Yunnan ignored the imperial orders of evacuation . The Mongol army commanded by Prince Ye @-@ sin Timour , a grandson of the emperor , marched south toward Pagan . According to mainstream traditional ( British colonial era ) scholarship , the Mongol army ignored the imperial orders to evacuate ; fought its way down to Pagan with the loss of 7000 men ; occupied the city ; and sent out detachments to receive homage , one of which reached south of Prome . But not all colonial period scholars agreed with the assessment as none of the contemporary Mongol / Chinese records specifically mentioned the conquest of Pagan or the temporary completeness of the conquest . 
+ Recent research shows that the Mongol forces most probably never reached Pagan . They were held at bay by the Burmese defenses led by commanders Athinkhaya , Yazathingyan and Thihathu , and probably never got closer than 160 km north of Pagan . ( An inscription dated 16 February 1293 by the three brothers claimed that they defeated the Mongol army . ) Even if the Mongols did reach Pagan , the damage they inflicted was probably minimal . At any rate , the Mongol army suffered heavy casualties , and retreated north to Tagaung . They remained there as the treaty was now void . 
+ = = Aftermath = = 
+ The disintegration of the Pagan Empire was now complete . But the Mongols refused to fill in the power vacuum they had created . They would send no more expeditions to restore order . The emperor apparently had no interest in committing troops that would be required to pacify the fragmented country . Indeed , his real aim all along may have been " to keep the entire region of Southeast Asia broken and fragmented . " It would be another two years until one of Narathihapate 's sons , Kyawswa , emerged as king of Pagan in May 1289 . But the new " king " controlled just a small area around the capital , and had no real army . The real power in central Burma now rested with the three commander brothers . 
+ The uneasy arrangement would persist until 1297 . The Mongols continued to occupy northern Burma to Tagaung as the province of Zhengmian ( Cheng @-@ Mien ) but ended the fictional central Burma province of Mianzhong on 18 August 1290 . Meanwhile , the power struggle in central Burma continued with the three brothers blatantly consolidating support . To check their rising power , Kyawswa submitted to the Mongols in January 1297 , and was recognized by the Yuan emperor Temür Khan as King of Pagan on 20 March 1297 . The emperor also gave Chinese titles to the brothers as subordinates of Kyawswa . The brothers resented the new arrangement as it directly reduced their power . On 17 December 1297 , the three brothers overthrew Kyawswa , and founded the Myinsaing Kingdom . The dethronement forced the Mongol government to intervene again , leading to the second Mongol invasion of Burma ( 1300 – 01 ) . The invasion failed . Two years later , on 4 April 1303 , the Mongols abolished the province of Zhengmian ( Cheng @-@ Mien ) , evacuated Tagaung , and returned to Yunnan . 
+ = = Legacy = = 
+ The war was one of several near simultaneous wars waged by the Mongol Empire and the Yuan dynasty in the late 13th century . Though it was never more than a minor frontier war to the Mongols , the war set off a series of enduring developments in Burma . The invasions ushered in a period of political fragmentation , and the rise of Tai @-@ Shan states throughout mainland Southeast Asia . 
+ = = = Age of political fragmentation = = = 
+ The immediate result of the war was the collapse of the Pagan Empire . However , the war merely accelerated the collapse but did not cause it . Pagan 's disintegration was " in fact more prolonged and agonized . " The kingdom had been in long gradual decline since the early 13th century . Had Pagan possessed a stronger central government , the collapse could have been temporary , and the country “ could have risen again ” . But the dynasty could not recover , and because the Mongols refused to fill the power vacuum , no viable center emerged in the immediate aftermath . As a result , several minor states fought it out for supremacy for the better part of the 14th century . It was only in the late 14th century that two relatively strong powers emerged in the Irrawaddy basin , restoring some semblance of normalcy . The vast region surrounding the Irrawaddy valley would continue to be made up of several small Tai @-@ Shan states well into the 16th century . 
+ = = = Rise of Tai @-@ Shan states = = = 
+ Perhaps the most enduring legacy of the Mongol invasions was the emergence of Tai @-@ Shan states in mainland Southeast Asia . The Tai @-@ Shan people who came down with the Mongol invasions stayed . By the early 14th century , several Tai @-@ Shan states had come to dominate a vast region from present @-@ day Assam to northern and eastern Myanmar to northern and central Thailand and Laos . Their rise was encouraged by the Mongols , who viewed the states as a useful buffer between Yunnan and the rest of Southeast Asia . The Mongols , who were still trying to incorporate Yunnan into the central administration , were unwilling or unable to make necessary sustained investments to bring the vast regions south of Yunnan into the fold . ( The integration of Yunnan itself into “ China Proper ” was to take several more centuries , and continues to today . ) As such , from the newly formed Tai @-@ Shan states in western and central Southeast Asia to Dai Viet and Champa in eastern Southeast Asia , the Mongols elected to receive nominal tribute . Though the rulers of these states were technically governors of the Yuan government , they were the native chieftains , “ who would have ruled there in any case , and they did as they pleased . ” 
+ = = = Arrival of China on the Burmese border = = = 
+ The war also marked the arrival of China at the doorstep of Burma . The old Dali Kingdom , known to the Burmese as Gandalarit ( ဂန ္ တလရာဇ ် , after Gandhara Raj ) was now a Mongol Chinese province . ( The Burmese now called the new powers at Yunnan " Taruk " after the Turkic @-@ speaking soldiers of Yunnan . Over the years , the term Taruk came to be used to refer to the Han Chinese . Today , King Narathihapate is remembered as Taruk @-@ Pye Min , ( " the King who fled from the Taruk [ Chinese ] ) . ) From a geopolitical standpoint , the Mongol – Chinese presence in Yunnan pushed the Shan migrations in the direction of Burma ( and parts of the Khmer Empire ) . The raids by various Shan states into Upper Burma would continue until the mid @-@ 16th century . 
+ = = Mongolia – Myanmar relations = = 
+ During the official visit by the President Tsakhiagiin Elbegdorj to Myanmar in November 2013 , Aung San Suu Kyi , the chairperson of National League for Democracy , said this was the first ever Mongol mission since the Mongols came 730 years earlier .
+
+# repo: openai/baselines
+# path: baselines/common/input.py
+def observation_input(ob_space, batch_size=None, name='Ob'):
+    '''
+    Create placeholder to feed observations into of the size appropriate to the observation space, and add input
+    encoder of the appropriate type.
+    '''
+
+    placeholder = observation_placeholder(ob_space, batch_size, name)
+    return placeholder, encode_observation(ob_space, placeholder)
+
+A: Are you a goal-oriented person ?
+B: Yes , I am . I always make a plan before I do anything .
+A: Where do you want to be in 5 years ?
+B: I don't want to have a specific title . I just want to enjoy what I am doing .
+A: That sounds very reasonable .
+B: It's the most important thing to me .
+A: If you are hired , how long do you plan to stay with us ?
+B: That obviously depends on how things go - - whether I'm suited to the firm and the firm to me .
+A: Tell me about some of your recent goals and what you do to achieve them .
+B: I want to put my knowledge and experience to use in a challenging position . In order to achieve this goal , I just want to work step by step .
+A: What is your long-range objective ?
+B: I haven't thought it over at all .
+A: What do you think is the most important thing when looking for a job ?
+B: I think the most important thing is the interest in the job .

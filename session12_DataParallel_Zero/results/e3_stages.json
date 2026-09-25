@@ -1,0 +1,283 @@
+{
+  "machine": {
+    "chip": "Apple M4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.5",
+    "torch": "2.13.0",
+    "cores": 10,
+    "device": "cpu (virtual GPUs are threads; nothing here uses an accelerator)"
+  },
+  "world_size": 32,
+  "micro_batch": 2,
+  "steps": 8,
+  "n_params": 870656,
+  "tokens_per_step": 8192,
+  "config": {
+    "n_layer": 4,
+    "d_model": 128,
+    "n_head": 4,
+    "d_ff": 512,
+    "max_seq": 128,
+    "vocab": 256,
+    "groups": 6
+  },
+  "rows": [
+    {
+      "engine": "data parallel",
+      "stage": 0,
+      "bytes_per_weight_measured": 16.0,
+      "bytes_per_weight_formula": 16.0,
+      "resident_bytes": 13930496,
+      "peak_bytes": 15374336,
+      "peak_breakdown": {
+        "weights": 1741312,
+        "gradients": 1741312,
+        "optimizer": 10447872,
+        "gathered": 0,
+        "bucket": 788480,
+        "activations": 655360
+      },
+      "resident_breakdown": {
+        "weights": 1741312,
+        "gradients": 1741312,
+        "optimizer": 10447872,
+        "gathered": 0,
+        "bucket": 0,
+        "activations": 0
+      },
+      "activation_bytes": 919552,
+      "wire_in_P_measured": 1.9375,
+      "wire_in_P_formula": 1.9375,
+      "collective_calls_per_step": 6.0,
+      "seconds_per_step": 0.5644917453214191,
+      "seconds_compute": 0.27826534824106985,
+      "seconds_collective": 0.23313809394196028,
+      "seconds_optimizer": 0.04268022774102219,
+      "seconds_other": 0.010408075397366798,
+      "final_loss": 4.784980297088623,
+      "bytes_per_weight_at_8": 16.0,
+      "formula_at_8": 16.0
+    },
+    {
+      "engine": "ZeRO-1",
+      "stage": 1,
+      "bytes_per_weight_measured": 4.375,
+      "bytes_per_weight_formula": 4.375,
+      "resident_bytes": 3809120,
+      "peak_bytes": 5252960,
+      "peak_breakdown": {
+        "weights": 1741312,
+        "gradients": 1741312,
+        "optimizer": 326496,
+        "gathered": 0,
+        "bucket": 788480,
+        "activations": 655360
+      },
+      "resident_breakdown": {
+        "weights": 1741312,
+        "gradients": 1741312,
+        "optimizer": 326496,
+        "gathered": 0,
+        "bucket": 0,
+        "activations": 0
+      },
+      "activation_bytes": 919552,
+      "wire_in_P_measured": 1.9375,
+      "wire_in_P_formula": 1.9375,
+      "collective_calls_per_step": 12.0,
+      "seconds_per_step": 0.4788946346339011,
+      "seconds_compute": 0.26004666086160455,
+      "seconds_collective": 0.17665715021423167,
+      "seconds_optimizer": 0.03131683720539107,
+      "seconds_other": 0.010873986352673828,
+      "final_loss": 4.784980297088623,
+      "bytes_per_weight_at_8": 5.5,
+      "formula_at_8": 5.5
+    },
+    {
+      "engine": "ZeRO-2",
+      "stage": 2,
+      "bytes_per_weight_measured": 2.4375,
+      "bytes_per_weight_formula": 2.4375,
+      "resident_bytes": 2122224,
+      "peak_bytes": 3960304,
+      "peak_breakdown": {
+        "weights": 1741312,
+        "gradients": 54416,
+        "optimizer": 326496,
+        "gathered": 0,
+        "bucket": 1182720,
+        "activations": 655360
+      },
+      "resident_breakdown": {
+        "weights": 1741312,
+        "gradients": 54416,
+        "optimizer": 326496,
+        "gathered": 0,
+        "bucket": 0,
+        "activations": 0
+      },
+      "activation_bytes": 919552,
+      "wire_in_P_measured": 1.9375,
+      "wire_in_P_formula": 1.9375,
+      "collective_calls_per_step": 12.0,
+      "seconds_per_step": 0.48010461176788305,
+      "seconds_compute": 0.25358183855355776,
+      "seconds_collective": 0.18366181171877421,
+      "seconds_optimizer": 0.030632223102624527,
+      "seconds_other": 0.012228738392926581,
+      "final_loss": 4.784980297088623,
+      "bytes_per_weight_at_8": 3.75,
+      "formula_at_8": 3.75
+    },
+    {
+      "engine": "ZeRO-3",
+      "stage": 3,
+      "bytes_per_weight_measured": 0.5,
+      "bytes_per_weight_formula": 0.5,
+      "resident_bytes": 435328,
+      "peak_bytes": 2273408,
+      "peak_breakdown": {
+        "weights": 54416,
+        "gradients": 54416,
+        "optimizer": 326496,
+        "gathered": 0,
+        "bucket": 1182720,
+        "activations": 655360
+      },
+      "resident_breakdown": {
+        "weights": 54416,
+        "gradients": 54416,
+        "optimizer": 326496,
+        "gathered": 0,
+        "bucket": 0,
+        "activations": 0
+      },
+      "activation_bytes": 919552,
+      "wire_in_P_measured": 2.90625,
+      "wire_in_P_formula": 2.90625,
+      "collective_calls_per_step": 18.0,
+      "seconds_per_step": 0.48591269676784676,
+      "seconds_compute": 0.2497079210936651,
+      "seconds_collective": 0.19355173384381885,
+      "seconds_optimizer": 0.033465202928531265,
+      "seconds_other": 0.009187838901831518,
+      "final_loss": 4.784980297088623,
+      "bytes_per_weight_at_8": 2.0,
+      "formula_at_8": 2.0
+    }
+  ],
+  "adam_scaling": [
+    {
+      "n": 870656,
+      "shard": 27208,
+      "full_seconds": 0.0007234999998217972,
+      "shard_seconds": 3.058299989788793e-05,
+      "speedup": 23.656933663716956,
+      "ideal_speedup": 32.0
+    },
+    {
+      "n": 8000000,
+      "shard": 250000,
+      "full_seconds": 0.008348750000095606,
+      "shard_seconds": 0.00020137500041528256,
+      "speedup": 41.45872120610067,
+      "ideal_speedup": 32.0
+    },
+    {
+      "n": 64000000,
+      "shard": 2000000,
+      "full_seconds": 0.0656046660001266,
+      "shard_seconds": 0.001704125000287604,
+      "speedup": 38.49756678005108,
+      "ideal_speedup": 32.0
+    }
+  ],
+  "memory_matches_formula": true,
+  "memory_matches_formula_at_8": true,
+  "wire_matches_formula": true,
+  "v5_projection": {
+    "data parallel": {
+      "bytes_per_weight": 16.0,
+      "state_bytes": 480000000000.0,
+      "state_gib": 447.0348358154297,
+      "fits_80gb_card": false,
+      "wire_in_P": 1.9375,
+      "wire_bytes": 116250000000.0,
+      "seconds_nvlink": 0.25833833333333334,
+      "seconds_infiniband": 2.3250100000000002
+    },
+    "ZeRO-1": {
+      "bytes_per_weight": 4.375,
+      "state_bytes": 131250000000.0,
+      "state_gib": 122.23608791828156,
+      "fits_80gb_card": false,
+      "wire_in_P": 1.9375,
+      "wire_bytes": 116250000000.0,
+      "seconds_nvlink": 0.25833833333333334,
+      "seconds_infiniband": 2.3250100000000002
+    },
+    "ZeRO-2": {
+      "bytes_per_weight": 2.4375,
+      "state_bytes": 73125000000.0,
+      "state_gib": 68.10296326875687,
+      "fits_80gb_card": true,
+      "wire_in_P": 1.9375,
+      "wire_bytes": 116250000000.0,
+      "seconds_nvlink": 0.25833833333333334,
+      "seconds_infiniband": 2.3250100000000002
+    },
+    "ZeRO-3": {
+      "bytes_per_weight": 0.5,
+      "state_bytes": 15000000000.0,
+      "state_gib": 13.969838619232178,
+      "fits_80gb_card": true,
+      "wire_in_P": 2.90625,
+      "wire_bytes": 174375000000.0,
+      "seconds_nvlink": 0.387505,
+      "seconds_infiniband": 3.48751
+    }
+  },
+  "losses": {
+    "data parallel": [
+      5.608486175537109,
+      5.254858493804932,
+      5.076865196228027,
+      4.975551128387451,
+      4.862476825714111,
+      4.849944114685059,
+      4.808363437652588,
+      4.784980297088623
+    ],
+    "ZeRO-1": [
+      5.608486175537109,
+      5.254858493804932,
+      5.076865196228027,
+      4.975551128387451,
+      4.862476825714111,
+      4.849944114685059,
+      4.808363437652588,
+      4.784980297088623
+    ],
+    "ZeRO-2": [
+      5.608486175537109,
+      5.254858493804932,
+      5.076865196228027,
+      4.975551128387451,
+      4.862476825714111,
+      4.849944114685059,
+      4.808363437652588,
+      4.784980297088623
+    ],
+    "ZeRO-3": [
+      5.608486175537109,
+      5.254858493804932,
+      5.076865196228027,
+      4.975551128387451,
+      4.862476825714111,
+      4.849944114685059,
+      4.808363437652588,
+      4.784980297088623
+    ]
+  }
+}

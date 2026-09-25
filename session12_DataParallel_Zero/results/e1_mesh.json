@@ -1,0 +1,209 @@
+{
+  "machine": {
+    "chip": "Apple M4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.5",
+    "torch": "2.13.0",
+    "cores": 10,
+    "device": "cpu (virtual GPUs are threads; nothing here uses an accelerator)"
+  },
+  "world_size": 32,
+  "separateness": {
+    "world_size": 32,
+    "distinct_threads": 32,
+    "distinct_ranks": 32,
+    "distinct_batches": 32,
+    "tokens_per_rank": 256,
+    "global_batch_tokens": 8192,
+    "torch_threads_per_rank": 1,
+    "sample": [
+      {
+        "rank": 0,
+        "thread": "gpu00",
+        "text": " at home against Wake Fo"
+      },
+      {
+        "rank": 1,
+        "thread": "gpu01",
+        "text": "ified Chinese : \u9648\u661f\ufffd"
+      },
+      {
+        "rank": 2,
+        "thread": "gpu02",
+        "text": "      'sigma_8': 0.8159,"
+      },
+      {
+        "rank": 3,
+        "thread": "gpu03",
+        "text": "ndations from Bob Dowie "
+      }
+    ]
+  },
+  "identity": {
+    "world_size": 32,
+    "per_rank_shard_numel": 2048,
+    "bitwise_equal_on_every_rank": true,
+    "max_abs_diff": 0.0,
+    "all_ranks_agree": true,
+    "matches_true_mean": 0.0,
+    "ledger": {
+      "mean_bytes_per_rank": 1015808.0,
+      "max_bytes_per_rank": 1015808.0,
+      "calls_per_rank": 3.0,
+      "by_op": {
+        "all_reduce": 507904.0,
+        "reduce_scatter": 253952.0,
+        "all_gather": 253952.0
+      },
+      "by_tag": {
+        "grads": 761856.0,
+        "params": 253952.0
+      },
+      "seconds_in_collectives": {
+        "31": 0.032476207999025064,
+        "7": 0.03294745800030796,
+        "6": 0.03292129100009333,
+        "28": 0.032546415999604505,
+        "24": 0.03265604000080202,
+        "14": 0.03275650000068708,
+        "8": 0.032836875000612054,
+        "2": 0.03305304100013018,
+        "19": 0.03269629100032034,
+        "16": 0.03272608400129684,
+        "13": 0.0327309989997957,
+        "18": 0.03272562399979506,
+        "26": 0.0326113749997603,
+        "5": 0.03287429099964356,
+        "20": 0.03270333299951744,
+        "1": 0.03299962599976425,
+        "23": 0.03256004099966958,
+        "15": 0.032722664999710105,
+        "12": 0.03276945900051942,
+        "30": 0.03252554199843871,
+        "21": 0.03260020700054156,
+        "25": 0.03255341799922462,
+        "0": 0.03322279099938896,
+        "11": 0.03283216700037883,
+        "22": 0.03259233300013875,
+        "27": 0.03269387500040466,
+        "10": 0.03283570800067537,
+        "4": 0.03300474999923608,
+        "17": 0.03230520799934311,
+        "3": 0.03291587499916204,
+        "9": 0.03292858399981924,
+        "29": 0.0324919590002537
+      }
+    }
+  },
+  "ring": {
+    "world_size": 32,
+    "payload_bytes": 262144,
+    "sends_per_rank": 62,
+    "expected_sends_per_rank": 62,
+    "measured_bytes_per_rank": 507904,
+    "formula_bytes_per_rank": 507904.0,
+    "matches_formula": true,
+    "in_units_of_N": 1.9375,
+    "max_abs_diff_vs_direct": 2.384185791015625e-07,
+    "max_rel_diff_vs_direct": 0.0010487677063792944,
+    "bitwise_equal": false,
+    "first_six_sends": [
+      {
+        "phase": "reduce_scatter",
+        "step": 0,
+        "chunk_sent": 0,
+        "chunk_received": 31
+      },
+      {
+        "phase": "reduce_scatter",
+        "step": 1,
+        "chunk_sent": 31,
+        "chunk_received": 30
+      },
+      {
+        "phase": "reduce_scatter",
+        "step": 2,
+        "chunk_sent": 30,
+        "chunk_received": 29
+      },
+      {
+        "phase": "reduce_scatter",
+        "step": 3,
+        "chunk_sent": 29,
+        "chunk_received": 28
+      },
+      {
+        "phase": "reduce_scatter",
+        "step": 4,
+        "chunk_sent": 28,
+        "chunk_received": 27
+      },
+      {
+        "phase": "reduce_scatter",
+        "step": 5,
+        "chunk_sent": 27,
+        "chunk_received": 26
+      }
+    ]
+  },
+  "scaling": [
+    {
+      "world_size": 1,
+      "payload_bytes": 16384,
+      "all_reduce": 0.0,
+      "reduce_scatter": 0.0,
+      "all_gather": 0.0
+    },
+    {
+      "world_size": 2,
+      "payload_bytes": 16384,
+      "all_reduce": 16384.0,
+      "reduce_scatter": 8192.0,
+      "all_gather": 8192.0
+    },
+    {
+      "world_size": 4,
+      "payload_bytes": 16384,
+      "all_reduce": 24576.0,
+      "reduce_scatter": 12288.0,
+      "all_gather": 12288.0
+    },
+    {
+      "world_size": 8,
+      "payload_bytes": 16384,
+      "all_reduce": 28672.0,
+      "reduce_scatter": 14336.0,
+      "all_gather": 14336.0
+    },
+    {
+      "world_size": 16,
+      "payload_bytes": 16384,
+      "all_reduce": 30720.0,
+      "reduce_scatter": 15360.0,
+      "all_gather": 15360.0
+    },
+    {
+      "world_size": 32,
+      "payload_bytes": 16384,
+      "all_reduce": 31744.0,
+      "reduce_scatter": 15872.0,
+      "all_gather": 15872.0
+    }
+  ],
+  "prices": [
+    {
+      "volume": "2P (data parallelism, ZeRO-1, ZeRO-2)",
+      "bytes": 120000000000,
+      "nvlink_s": 0.26666666666666666,
+      "infiniband_s": 2.4,
+      "pcie_s": 2.0
+    },
+    {
+      "volume": "3P (ZeRO-3)",
+      "bytes": 180000000000,
+      "nvlink_s": 0.4,
+      "infiniband_s": 3.6,
+      "pcie_s": 3.0
+    }
+  ]
+}

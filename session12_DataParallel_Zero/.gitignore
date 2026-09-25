@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+
+# run logs; results/*.json, results/*.md and results/*.png are the evidence
+# and are committed
+results/*_run.log
+
+# the course transcript, as in earlier sessions
+session12.txt
