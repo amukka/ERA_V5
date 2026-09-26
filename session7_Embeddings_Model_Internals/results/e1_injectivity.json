@@ -1,0 +1,1790 @@
+[
+  {
+    "vocab": "era-v5-s2-bpe",
+    "vocab_size": 9875,
+    "codec": "shipped(P=32)",
+    "code_dim": 8192,
+    "distinct_codes": 9861,
+    "colliding_groups": 9,
+    "colliding_tokens": 23,
+    "collision_rate": 0.0023291139240506327,
+    "injective": false,
+    "truncated_tokens": 65,
+    "indic_tokens": 3574,
+    "indic_collided": 23,
+    "indic_collision_rate": 0.006435366536094013,
+    "examples": [
+      {
+        "script": "Telugu",
+        "tokens": [
+          " ప్రధానమంత్ర",
+          " ప్రధానమంత్రి"
+        ],
+        "byte_lengths": [
+          34,
+          37
+        ]
+      },
+      {
+        "script": "Telugu",
+        "tokens": [
+          " స్వాతంత్ర్య",
+          " స్వాతంత్ర్యం"
+        ],
+        "byte_lengths": [
+          34,
+          37
+        ]
+      },
+      {
+        "script": "Telugu",
+        "tokens": [
+          "ాకా-ఢిల్లీ-ల",
+          "ాకా-ఢిల్లీ-లాహ"
+        ],
+        "byte_lengths": [
+          32,
+          38
+        ]
+      },
+      {
+        "script": "Telugu",
+        "tokens": [
+          "్రాయపడుతున్న",
+          "్రాయపడుతున్నారు."
+        ],
+        "byte_lengths": [
+          36,
+          46
+        ]
+      },
+      {
+        "script": "Telugu",
+        "tokens": [
+          "్యాయవ్యవస్థ",
+          "్యాయవ్యవస్థలో"
+        ],
+        "byte_lengths": [
+          33,
+          39
+        ]
+      },
+      {
+        "script": "Telugu",
+        "tokens": [
+          "ొడిగించుకోవచ్చ",
+          "ొడిగించుకోవచ్చని"
+        ],
+        "byte_lengths": [
+          42,
+          48
+        ]
+      },
+      {
+        "script": "Kannada",
+        "tokens": [
+          "ೊಲ್ಲಿ,ದಕ್ಷಿಣ",
+          "ೊಲ್ಲಿ,ದಕ್ಷಿಣದಲ್ಲಿ"
+        ],
+        "byte_lengths": [
+          34,
+          49
+        ]
+      },
+      {
+        "script": "Kannada",
+        "tokens": [
+          "ೊರಾಷ್ಟ್ರಿಯನ",
+          "ೊರಾಷ್ಟ್ರಿಯನಿಜ",
+          "ೊರಾಷ್ಟ್ರಿಯನಿಜ�",
+          "ೊರಾಷ್ಟ್ರಿಯನಿಜ಼"
+        ],
+        "byte_lengths": [
+          33,
+          39,
+          41,
+          42
+        ]
+      },
+      {
+        "script": "Kannada",
+        "tokens": [
+          "ೆಯೆತ್ತಲಾರಂಭಿಸಿದ",
+          "ೆಯೆತ್ತಲಾರಂಭಿಸಿದವು."
+        ],
+        "byte_lengths": [
+          45,
+          52
+        ]
+      }
+    ],
+    "scripts": {
+      "ASCII": {
+        "tokens": 5917,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.851952002704073,
+        "p99_bytes": 14.0,
+        "indic": false
+      },
+      "Telugu": {
+        "tokens": 1817,
+        "collided": 12,
+        "collision_rate": 0.006604292790313704,
+        "truncated": 40,
+        "truncation_rate": 0.02201430930104568,
+        "mean_bytes": 13.514034122179417,
+        "p99_bytes": 37.0,
+        "indic": true
+      },
+      "Kannada": {
+        "tokens": 976,
+        "collided": 11,
+        "collision_rate": 0.011270491803278689,
+        "truncated": 24,
+        "truncation_rate": 0.02459016393442623,
+        "mean_bytes": 12.620901639344263,
+        "p99_bytes": 40.25,
+        "indic": true
+      },
+      "Devanagari": {
+        "tokens": 781,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 1,
+        "truncation_rate": 0.0012804097311139564,
+        "mean_bytes": 9.532650448143405,
+        "p99_bytes": 25.0,
+        "indic": true
+      },
+      "Other": {
+        "tokens": 290,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.9448275862068964,
+        "p99_bytes": 17.220000000000027,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 84,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 6.595238095238095,
+        "p99_bytes": 17.17,
+        "indic": false
+      }
+    },
+    "config_name": "shipped_p32"
+  },
+  {
+    "vocab": "era-v5-s2-bpe",
+    "vocab_size": 9875,
+    "codec": "shipped(P=48)",
+    "code_dim": 12288,
+    "distinct_codes": 9875,
+    "colliding_groups": 0,
+    "colliding_tokens": 0,
+    "collision_rate": 0.0,
+    "injective": true,
+    "truncated_tokens": 3,
+    "indic_tokens": 3574,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [],
+    "scripts": {
+      "ASCII": {
+        "tokens": 5917,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.851952002704073,
+        "p99_bytes": 14.0,
+        "indic": false
+      },
+      "Telugu": {
+        "tokens": 1817,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.514034122179417,
+        "p99_bytes": 37.0,
+        "indic": true
+      },
+      "Kannada": {
+        "tokens": 976,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 3,
+        "truncation_rate": 0.0030737704918032786,
+        "mean_bytes": 12.620901639344263,
+        "p99_bytes": 40.25,
+        "indic": true
+      },
+      "Devanagari": {
+        "tokens": 781,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 9.532650448143405,
+        "p99_bytes": 25.0,
+        "indic": true
+      },
+      "Other": {
+        "tokens": 290,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.9448275862068964,
+        "p99_bytes": 17.220000000000027,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 84,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 6.595238095238095,
+        "p99_bytes": 17.17,
+        "indic": false
+      }
+    },
+    "config_name": "shipped_p48"
+  },
+  {
+    "vocab": "era-v5-s2-bpe",
+    "vocab_size": 9875,
+    "codec": "shipped(P=64)",
+    "code_dim": 16384,
+    "distinct_codes": 9875,
+    "colliding_groups": 0,
+    "colliding_tokens": 0,
+    "collision_rate": 0.0,
+    "injective": true,
+    "truncated_tokens": 0,
+    "indic_tokens": 3574,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [],
+    "scripts": {
+      "ASCII": {
+        "tokens": 5917,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.851952002704073,
+        "p99_bytes": 14.0,
+        "indic": false
+      },
+      "Telugu": {
+        "tokens": 1817,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.514034122179417,
+        "p99_bytes": 37.0,
+        "indic": true
+      },
+      "Kannada": {
+        "tokens": 976,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 12.620901639344263,
+        "p99_bytes": 40.25,
+        "indic": true
+      },
+      "Devanagari": {
+        "tokens": 781,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 9.532650448143405,
+        "p99_bytes": 25.0,
+        "indic": true
+      },
+      "Other": {
+        "tokens": 290,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.9448275862068964,
+        "p99_bytes": 17.220000000000027,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 84,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 6.595238095238095,
+        "p99_bytes": 17.17,
+        "indic": false
+      }
+    },
+    "config_name": "shipped_p64"
+  },
+  {
+    "vocab": "era-v5-s2-bpe",
+    "vocab_size": 9875,
+    "codec": "duplex(P=32,T=4)",
+    "code_dim": 8224,
+    "distinct_codes": 9875,
+    "colliding_groups": 0,
+    "colliding_tokens": 0,
+    "collision_rate": 0.0,
+    "injective": true,
+    "truncated_tokens": 121,
+    "indic_tokens": 3574,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [],
+    "scripts": {
+      "ASCII": {
+        "tokens": 5917,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.851952002704073,
+        "p99_bytes": 14.0,
+        "indic": false
+      },
+      "Telugu": {
+        "tokens": 1817,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 76,
+        "truncation_rate": 0.041827187671986794,
+        "mean_bytes": 13.514034122179417,
+        "p99_bytes": 37.0,
+        "indic": true
+      },
+      "Kannada": {
+        "tokens": 976,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 43,
+        "truncation_rate": 0.04405737704918033,
+        "mean_bytes": 12.620901639344263,
+        "p99_bytes": 40.25,
+        "indic": true
+      },
+      "Devanagari": {
+        "tokens": 781,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 2,
+        "truncation_rate": 0.002560819462227913,
+        "mean_bytes": 9.532650448143405,
+        "p99_bytes": 25.0,
+        "indic": true
+      },
+      "Other": {
+        "tokens": 290,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.9448275862068964,
+        "p99_bytes": 17.220000000000027,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 84,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 6.595238095238095,
+        "p99_bytes": 17.17,
+        "indic": false
+      }
+    },
+    "config_name": "duplex_p32_t4"
+  },
+  {
+    "vocab": "gpt2",
+    "vocab_size": 50257,
+    "codec": "shipped(P=32)",
+    "code_dim": 8192,
+    "distinct_codes": 50247,
+    "colliding_groups": 7,
+    "colliding_tokens": 17,
+    "collision_rate": 0.00033826133672921186,
+    "injective": false,
+    "truncated_tokens": 14,
+    "indic_tokens": 0,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [
+      {
+        "script": "ASCII",
+        "tokens": [
+          "--------------------------------",
+          "----------------------------------------------------------------",
+          "--------------------------------------------------------",
+          "------------------------------------------------"
+        ],
+        "byte_lengths": [
+          32,
+          64,
+          56,
+          48
+        ]
+      },
+      {
+        "script": "ASCII",
+        "tokens": [
+          "................................",
+          "................................................................"
+        ],
+        "byte_lengths": [
+          32,
+          64
+        ]
+      },
+      {
+        "script": "ASCII",
+        "tokens": [
+          "================================",
+          "================================================================"
+        ],
+        "byte_lengths": [
+          32,
+          64
+        ]
+      },
+      {
+        "script": "ASCII",
+        "tokens": [
+          "________________________________",
+          "________________________________________________________________"
+        ],
+        "byte_lengths": [
+          32,
+          64
+        ]
+      },
+      {
+        "script": "Latin-ext",
+        "tokens": [
+          "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
+          "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
+          "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+        ],
+        "byte_lengths": [
+          32,
+          64,
+          128
+        ]
+      },
+      {
+        "script": "ASCII",
+        "tokens": [
+          " ----------------------------------------------------------------",
+          " --------------------------------"
+        ],
+        "byte_lengths": [
+          65,
+          33
+        ]
+      },
+      {
+        "script": "ASCII",
+        "tokens": [
+          " =================================================================",
+          " ================================="
+        ],
+        "byte_lengths": [
+          66,
+          34
+        ]
+      }
+    ],
+    "scripts": {
+      "ASCII": {
+        "tokens": 49384,
+        "collided": 14,
+        "collision_rate": 0.000283492629191641,
+        "truncated": 11,
+        "truncation_rate": 0.0002227442086505751,
+        "mean_bytes": 6.435768670014579,
+        "p99_bytes": 14.0,
+        "indic": false
+      },
+      "Other": {
+        "tokens": 511,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 1,
+        "truncation_rate": 0.0019569471624266144,
+        "mean_bytes": 3.0371819960861055,
+        "p99_bytes": 24.0,
+        "indic": false
+      },
+      "Kana": {
+        "tokens": 133,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.9849624060150375,
+        "p99_bytes": 12.680000000000007,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 108,
+        "collided": 3,
+        "collision_rate": 0.027777777777777776,
+        "truncated": 2,
+        "truncation_rate": 0.018518518518518517,
+        "mean_bytes": 5.407407407407407,
+        "p99_bytes": 61.75999999999976,
+        "indic": false
+      }
+    },
+    "config_name": "shipped_p32"
+  },
+  {
+    "vocab": "gpt2",
+    "vocab_size": 50257,
+    "codec": "shipped(P=48)",
+    "code_dim": 12288,
+    "distinct_codes": 50254,
+    "colliding_groups": 2,
+    "colliding_tokens": 5,
+    "collision_rate": 9.94886284497682e-05,
+    "injective": false,
+    "truncated_tokens": 9,
+    "indic_tokens": 0,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [
+      {
+        "script": "ASCII",
+        "tokens": [
+          "----------------------------------------------------------------",
+          "--------------------------------------------------------",
+          "------------------------------------------------"
+        ],
+        "byte_lengths": [
+          64,
+          56,
+          48
+        ]
+      },
+      {
+        "script": "Latin-ext",
+        "tokens": [
+          "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
+          "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+        ],
+        "byte_lengths": [
+          64,
+          128
+        ]
+      }
+    ],
+    "scripts": {
+      "ASCII": {
+        "tokens": 49384,
+        "collided": 3,
+        "collision_rate": 6.0748420541065935e-05,
+        "truncated": 7,
+        "truncation_rate": 0.0001417463145958205,
+        "mean_bytes": 6.435768670014579,
+        "p99_bytes": 14.0,
+        "indic": false
+      },
+      "Other": {
+        "tokens": 511,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.0371819960861055,
+        "p99_bytes": 24.0,
+        "indic": false
+      },
+      "Kana": {
+        "tokens": 133,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.9849624060150375,
+        "p99_bytes": 12.680000000000007,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 108,
+        "collided": 2,
+        "collision_rate": 0.018518518518518517,
+        "truncated": 2,
+        "truncation_rate": 0.018518518518518517,
+        "mean_bytes": 5.407407407407407,
+        "p99_bytes": 61.75999999999976,
+        "indic": false
+      }
+    },
+    "config_name": "shipped_p48"
+  },
+  {
+    "vocab": "gpt2",
+    "vocab_size": 50257,
+    "codec": "shipped(P=64)",
+    "code_dim": 16384,
+    "distinct_codes": 50256,
+    "colliding_groups": 1,
+    "colliding_tokens": 2,
+    "collision_rate": 3.9795451379907275e-05,
+    "injective": false,
+    "truncated_tokens": 3,
+    "indic_tokens": 0,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [
+      {
+        "script": "Latin-ext",
+        "tokens": [
+          "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
+          "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+        ],
+        "byte_lengths": [
+          64,
+          128
+        ]
+      }
+    ],
+    "scripts": {
+      "ASCII": {
+        "tokens": 49384,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 2,
+        "truncation_rate": 4.0498947027377285e-05,
+        "mean_bytes": 6.435768670014579,
+        "p99_bytes": 14.0,
+        "indic": false
+      },
+      "Other": {
+        "tokens": 511,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.0371819960861055,
+        "p99_bytes": 24.0,
+        "indic": false
+      },
+      "Kana": {
+        "tokens": 133,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.9849624060150375,
+        "p99_bytes": 12.680000000000007,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 108,
+        "collided": 2,
+        "collision_rate": 0.018518518518518517,
+        "truncated": 1,
+        "truncation_rate": 0.009259259259259259,
+        "mean_bytes": 5.407407407407407,
+        "p99_bytes": 61.75999999999976,
+        "indic": false
+      }
+    },
+    "config_name": "shipped_p64"
+  },
+  {
+    "vocab": "gpt2",
+    "vocab_size": 50257,
+    "codec": "duplex(P=32,T=4)",
+    "code_dim": 8224,
+    "distinct_codes": 50257,
+    "colliding_groups": 0,
+    "colliding_tokens": 0,
+    "collision_rate": 0.0,
+    "injective": true,
+    "truncated_tokens": 25,
+    "indic_tokens": 0,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [],
+    "scripts": {
+      "ASCII": {
+        "tokens": 49384,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 19,
+        "truncation_rate": 0.00038473999676008424,
+        "mean_bytes": 6.435768670014579,
+        "p99_bytes": 14.0,
+        "indic": false
+      },
+      "Other": {
+        "tokens": 511,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 3,
+        "truncation_rate": 0.005870841487279843,
+        "mean_bytes": 3.0371819960861055,
+        "p99_bytes": 24.0,
+        "indic": false
+      },
+      "Kana": {
+        "tokens": 133,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 3.9849624060150375,
+        "p99_bytes": 12.680000000000007,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 108,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 3,
+        "truncation_rate": 0.027777777777777776,
+        "mean_bytes": 5.407407407407407,
+        "p99_bytes": 61.75999999999976,
+        "indic": false
+      }
+    },
+    "config_name": "duplex_p32_t4"
+  },
+  {
+    "vocab": "xlm-roberta-base",
+    "vocab_size": 250002,
+    "codec": "shipped(P=32)",
+    "code_dim": 8192,
+    "distinct_codes": 249947,
+    "colliding_groups": 48,
+    "colliding_tokens": 103,
+    "collision_rate": 0.0004119967040263678,
+    "injective": false,
+    "truncated_tokens": 839,
+    "indic_tokens": 31888,
+    "indic_collided": 41,
+    "indic_collision_rate": 0.0012857501254390365,
+    "examples": [
+      {
+        "script": "Latin-ext",
+        "tokens": [
+          " საქართველოს",
+          " საქართველოში"
+        ],
+        "byte_lengths": [
+          34,
+          37
+        ]
+      },
+      {
+        "script": "Devanagari",
+        "tokens": [
+          " प्रधानमन्त्री",
+          " प्रधानमन्त्रीको"
+        ],
+        "byte_lengths": [
+          40,
+          46
+        ]
+      },
+      {
+        "script": "Devanagari",
+        "tokens": [
+          " मुख्यमंत्री",
+          " मुख्यमंत्र्यां"
+        ],
+        "byte_lengths": [
+          34,
+          43
+        ]
+      },
+      {
+        "script": "Bengali",
+        "tokens": [
+          " প্রধানমন্ত্রী",
+          " প্রধানমন্ত্রীর"
+        ],
+        "byte_lengths": [
+          40,
+          43
+        ]
+      },
+      {
+        "script": "Latin-ext",
+        "tokens": [
+          " საზოგადოება",
+          " საზოგადოების",
+          " საზოგადოებრივი"
+        ],
+        "byte_lengths": [
+          34,
+          37,
+          43
+        ]
+      },
+      {
+        "script": "Other",
+        "tokens": [
+          "ที่ดีที่สุด",
+          "ที่ดีที่สุดใน"
+        ],
+        "byte_lengths": [
+          33,
+          39
+        ]
+      },
+      {
+        "script": "Latin-ext",
+        "tokens": [
+          " განვითარების",
+          " განვითარება"
+        ],
+        "byte_lengths": [
+          37,
+          34
+        ]
+      },
+      {
+        "script": "Odia",
+        "tokens": [
+          " ମୁଖ୍ୟମନ୍ତ୍ରୀ",
+          " ମୁଖ୍ୟମନ୍ତ୍ରୀଙ୍କ"
+        ],
+        "byte_lengths": [
+          37,
+          46
+        ]
+      },
+      {
+        "script": "Devanagari",
+        "tokens": [
+          " प्रतियोगिता",
+          " प्रतियोगितामा"
+        ],
+        "byte_lengths": [
+          34,
+          40
+        ]
+      },
+      {
+        "script": "Latin-ext",
+        "tokens": [
+          "ที่เกี่ยวข้อง",
+          "ที่เกี่ยวข้องกับ"
+        ],
+        "byte_lengths": [
+          39,
+          48
+        ]
+      },
+      {
+        "script": "Latin-ext",
+        "tokens": [
+          " დაკავშირებით",
+          " დაკავშირებული"
+        ],
+        "byte_lengths": [
+          37,
+          40
+        ]
+      },
+      {
+        "script": "Latin-ext",
+        "tokens": [
+          " თავისუფლება",
+          " თავისუფლების"
+        ],
+        "byte_lengths": [
+          34,
+          37
+        ]
+      }
+    ],
+    "scripts": {
+      "ASCII": {
+        "tokens": 83008,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 6.570655840400925,
+        "p99_bytes": 13.0,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 48961,
+        "collided": 61,
+        "collision_rate": 0.0012458895855885297,
+        "truncated": 417,
+        "truncation_rate": 0.008516982904760932,
+        "mean_bytes": 9.858724290762035,
+        "p99_bytes": 31.0,
+        "indic": false
+      },
+      "Cyrillic": {
+        "tokens": 31671,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 12.296201572416406,
+        "p99_bytes": 27.0,
+        "indic": false
+      },
+      "Han": {
+        "tokens": 17771,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 2,
+        "truncation_rate": 0.00011254290698328738,
+        "mean_bytes": 5.163412300939734,
+        "p99_bytes": 12.0,
+        "indic": false
+      },
+      "Arabic": {
+        "tokens": 14637,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 9.176948828311813,
+        "p99_bytes": 19.0,
+        "indic": false
+      },
+      "Devanagari": {
+        "tokens": 7726,
+        "collided": 6,
+        "collision_rate": 0.000776598498576236,
+        "truncated": 62,
+        "truncation_rate": 0.00802485115195444,
+        "mean_bytes": 13.869402019156096,
+        "p99_bytes": 31.0,
+        "indic": true
+      },
+      "Hangul": {
+        "tokens": 5373,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.968174204355109,
+        "p99_bytes": 15.0,
+        "indic": false
+      },
+      "Hebrew": {
+        "tokens": 5185,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 8.248794599807136,
+        "p99_bytes": 15.0,
+        "indic": false
+      },
+      "Greek": {
+        "tokens": 5103,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 10.668430335097002,
+        "p99_bytes": 25.0,
+        "indic": false
+      },
+      "Malayalam": {
+        "tokens": 3919,
+        "collided": 20,
+        "collision_rate": 0.0051033426894615975,
+        "truncated": 119,
+        "truncation_rate": 0.030364889002296506,
+        "mean_bytes": 15.47716254146466,
+        "p99_bytes": 37.0,
+        "indic": true
+      },
+      "Other": {
+        "tokens": 3608,
+        "collided": 1,
+        "collision_rate": 0.0002771618625277162,
+        "truncated": 45,
+        "truncation_rate": 0.012472283813747228,
+        "mean_bytes": 8.06679600886918,
+        "p99_bytes": 33.0,
+        "indic": false
+      },
+      "Sinhala": {
+        "tokens": 3323,
+        "collided": 5,
+        "collision_rate": 0.001504664459825459,
+        "truncated": 13,
+        "truncation_rate": 0.003912127595546194,
+        "mean_bytes": 13.119771291002106,
+        "p99_bytes": 28.0,
+        "indic": true
+      },
+      "Telugu": {
+        "tokens": 3236,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 36,
+        "truncation_rate": 0.011124845488257108,
+        "mean_bytes": 14.525648949320148,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Kana": {
+        "tokens": 2797,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 5,
+        "truncation_rate": 0.001787629603146228,
+        "mean_bytes": 10.553092599213443,
+        "p99_bytes": 24.0,
+        "indic": false
+      },
+      "Kannada": {
+        "tokens": 2773,
+        "collided": 4,
+        "collision_rate": 0.00144248106743599,
+        "truncated": 33,
+        "truncation_rate": 0.011900468806346917,
+        "mean_bytes": 14.069239091236927,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Tamil": {
+        "tokens": 2628,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 48,
+        "truncation_rate": 0.0182648401826484,
+        "mean_bytes": 15.305555555555555,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Bengali": {
+        "tokens": 2499,
+        "collided": 4,
+        "collision_rate": 0.001600640256102441,
+        "truncated": 42,
+        "truncation_rate": 0.01680672268907563,
+        "mean_bytes": 13.647058823529411,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Gujarati": {
+        "tokens": 2265,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 5,
+        "truncation_rate": 0.002207505518763797,
+        "mean_bytes": 11.558940397350993,
+        "p99_bytes": 28.0,
+        "indic": true
+      },
+      "Odia": {
+        "tokens": 1844,
+        "collided": 2,
+        "collision_rate": 0.0010845986984815619,
+        "truncated": 12,
+        "truncation_rate": 0.006507592190889371,
+        "mean_bytes": 13.017895878524946,
+        "p99_bytes": 31.0,
+        "indic": true
+      },
+      "Gurmukhi": {
+        "tokens": 1675,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 11.118208955223881,
+        "p99_bytes": 25.0,
+        "indic": true
+      }
+    },
+    "config_name": "shipped_p32"
+  },
+  {
+    "vocab": "xlm-roberta-base",
+    "vocab_size": 250002,
+    "codec": "shipped(P=48)",
+    "code_dim": 12288,
+    "distinct_codes": 250002,
+    "colliding_groups": 0,
+    "colliding_tokens": 0,
+    "collision_rate": 0.0,
+    "injective": true,
+    "truncated_tokens": 0,
+    "indic_tokens": 31888,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [],
+    "scripts": {
+      "ASCII": {
+        "tokens": 83008,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 6.570655840400925,
+        "p99_bytes": 13.0,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 48961,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 9.858724290762035,
+        "p99_bytes": 31.0,
+        "indic": false
+      },
+      "Cyrillic": {
+        "tokens": 31671,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 12.296201572416406,
+        "p99_bytes": 27.0,
+        "indic": false
+      },
+      "Han": {
+        "tokens": 17771,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.163412300939734,
+        "p99_bytes": 12.0,
+        "indic": false
+      },
+      "Arabic": {
+        "tokens": 14637,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 9.176948828311813,
+        "p99_bytes": 19.0,
+        "indic": false
+      },
+      "Devanagari": {
+        "tokens": 7726,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.869402019156096,
+        "p99_bytes": 31.0,
+        "indic": true
+      },
+      "Hangul": {
+        "tokens": 5373,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.968174204355109,
+        "p99_bytes": 15.0,
+        "indic": false
+      },
+      "Hebrew": {
+        "tokens": 5185,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 8.248794599807136,
+        "p99_bytes": 15.0,
+        "indic": false
+      },
+      "Greek": {
+        "tokens": 5103,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 10.668430335097002,
+        "p99_bytes": 25.0,
+        "indic": false
+      },
+      "Malayalam": {
+        "tokens": 3919,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 15.47716254146466,
+        "p99_bytes": 37.0,
+        "indic": true
+      },
+      "Other": {
+        "tokens": 3608,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 8.06679600886918,
+        "p99_bytes": 33.0,
+        "indic": false
+      },
+      "Sinhala": {
+        "tokens": 3323,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.119771291002106,
+        "p99_bytes": 28.0,
+        "indic": true
+      },
+      "Telugu": {
+        "tokens": 3236,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 14.525648949320148,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Kana": {
+        "tokens": 2797,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 10.553092599213443,
+        "p99_bytes": 24.0,
+        "indic": false
+      },
+      "Kannada": {
+        "tokens": 2773,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 14.069239091236927,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Tamil": {
+        "tokens": 2628,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 15.305555555555555,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Bengali": {
+        "tokens": 2499,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.647058823529411,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Gujarati": {
+        "tokens": 2265,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 11.558940397350993,
+        "p99_bytes": 28.0,
+        "indic": true
+      },
+      "Odia": {
+        "tokens": 1844,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.017895878524946,
+        "p99_bytes": 31.0,
+        "indic": true
+      },
+      "Gurmukhi": {
+        "tokens": 1675,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 11.118208955223881,
+        "p99_bytes": 25.0,
+        "indic": true
+      }
+    },
+    "config_name": "shipped_p48"
+  },
+  {
+    "vocab": "xlm-roberta-base",
+    "vocab_size": 250002,
+    "codec": "shipped(P=64)",
+    "code_dim": 16384,
+    "distinct_codes": 250002,
+    "colliding_groups": 0,
+    "colliding_tokens": 0,
+    "collision_rate": 0.0,
+    "injective": true,
+    "truncated_tokens": 0,
+    "indic_tokens": 31888,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [],
+    "scripts": {
+      "ASCII": {
+        "tokens": 83008,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 6.570655840400925,
+        "p99_bytes": 13.0,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 48961,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 9.858724290762035,
+        "p99_bytes": 31.0,
+        "indic": false
+      },
+      "Cyrillic": {
+        "tokens": 31671,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 12.296201572416406,
+        "p99_bytes": 27.0,
+        "indic": false
+      },
+      "Han": {
+        "tokens": 17771,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.163412300939734,
+        "p99_bytes": 12.0,
+        "indic": false
+      },
+      "Arabic": {
+        "tokens": 14637,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 9.176948828311813,
+        "p99_bytes": 19.0,
+        "indic": false
+      },
+      "Devanagari": {
+        "tokens": 7726,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.869402019156096,
+        "p99_bytes": 31.0,
+        "indic": true
+      },
+      "Hangul": {
+        "tokens": 5373,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.968174204355109,
+        "p99_bytes": 15.0,
+        "indic": false
+      },
+      "Hebrew": {
+        "tokens": 5185,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 8.248794599807136,
+        "p99_bytes": 15.0,
+        "indic": false
+      },
+      "Greek": {
+        "tokens": 5103,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 10.668430335097002,
+        "p99_bytes": 25.0,
+        "indic": false
+      },
+      "Malayalam": {
+        "tokens": 3919,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 15.47716254146466,
+        "p99_bytes": 37.0,
+        "indic": true
+      },
+      "Other": {
+        "tokens": 3608,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 8.06679600886918,
+        "p99_bytes": 33.0,
+        "indic": false
+      },
+      "Sinhala": {
+        "tokens": 3323,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.119771291002106,
+        "p99_bytes": 28.0,
+        "indic": true
+      },
+      "Telugu": {
+        "tokens": 3236,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 14.525648949320148,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Kana": {
+        "tokens": 2797,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 10.553092599213443,
+        "p99_bytes": 24.0,
+        "indic": false
+      },
+      "Kannada": {
+        "tokens": 2773,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 14.069239091236927,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Tamil": {
+        "tokens": 2628,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 15.305555555555555,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Bengali": {
+        "tokens": 2499,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.647058823529411,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Gujarati": {
+        "tokens": 2265,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 11.558940397350993,
+        "p99_bytes": 28.0,
+        "indic": true
+      },
+      "Odia": {
+        "tokens": 1844,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 13.017895878524946,
+        "p99_bytes": 31.0,
+        "indic": true
+      },
+      "Gurmukhi": {
+        "tokens": 1675,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 11.118208955223881,
+        "p99_bytes": 25.0,
+        "indic": true
+      }
+    },
+    "config_name": "shipped_p64"
+  },
+  {
+    "vocab": "xlm-roberta-base",
+    "vocab_size": 250002,
+    "codec": "duplex(P=32,T=4)",
+    "code_dim": 8224,
+    "distinct_codes": 250002,
+    "colliding_groups": 0,
+    "colliding_tokens": 0,
+    "collision_rate": 0.0,
+    "injective": true,
+    "truncated_tokens": 1739,
+    "indic_tokens": 31888,
+    "indic_collided": 0,
+    "indic_collision_rate": 0.0,
+    "examples": [],
+    "scripts": {
+      "ASCII": {
+        "tokens": 83008,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 6.570655840400925,
+        "p99_bytes": 13.0,
+        "indic": false
+      },
+      "Latin-ext": {
+        "tokens": 48961,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 764,
+        "truncation_rate": 0.015604256449010437,
+        "mean_bytes": 9.858724290762035,
+        "p99_bytes": 31.0,
+        "indic": false
+      },
+      "Cyrillic": {
+        "tokens": 31671,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 147,
+        "truncation_rate": 0.004641470114615895,
+        "mean_bytes": 12.296201572416406,
+        "p99_bytes": 27.0,
+        "indic": false
+      },
+      "Han": {
+        "tokens": 17771,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 2,
+        "truncation_rate": 0.00011254290698328738,
+        "mean_bytes": 5.163412300939734,
+        "p99_bytes": 12.0,
+        "indic": false
+      },
+      "Arabic": {
+        "tokens": 14637,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 1,
+        "truncation_rate": 6.832001093120175e-05,
+        "mean_bytes": 9.176948828311813,
+        "p99_bytes": 19.0,
+        "indic": false
+      },
+      "Devanagari": {
+        "tokens": 7726,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 132,
+        "truncation_rate": 0.017085166968677193,
+        "mean_bytes": 13.869402019156096,
+        "p99_bytes": 31.0,
+        "indic": true
+      },
+      "Hangul": {
+        "tokens": 5373,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 5.968174204355109,
+        "p99_bytes": 15.0,
+        "indic": false
+      },
+      "Hebrew": {
+        "tokens": 5185,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 0,
+        "truncation_rate": 0.0,
+        "mean_bytes": 8.248794599807136,
+        "p99_bytes": 15.0,
+        "indic": false
+      },
+      "Greek": {
+        "tokens": 5103,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 12,
+        "truncation_rate": 0.0023515579071134627,
+        "mean_bytes": 10.668430335097002,
+        "p99_bytes": 25.0,
+        "indic": false
+      },
+      "Malayalam": {
+        "tokens": 3919,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 212,
+        "truncation_rate": 0.054095432508292934,
+        "mean_bytes": 15.47716254146466,
+        "p99_bytes": 37.0,
+        "indic": true
+      },
+      "Other": {
+        "tokens": 3608,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 75,
+        "truncation_rate": 0.020787139689578713,
+        "mean_bytes": 8.06679600886918,
+        "p99_bytes": 33.0,
+        "indic": false
+      },
+      "Sinhala": {
+        "tokens": 3323,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 22,
+        "truncation_rate": 0.0066205236232320195,
+        "mean_bytes": 13.119771291002106,
+        "p99_bytes": 28.0,
+        "indic": true
+      },
+      "Telugu": {
+        "tokens": 3236,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 87,
+        "truncation_rate": 0.02688504326328801,
+        "mean_bytes": 14.525648949320148,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Kana": {
+        "tokens": 2797,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 11,
+        "truncation_rate": 0.003932785126921702,
+        "mean_bytes": 10.553092599213443,
+        "p99_bytes": 24.0,
+        "indic": false
+      },
+      "Kannada": {
+        "tokens": 2773,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 66,
+        "truncation_rate": 0.023800937612693834,
+        "mean_bytes": 14.069239091236927,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Tamil": {
+        "tokens": 2628,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 97,
+        "truncation_rate": 0.03691019786910198,
+        "mean_bytes": 15.305555555555555,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Bengali": {
+        "tokens": 2499,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 74,
+        "truncation_rate": 0.029611844737895156,
+        "mean_bytes": 13.647058823529411,
+        "p99_bytes": 34.0,
+        "indic": true
+      },
+      "Gujarati": {
+        "tokens": 2265,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 10,
+        "truncation_rate": 0.004415011037527594,
+        "mean_bytes": 11.558940397350993,
+        "p99_bytes": 28.0,
+        "indic": true
+      },
+      "Odia": {
+        "tokens": 1844,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 25,
+        "truncation_rate": 0.013557483731019523,
+        "mean_bytes": 13.017895878524946,
+        "p99_bytes": 31.0,
+        "indic": true
+      },
+      "Gurmukhi": {
+        "tokens": 1675,
+        "collided": 0,
+        "collision_rate": 0.0,
+        "truncated": 2,
+        "truncation_rate": 0.0011940298507462687,
+        "mean_bytes": 11.118208955223881,
+        "p99_bytes": 25.0,
+        "indic": true
+      }
+    },
+    "config_name": "duplex_p32_t4"
+  }
+]

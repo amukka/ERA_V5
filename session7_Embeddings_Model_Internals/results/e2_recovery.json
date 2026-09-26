@@ -1,0 +1,62 @@
+{
+  "vocab": "xlm-roberta-base",
+  "vocab_size": 250002,
+  "code_dim": 8224,
+  "predicted_d_star": 355,
+  "eval_n": 2000,
+  "sweep": [
+    {
+      "d": 128,
+      "compression": 64.25,
+      "pinv": {
+        "column_acc": 0.23518750071525574,
+        "exact_code": 0.0,
+        "token_identify": 0.965499997138977
+      },
+      "lstsq": {
+        "column_acc": 0.8277187347412109,
+        "exact_code": 0.013500000350177288,
+        "token_identify": 0.4555000066757202
+      },
+      "tied": {
+        "column_acc": 0.2289687544107437,
+        "exact_code": 0.0,
+        "token_identify": 0.9670000076293945
+      }
+    },
+    {
+      "d": 512,
+      "compression": 16.0625,
+      "pinv": {
+        "column_acc": 0.8902656435966492,
+        "exact_code": 0.010999999940395355,
+        "token_identify": 1.0
+      },
+      "lstsq": {
+        "column_acc": 0.9700781106948853,
+        "exact_code": 0.5475000143051147,
+        "token_identify": 0.9990000128746033
+      },
+      "tied": {
+        "column_acc": 0.8709531426429749,
+        "exact_code": 0.006000000052154064,
+        "token_identify": 1.0
+      }
+    }
+  ],
+  "noise_dim": 512,
+  "noise": [
+    {
+      "noise": 0.0,
+      "column_acc": 0.9697499871253967,
+      "exact_code": 0.5419999957084656,
+      "token_identify": 0.9994999766349792
+    },
+    {
+      "noise": 0.2,
+      "column_acc": 0.9670312404632568,
+      "exact_code": 0.5120000243186951,
+      "token_identify": 0.9994999766349792
+    }
+  ]
+}

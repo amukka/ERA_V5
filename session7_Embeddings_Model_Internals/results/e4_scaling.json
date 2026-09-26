@@ -1,0 +1,413 @@
+{
+  "d_model": 8096,
+  "code_dim": 8224,
+  "card_gb": 80.0,
+  "bytes_per_param": 16,
+  "sweep": [
+    {
+      "vocab_size": 10000,
+      "arms": {
+        "dense": {
+          "params": 161920000,
+          "train_gb": 2.4127960205078125,
+          "card_share": 0.030159950256347656,
+          "vs_dense": 1.0,
+          "vocab_free": false
+        },
+        "dense_tied": {
+          "params": 80960000,
+          "train_gb": 1.2063980102539062,
+          "card_share": 0.015079975128173828,
+          "vs_dense": 0.5,
+          "vocab_free": false
+        },
+        "kron_dense": {
+          "params": 147541504,
+          "train_gb": 2.1985397338867188,
+          "card_share": 0.027481746673583985,
+          "vs_dense": 0.9112,
+          "vocab_free": false
+        },
+        "duplex": {
+          "params": 133163008,
+          "train_gb": 1.984283447265625,
+          "card_share": 0.024803543090820314,
+          "vs_dense": 0.8224,
+          "vocab_free": true
+        },
+        "duplex_tied": {
+          "params": 66581504,
+          "train_gb": 0.9921417236328125,
+          "card_share": 0.012401771545410157,
+          "vs_dense": 0.4112,
+          "vocab_free": true
+        }
+      }
+    },
+    {
+      "vocab_size": 32000,
+      "arms": {
+        "dense": {
+          "params": 518144000,
+          "train_gb": 7.720947265625,
+          "card_share": 0.0965118408203125,
+          "vs_dense": 1.0,
+          "vocab_free": false
+        },
+        "dense_tied": {
+          "params": 259072000,
+          "train_gb": 3.8604736328125,
+          "card_share": 0.04825592041015625,
+          "vs_dense": 0.5,
+          "vocab_free": false
+        },
+        "kron_dense": {
+          "params": 325653504,
+          "train_gb": 4.8526153564453125,
+          "card_share": 0.060657691955566403,
+          "vs_dense": 0.6285,
+          "vocab_free": false
+        },
+        "duplex": {
+          "params": 133163008,
+          "train_gb": 1.984283447265625,
+          "card_share": 0.024803543090820314,
+          "vs_dense": 0.257,
+          "vocab_free": true
+        },
+        "duplex_tied": {
+          "params": 66581504,
+          "train_gb": 0.9921417236328125,
+          "card_share": 0.012401771545410157,
+          "vs_dense": 0.1285,
+          "vocab_free": true
+        }
+      }
+    },
+    {
+      "vocab_size": 50257,
+      "arms": {
+        "dense": {
+          "params": 813761344,
+          "train_gb": 12.125988960266113,
+          "card_share": 0.15157486200332643,
+          "vs_dense": 1.0,
+          "vocab_free": false
+        },
+        "dense_tied": {
+          "params": 406880672,
+          "train_gb": 6.062994480133057,
+          "card_share": 0.07578743100166321,
+          "vs_dense": 0.5,
+          "vocab_free": false
+        },
+        "kron_dense": {
+          "params": 473462176,
+          "train_gb": 7.055136203765869,
+          "card_share": 0.08818920254707337,
+          "vs_dense": 0.5818194480370894,
+          "vocab_free": false
+        },
+        "duplex": {
+          "params": 133163008,
+          "train_gb": 1.984283447265625,
+          "card_share": 0.024803543090820314,
+          "vs_dense": 0.16363889607417872,
+          "vocab_free": true
+        },
+        "duplex_tied": {
+          "params": 66581504,
+          "train_gb": 0.9921417236328125,
+          "card_share": 0.012401771545410157,
+          "vs_dense": 0.08181944803708936,
+          "vocab_free": true
+        }
+      }
+    },
+    {
+      "vocab_size": 131072,
+      "arms": {
+        "dense": {
+          "params": 2122317824,
+          "train_gb": 31.625,
+          "card_share": 0.3953125,
+          "vs_dense": 1.0,
+          "vocab_free": false
+        },
+        "dense_tied": {
+          "params": 1061158912,
+          "train_gb": 15.8125,
+          "card_share": 0.19765625,
+          "vs_dense": 0.5,
+          "vocab_free": false
+        },
+        "kron_dense": {
+          "params": 1127740416,
+          "train_gb": 16.804641723632812,
+          "card_share": 0.21005802154541015,
+          "vs_dense": 0.5313720703125,
+          "vocab_free": false
+        },
+        "duplex": {
+          "params": 133163008,
+          "train_gb": 1.984283447265625,
+          "card_share": 0.024803543090820314,
+          "vs_dense": 0.062744140625,
+          "vocab_free": true
+        },
+        "duplex_tied": {
+          "params": 66581504,
+          "train_gb": 0.9921417236328125,
+          "card_share": 0.012401771545410157,
+          "vs_dense": 0.0313720703125,
+          "vocab_free": true
+        }
+      }
+    },
+    {
+      "vocab_size": 250002,
+      "arms": {
+        "dense": {
+          "params": 4048032384,
+          "train_gb": 60.320383071899414,
+          "card_share": 0.7540047883987426,
+          "vs_dense": 1.0,
+          "vocab_free": false
+        },
+        "dense_tied": {
+          "params": 2024016192,
+          "train_gb": 30.160191535949707,
+          "card_share": 0.3770023941993713,
+          "vs_dense": 0.5,
+          "vocab_free": false
+        },
+        "kron_dense": {
+          "params": 2090597696,
+          "train_gb": 31.15233325958252,
+          "card_share": 0.3894041657447815,
+          "vs_dense": 0.5164478684170527,
+          "vocab_free": false
+        },
+        "duplex": {
+          "params": 133163008,
+          "train_gb": 1.984283447265625,
+          "card_share": 0.024803543090820314,
+          "vs_dense": 0.03289573683410533,
+          "vocab_free": true
+        },
+        "duplex_tied": {
+          "params": 66581504,
+          "train_gb": 0.9921417236328125,
+          "card_share": 0.012401771545410157,
+          "vs_dense": 0.016447868417052664,
+          "vocab_free": true
+        }
+      }
+    },
+    {
+      "vocab_size": 1000000,
+      "arms": {
+        "dense": {
+          "params": 16192000000,
+          "train_gb": 241.27960205078125,
+          "card_share": 3.0159950256347656,
+          "vs_dense": 1.0,
+          "vocab_free": false
+        },
+        "dense_tied": {
+          "params": 8096000000,
+          "train_gb": 120.63980102539062,
+          "card_share": 1.5079975128173828,
+          "vs_dense": 0.5,
+          "vocab_free": false
+        },
+        "kron_dense": {
+          "params": 8162581504,
+          "train_gb": 121.63194274902344,
+          "card_share": 1.520399284362793,
+          "vs_dense": 0.504112,
+          "vocab_free": false
+        },
+        "duplex": {
+          "params": 133163008,
+          "train_gb": 1.984283447265625,
+          "card_share": 0.024803543090820314,
+          "vs_dense": 0.008224,
+          "vocab_free": true
+        },
+        "duplex_tied": {
+          "params": 66581504,
+          "train_gb": 0.9921417236328125,
+          "card_share": 0.012401771545410157,
+          "vs_dense": 0.004112,
+          "vocab_free": true
+        }
+      }
+    }
+  ],
+  "million": {
+    "words": 1000000,
+    "mean_bytes": 25.62427,
+    "p99_bytes": 61.0,
+    "max_bytes": 289,
+    "over_head_window": 392424,
+    "script_sample": {
+      "Telugu": 16353,
+      "ASCII": 3269,
+      "Other": 205,
+      "Latin-ext": 58,
+      "Devanagari": 57,
+      "Arabic": 22,
+      "Tamil": 13,
+      "Gujarati": 7,
+      "Kannada": 5,
+      "Gurmukhi": 3,
+      "Odia": 2,
+      "Greek": 1
+    },
+    "audits": [
+      {
+        "codec": "shipped(P=32)",
+        "distinct_codes": 908465,
+        "colliding_groups": 31334,
+        "colliding_tokens": 122869,
+        "collision_rate": 0.122869,
+        "indic_collided": 122840,
+        "injective": false,
+        "per_script": {
+          "Telugu": 122787,
+          "Tamil": 38,
+          "ASCII": 29,
+          "Devanagari": 8,
+          "Gujarati": 3,
+          "Odia": 2,
+          "Malayalam": 2
+        },
+        "examples": [
+          {
+            "tokens": [
+              "\"Re-యానిమేటర్స్",
+              "\"Re-యానిమేటర్స్\""
+            ],
+            "byte_lengths": [
+              37,
+              38
+            ]
+          },
+          {
+            "tokens": [
+              "\"https://tewiki.iiit.ac.in/index.php?title=అల్లిసాబ్గూడ&oldid=137145\"\\nThis",
+              "\"https://tewiki.iiit.ac.in/index.php?title=జాతీయ_తెలుగుకథా_రచయితలు&oldid=329614\""
+            ],
+            "byte_lengths": [
+              99,
+              122
+            ]
+          },
+          {
+            "tokens": [
+              "\"అంగీకరించడానికి\".",
+              "\"అంగీకరించడానికి\".\\nతరువాత,"
+            ],
+            "byte_lengths": [
+              48,
+              69
+            ]
+          },
+          {
+            "tokens": [
+              "\"అఫ్గానిస్తాన్కు",
+              "\"అఫ్గానిస్తాన్లో"
+            ],
+            "byte_lengths": [
+              46,
+              46
+            ]
+          },
+          {
+            "tokens": [
+              "\"అభివృద్ధిపనులను",
+              "\"అభివృద్ధిపై"
+            ],
+            "byte_lengths": [
+              46,
+              34
+            ]
+          },
+          {
+            "tokens": [
+              "\"అమోక్సిసిలిన్\"",
+              "\"అమోక్సిసిలిన్\","
+            ],
+            "byte_lengths": [
+              41,
+              42
+            ]
+          },
+          {
+            "tokens": [
+              "\"అలవైకుంఠపురంబులో\"",
+              "\"అలవైకుంఠపురంబులో\")"
+            ],
+            "byte_lengths": [
+              50,
+              51
+            ]
+          },
+          {
+            "tokens": [
+              "\"ఆండ్రాయిడ్\"",
+              "\"ఆండ్రాయిడ్\"."
+            ],
+            "byte_lengths": [
+              32,
+              33
+            ]
+          }
+        ]
+      },
+      {
+        "codec": "duplex(P=32,T=4)",
+        "distinct_codes": 1000000,
+        "colliding_groups": 0,
+        "colliding_tokens": 0,
+        "collision_rate": 0.0,
+        "indic_collided": 0,
+        "injective": true,
+        "per_script": {},
+        "examples": []
+      }
+    ],
+    "live": {
+      "vocab_size": 1000000,
+      "d_model": 512,
+      "device": "cpu",
+      "build_seconds": 6.207219839096069,
+      "trainable_params": 8421377,
+      "param_report": {
+        "analysis": 4210688,
+        "synthesis": 4210688,
+        "total_token_facing": 8421376,
+        "vocab_size": 1000000,
+        "depends_on_vocab": false
+      },
+      "fixed_buffer_bytes": 1588000000,
+      "forward_shape": [
+        4,
+        32,
+        512
+      ],
+      "logits_shape": [
+        4,
+        32,
+        1000000
+      ],
+      "forward_seconds": 0.008513689041137695,
+      "score_seconds": 6.813938140869141,
+      "identify_queries": 512,
+      "identify_acc": 1.0,
+      "column_acc": 0.8961181640625,
+      "exact_code_acc": 0.005859375
+    }
+  }
+}
