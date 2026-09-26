@@ -1,0 +1,74 @@
+[
+  {
+    "variant": "standard",
+    "h": 1.0,
+    "final_val_loss": 6.173086524009705,
+    "final_train_loss": 6.185171127319336,
+    "tok_per_s": 6366.7,
+    "peak_exact_mib": 9371.5,
+    "diverged_at_step": null,
+    "grad_cosine_final": 1.0,
+    "grad_rel_err_final": 0.0,
+    "state_rebuild_err_final": 0.0
+  },
+  {
+    "variant": "midpoint",
+    "h": 0.5,
+    "final_val_loss": 6.308963918685913,
+    "final_train_loss": 6.332024097442627,
+    "tok_per_s": 8555.0,
+    "peak_exact_mib": 3706.2,
+    "diverged_at_step": null,
+    "grad_cosine_final": 0.9999999996106342,
+    "grad_rel_err_final": 2.806876047525607e-05,
+    "state_rebuild_err_final": 5.946010060142726e-05
+  },
+  {
+    "variant": "midpoint",
+    "h": 0.25,
+    "final_val_loss": 6.392799973487854,
+    "final_train_loss": 6.410238742828369,
+    "tok_per_s": 8659.9,
+    "peak_exact_mib": 2799.7,
+    "diverged_at_step": null,
+    "grad_cosine_final": 0.9999999999291801,
+    "grad_rel_err_final": 1.1886642336601509e-05,
+    "state_rebuild_err_final": 3.694007682497613e-05
+  },
+  {
+    "variant": "momentum",
+    "h": 0.5,
+    "final_val_loss": 6.0505887269973755,
+    "final_train_loss": 6.059767723083496,
+    "tok_per_s": 8538.9,
+    "peak_exact_mib": 2670.7,
+    "diverged_at_step": null,
+    "grad_cosine_final": 0.9999999999208766,
+    "grad_rel_err_final": 1.2583889562058316e-05,
+    "state_rebuild_err_final": 2.777896497718757e-06
+  },
+  {
+    "variant": "revnet",
+    "h": 1.0,
+    "final_val_loss": 6.211483526229858,
+    "final_train_loss": 6.224910736083984,
+    "tok_per_s": 8917.6,
+    "peak_exact_mib": 2682.7,
+    "diverged_at_step": null,
+    "grad_cosine_final": 0.9999999992942273,
+    "grad_rel_err_final": 3.7623354014775165e-05,
+    "state_rebuild_err_final": 8.895644896256272e-07
+  },
+  {
+    "variant": "euler_fp",
+    "h": 1.0,
+    "final_val_loss": 7.20687096118927,
+    "final_train_loss": 7.225827217102051,
+    "tok_per_s": 4538.2,
+    "peak_exact_mib": 2634.7,
+    "diverged_at_step": null,
+    "grad_cosine_final": 0.06895908736375037,
+    "grad_rel_err_final": 0.9976834901599929,
+    "state_rebuild_err_final": 1.76731538772583
+  }
+]

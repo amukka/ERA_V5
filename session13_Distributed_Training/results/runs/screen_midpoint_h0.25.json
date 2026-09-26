@@ -1,0 +1,71 @@
+{
+  "name": "screen_midpoint_h0.25",
+  "device": "mps",
+  "config": {
+    "vocab_size": 8192,
+    "seq_len": 512,
+    "n_layer": 10,
+    "n_head": 6,
+    "d_model": 384,
+    "variant": "midpoint",
+    "h": 0.25,
+    "fp_iters": 6,
+    "extra": {}
+  },
+  "params": 21053184,
+  "params_non_embedding": 17710848,
+  "batch": 32,
+  "tokens_per_step": 16384,
+  "steps": 244,
+  "peak_lr": 0.001,
+  "warmup": 7,
+  "amp_bf16": 0,
+  "torch": "2.13.0",
+  "machine": "arm64",
+  "processor": "arm",
+  "tokens_trained": 3981312,
+  "train_seconds": 459.7,
+  "tok_per_s": 8659.9,
+  "final_train_loss": 6.410238742828369,
+  "final_train_loss_avg_last5pct": 6.410238742828369,
+  "final_val_loss": 6.392799973487854,
+  "diverged_at_step": null,
+  "peak_alloc_mib": 1775.8,
+  "peak_driver_mib": 11907.1,
+  "peak_exact_mib": 2799.7,
+  "peak_exact_op": "aten._log_softmax_backward_data.default",
+  "reversibility": {
+    "init": {
+      "grad_rel_err": 1.06210812920926e-06,
+      "grad_cosine": 0.9999999999990293,
+      "state_rebuild_rel_err_per_layer": [
+        1.7851150460046483e-06,
+        1.6488710343764978e-06,
+        1.0853480034711538e-06,
+        1.0853480034711538e-06,
+        7.989151526999194e-07,
+        5.789080432805349e-07,
+        5.789080432805349e-07,
+        3.7150397247387446e-07,
+        3.0487348112728796e-07
+      ],
+      "state_rebuild_rel_err_max": 1.7851150460046483e-06
+    },
+    "final": {
+      "grad_rel_err": 1.1886642336601509e-05,
+      "grad_cosine": 0.9999999999291801,
+      "state_rebuild_rel_err_per_layer": [
+        3.694007682497613e-05,
+        4.338398582603986e-07,
+        4.338398582603986e-07,
+        2.1199188893206156e-07,
+        2.1199188893206156e-07,
+        1.7563007759235916e-07,
+        1.5862929103604984e-07,
+        1.5862929103604984e-07,
+        8.945118423753229e-08
+      ],
+      "state_rebuild_rel_err_max": 3.694007682497613e-05
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "name": "screen_euler_fp_h1",
+  "device": "mps",
+  "config": {
+    "vocab_size": 8192,
+    "seq_len": 512,
+    "n_layer": 10,
+    "n_head": 6,
+    "d_model": 384,
+    "variant": "euler_fp",
+    "h": 1.0,
+    "fp_iters": 6,
+    "extra": {}
+  },
+  "params": 21053184,
+  "params_non_embedding": 17710848,
+  "batch": 32,
+  "tokens_per_step": 16384,
+  "steps": 244,
+  "peak_lr": 0.001,
+  "warmup": 7,
+  "amp_bf16": 0,
+  "torch": "2.13.0",
+  "machine": "arm64",
+  "processor": "arm",
+  "tokens_trained": 3981312,
+  "train_seconds": 877.3,
+  "tok_per_s": 4538.2,
+  "final_train_loss": 7.225827217102051,
+  "final_train_loss_avg_last5pct": 7.225827217102051,
+  "final_val_loss": 7.20687096118927,
+  "diverged_at_step": null,
+  "peak_alloc_mib": 1610.8,
+  "peak_driver_mib": 11907.1,
+  "peak_exact_mib": 2634.7,
+  "peak_exact_op": "aten._log_softmax_backward_data.default",
+  "reversibility": {
+    "init": {
+      "grad_rel_err": 0.9206716495219126,
+      "grad_cosine": 0.7045098539983794,
+      "state_rebuild_rel_err_per_layer": [
+        0.485726535320282,
+        0.15223047137260437,
+        0.048794545233249664,
+        0.021688953042030334,
+        0.010068724863231182,
+        0.006547919474542141,
+        0.003334298264235258,
+        0.0020167839247733355,
+        0.0011840818915516138
+      ],
+      "state_rebuild_rel_err_max": 0.485726535320282
+    },
+    "final": {
+      "grad_rel_err": 0.9976834901599929,
+      "grad_cosine": 0.06895908736375037,
+      "state_rebuild_rel_err_per_layer": [
+        1.76731538772583,
+        1.1482853889465332,
+        0.5390502214431763,
+        0.10422321408987045,
+        0.010431377217173576,
+        0.012035118415951729,
+        0.0034541962668299675,
+        0.00017506853328086436,
+        4.854840881307609e-06
+      ],
+      "state_rebuild_rel_err_max": 1.76731538772583
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "variant": "momentum",
+  "h": 0.5,
+  "final_val_loss": 6.0505887269973755,
+  "final_train_loss": 6.059767723083496,
+  "tok_per_s": 8538.9,
+  "peak_exact_mib": 2670.7,
+  "diverged_at_step": null,
+  "grad_cosine_final": 0.9999999999208766,
+  "grad_rel_err_final": 1.2583889562058316e-05,
+  "state_rebuild_err_final": 2.777896497718757e-06
+}

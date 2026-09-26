@@ -1,0 +1,104 @@
+[
+  {
+    "config": "standard b32",
+    "variant": "standard",
+    "batch": 32,
+    "loss_chunk": 0,
+    "steps": [
+      {
+        "peak_mib": 9370.5,
+        "op": "aten._log_softmax_backward_data.default"
+      },
+      {
+        "peak_mib": 9370.5,
+        "op": "aten._log_softmax_backward_data.default"
+      }
+    ],
+    "error": null
+  },
+  {
+    "config": "momentum b32",
+    "variant": "momentum",
+    "batch": 32,
+    "loss_chunk": 0,
+    "steps": [
+      {
+        "peak_mib": 2715.7,
+        "op": "aten._log_softmax_backward_data.default"
+      },
+      {
+        "peak_mib": 2715.7,
+        "op": "aten._log_softmax_backward_data.default"
+      }
+    ],
+    "error": null
+  },
+  {
+    "config": "momentum b88",
+    "variant": "momentum",
+    "batch": 88,
+    "loss_chunk": 0,
+    "steps": [
+      {
+        "peak_mib": 6072.9,
+        "op": "aten._log_softmax_backward_data.default"
+      },
+      {
+        "peak_mib": 6073.3,
+        "op": "aten._log_softmax_backward_data.default"
+      }
+    ],
+    "error": null
+  },
+  {
+    "config": "standard b48, chunked head",
+    "variant": "standard",
+    "batch": 48,
+    "loss_chunk": 8,
+    "steps": [
+      {
+        "peak_mib": 9458.7,
+        "op": "aten._log_softmax_backward_data.default"
+      },
+      {
+        "peak_mib": 9458.7,
+        "op": "aten._log_softmax_backward_data.default"
+      }
+    ],
+    "error": null
+  },
+  {
+    "config": "momentum b88, chunked head",
+    "variant": "momentum",
+    "batch": 88,
+    "loss_chunk": 8,
+    "steps": [
+      {
+        "peak_mib": 3089.6,
+        "op": "aten._softmax_backward_data.default"
+      },
+      {
+        "peak_mib": 3079.8,
+        "op": "aten._softmax_backward_data.default"
+      }
+    ],
+    "error": null
+  },
+  {
+    "config": "momentum b256, chunked head",
+    "variant": "momentum",
+    "batch": 256,
+    "loss_chunk": 8,
+    "steps": [
+      {
+        "peak_mib": 8131.6,
+        "op": "aten._softmax_backward_data.default"
+      },
+      {
+        "peak_mib": 8131.6,
+        "op": "aten._softmax_backward_data.default"
+      }
+    ],
+    "error": null
+  }
+]

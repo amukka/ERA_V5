@@ -1,0 +1,12 @@
+{
+  "source": "HuggingFaceFW/fineweb-edu, config sample-10BT, streamed in order",
+  "vocab_size": 8192,
+  "eos_id": 0,
+  "train_tokens": 56000000,
+  "train_docs": 46080,
+  "val_tokens": 1000000,
+  "val_docs": 1024,
+  "chars_per_token": 3.886,
+  "note": "val.bin comes from the tokenizer's training documents; train.bin from the documents after them",
+  "seconds": 314.3
+}

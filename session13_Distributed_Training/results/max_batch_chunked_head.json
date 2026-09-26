@@ -1,0 +1,88 @@
+{
+  "standard": {
+    "max_batch": 48,
+    "trail": [
+      {
+        "batch": 32,
+        "fits": true,
+        "peak_exact_mib": 7898.1,
+        "peak_driver_mib": 9403.0,
+        "tok_per_s": 10270.2
+      },
+      {
+        "batch": 48,
+        "fits": true,
+        "peak_exact_mib": 9459.6,
+        "peak_driver_mib": 11523.0,
+        "tok_per_s": 10225.5
+      },
+      {
+        "batch": 52,
+        "fits": false,
+        "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 12.03 GiB, other allocations: 194.83 MiB, max allowed: 11.84 GiB). Tried to allocate 39.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0"
+      },
+      {
+        "batch": 56,
+        "fits": false,
+        "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 12.03 GiB, other allocations: 130.81 MiB, max allowed: 11.84 GiB). Tried to allocate 42.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0"
+      },
+      {
+        "batch": 64,
+        "fits": false,
+        "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 12.02 GiB, other allocations: 480.00 KiB, max allowed: 11.84 GiB). Tried to allocate 48.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0"
+      }
+    ]
+  },
+  "momentum": {
+    "max_batch": 256,
+    "trail": [
+      {
+        "batch": 64,
+        "fits": true,
+        "peak_exact_mib": 2606.2,
+        "peak_driver_mib": 5371.2,
+        "tok_per_s": 8263.8
+      },
+      {
+        "batch": 128,
+        "fits": true,
+        "peak_exact_mib": 4622.2,
+        "peak_driver_mib": 7693.4,
+        "tok_per_s": 6067.2
+      },
+      {
+        "batch": 256,
+        "fits": true,
+        "peak_exact_mib": 8584.2,
+        "peak_driver_mib": 10452.9,
+        "tok_per_s": 6856.7
+      },
+      {
+        "batch": 272,
+        "fits": false,
+        "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 9.02 GiB, other allocations: 408.92 MiB, max allowed: 11.84 GiB). Tried to allocate 204.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0"
+      },
+      {
+        "batch": 288,
+        "fits": false,
+        "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 10.94 GiB, other allocations: 420.92 MiB, max allowed: 11.84 GiB). Tried to allocate 864.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b["
+      },
+      {
+        "batch": 320,
+        "fits": false,
+        "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 11.59 GiB, other allocations: 444.92 MiB, max allowed: 11.84 GiB). Tried to allocate 240.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b["
+      },
+      {
+        "batch": 384,
+        "fits": false,
+        "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 9.37 GiB, other allocations: 492.92 MiB, max allowed: 11.84 GiB). Tried to allocate 2.25 GiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0m"
+      },
+      {
+        "batch": 512,
+        "fits": false,
+        "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 9.14 GiB, other allocations: 588.92 MiB, max allowed: 11.84 GiB). Tried to allocate 3.00 GiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0m"
+      }
+    ],
+    "h": 0.5
+  }
+}

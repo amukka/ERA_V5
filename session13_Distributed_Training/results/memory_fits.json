@@ -1,0 +1,22 @@
+{
+  "standard": {
+    "slope_mib_per_seq": NaN,
+    "intercept_mib": NaN,
+    "max_batch": 32
+  },
+  "momentum": {
+    "slope_mib_per_seq": 91.5267391304348,
+    "intercept_mib": -127.71478260869708,
+    "max_batch": 88
+  },
+  "standard + chunked head": {
+    "slope_mib_per_seq": 97.59374999999994,
+    "intercept_mib": 4775.100000000002,
+    "max_batch": 48
+  },
+  "momentum + chunked head": {
+    "slope_mib_per_seq": 31.109374999999996,
+    "intercept_mib": 625.1999999999971,
+    "max_batch": 256
+  }
+}

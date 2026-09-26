@@ -1,0 +1,130 @@
+{
+  "runs": [
+    {
+      "run": "baseline (standard, b32)",
+      "batch": 32,
+      "steps": 3051,
+      "peak_lr": 0.001,
+      "final_train_loss": 3.9758702754974364,
+      "final_val_loss": 3.980102550983429,
+      "tok_per_s": 10982.8,
+      "train_minutes": 75.83333333333333,
+      "tok_per_s_median_interval": 10994.0,
+      "peak_exact_mib": 9370.5,
+      "peak_unsynced_audit_mib": 9371.5,
+      "peak_driver_mib": 11835.0,
+      "peak_op": "aten._log_softmax_backward_data.default",
+      "grad_cosine_vs_autograd": null
+    },
+    {
+      "run": "reversible momentum (b32)",
+      "batch": 32,
+      "steps": 3051,
+      "peak_lr": 0.001,
+      "final_train_loss": 4.01357962290446,
+      "final_val_loss": 4.020622986555099,
+      "tok_per_s": 8924.7,
+      "train_minutes": 93.32,
+      "tok_per_s_median_interval": 8920.2,
+      "peak_exact_mib": 2715.7,
+      "peak_unsynced_audit_mib": 2754.9,
+      "peak_driver_mib": 6211.1,
+      "peak_op": "aten._softmax_backward_data.default",
+      "grad_cosine_vs_autograd": 0.999999995413234
+    },
+    {
+      "run": "reversible momentum (max batch)",
+      "batch": 88,
+      "steps": 1109,
+      "peak_lr": 0.0016583123951777,
+      "final_train_loss": 4.162381719659876,
+      "final_val_loss": 4.180837237834931,
+      "tok_per_s": 7776.4,
+      "train_minutes": 106.99499999999999,
+      "tok_per_s_median_interval": 7777.8,
+      "peak_exact_mib": 6073.3,
+      "peak_unsynced_audit_mib": 6354.4,
+      "peak_driver_mib": 11555.3,
+      "peak_op": "aten._log_softmax_backward_data.default",
+      "grad_cosine_vs_autograd": 0.9999999962297621
+    }
+  ],
+  "max_batch": {
+    "standard": {
+      "max_batch": 32,
+      "trail": [
+        {
+          "batch": 32,
+          "fits": true,
+          "peak_exact_mib": 9466.5,
+          "peak_driver_mib": 10811.0,
+          "tok_per_s": 10550.3
+        },
+        {
+          "batch": 36,
+          "fits": false,
+          "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 10.86 GiB, other allocations: 578.81 MiB, max allowed: 11.84 GiB). Tried to allocate 576.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b["
+        },
+        {
+          "batch": 40,
+          "fits": false,
+          "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 10.90 GiB, other allocations: 642.73 MiB, max allowed: 11.84 GiB). Tried to allocate 640.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b["
+        },
+        {
+          "batch": 48,
+          "fits": false,
+          "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 11.77 GiB, other allocations: 2.72 MiB, max allowed: 11.84 GiB). Tried to allocate 768.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0m"
+        },
+        {
+          "batch": 64,
+          "fits": false,
+          "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 12.02 GiB, other allocations: 480.00 KiB, max allowed: 11.84 GiB). Tried to allocate 48.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0"
+        }
+      ]
+    },
+    "momentum": {
+      "max_batch": 88,
+      "trail": [
+        {
+          "batch": 32,
+          "fits": true,
+          "peak_exact_mib": 2754.2,
+          "peak_driver_mib": 4731.1,
+          "tok_per_s": 8972.5
+        },
+        {
+          "batch": 64,
+          "fits": true,
+          "peak_exact_mib": 5986.2,
+          "peak_driver_mib": 8315.2,
+          "tok_per_s": 9023.2
+        },
+        {
+          "batch": 80,
+          "fits": true,
+          "peak_exact_mib": 6754.4,
+          "peak_driver_mib": 10886.9,
+          "tok_per_s": 7859.8
+        },
+        {
+          "batch": 88,
+          "fits": true,
+          "peak_exact_mib": 8157.4,
+          "peak_driver_mib": 11554.9,
+          "tok_per_s": 7745.2
+        },
+        {
+          "batch": 96,
+          "fits": false,
+          "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 10.03 GiB, other allocations: 1.83 GiB, max allowed: 11.84 GiB). Tried to allocate 72.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0m"
+        },
+        {
+          "batch": 128,
+          "fits": false,
+          "error": "\u001b[1;35mRuntimeError\u001b[0m: \u001b[35mMPS backend out of memory (MPS allocated: 9.03 GiB, other allocations: 2.33 GiB, max allowed: 11.84 GiB). Tried to allocate 2.00 GiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).\u001b[0m"
+        }
+      ],
+      "h": 0.5
+    }
+  }
+}

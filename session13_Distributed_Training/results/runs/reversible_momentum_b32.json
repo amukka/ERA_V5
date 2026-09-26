@@ -1,0 +1,71 @@
+{
+  "name": "reversible_momentum_b32",
+  "device": "mps",
+  "config": {
+    "vocab_size": 8192,
+    "seq_len": 512,
+    "n_layer": 10,
+    "n_head": 6,
+    "d_model": 384,
+    "variant": "momentum",
+    "h": 0.5,
+    "fp_iters": 6,
+    "extra": {}
+  },
+  "params": 21053184,
+  "params_non_embedding": 17710848,
+  "batch": 32,
+  "tokens_per_step": 16384,
+  "steps": 3051,
+  "peak_lr": 0.001,
+  "warmup": 91,
+  "amp_bf16": 0,
+  "torch": "2.13.0",
+  "machine": "arm64",
+  "processor": "arm",
+  "tokens_trained": 49971200,
+  "train_seconds": 5599.2,
+  "tok_per_s": 8924.7,
+  "final_train_loss": 4.000720977783203,
+  "final_train_loss_avg_last5pct": 4.01357962290446,
+  "final_val_loss": 4.020622986555099,
+  "diverged_at_step": null,
+  "peak_alloc_mib": 1620.7,
+  "peak_driver_mib": 6211.1,
+  "peak_exact_mib": 2754.9,
+  "peak_exact_op": "aten._softmax_backward_data.default",
+  "reversibility": {
+    "init": {
+      "grad_rel_err": 2.200800561903834e-06,
+      "grad_cosine": 0.9999999999972712,
+      "state_rebuild_rel_err_per_layer": [
+        5.324042831489351e-06,
+        2.7300793590256944e-06,
+        1.537154957986786e-06,
+        9.912050700222608e-07,
+        6.691512908219011e-07,
+        5.152484163772897e-07,
+        4.32310315545692e-07,
+        2.8608965862986224e-07,
+        2.3783076130712288e-07
+      ],
+      "state_rebuild_rel_err_max": 5.324042831489351e-06
+    },
+    "final": {
+      "grad_rel_err": 9.583595126249242e-05,
+      "grad_cosine": 0.999999995413234,
+      "state_rebuild_rel_err_per_layer": [
+        2.8914064387208782e-05,
+        6.350663625198649e-06,
+        4.238381279719761e-06,
+        1.6725859950383892e-06,
+        1.6587273421464488e-06,
+        2.2815825104771648e-06,
+        7.536630732829508e-07,
+        4.7470905428781407e-07,
+        2.1137583416930283e-07
+      ],
+      "state_rebuild_rel_err_max": 2.8914064387208782e-05
+    }
+  }
+}

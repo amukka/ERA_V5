@@ -1,0 +1,41 @@
+{
+  "name": "screen_standard_h1",
+  "device": "mps",
+  "config": {
+    "vocab_size": 8192,
+    "seq_len": 512,
+    "n_layer": 10,
+    "n_head": 6,
+    "d_model": 384,
+    "variant": "standard",
+    "h": 1.0,
+    "fp_iters": 6,
+    "extra": {}
+  },
+  "params": 21053184,
+  "params_non_embedding": 17710848,
+  "batch": 32,
+  "tokens_per_step": 16384,
+  "steps": 244,
+  "peak_lr": 0.001,
+  "warmup": 7,
+  "amp_bf16": 0,
+  "torch": "2.13.0",
+  "machine": "arm64",
+  "processor": "arm",
+  "tokens_trained": 3981312,
+  "train_seconds": 625.3,
+  "tok_per_s": 6366.7,
+  "final_train_loss": 6.185171127319336,
+  "final_train_loss_avg_last5pct": 6.185171127319336,
+  "final_val_loss": 6.173086524009705,
+  "diverged_at_step": null,
+  "peak_alloc_mib": 8706.5,
+  "peak_driver_mib": 11835.0,
+  "peak_exact_mib": 9371.5,
+  "peak_exact_op": "aten._log_softmax_backward_data.default",
+  "reversibility": {
+    "init": null,
+    "final": null
+  }
+}
