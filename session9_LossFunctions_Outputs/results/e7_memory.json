@@ -1,0 +1,130 @@
+{
+  "machine": {
+    "chip": "Apple M4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.5",
+    "torch": "2.13.0",
+    "device": "mps"
+  },
+  "device": "mps",
+  "B": 16,
+  "T": 256,
+  "chunk": 512,
+  "vocab": 10002,
+  "n_pairs": 4080,
+  "full_logits_mib": 155.6707763671875,
+  "equivalence": {
+    "loss_ordinary": 9.26148796081543,
+    "loss_chunked": 9.26148796081543,
+    "loss_abs_diff": 0.0,
+    "grad_hidden_max_abs_diff": 7.275957614183426e-12,
+    "grad_weight_max_abs_diff": 2.086162567138672e-07,
+    "grad_hidden_scale": 2.4602395569672808e-05,
+    "grad_weight_scale": 0.2904145121574402,
+    "n_contributing": [
+      4080,
+      4080
+    ]
+  },
+  "ordinary": {
+    "peak_bytes": 654871352,
+    "peak_mib": 624.534,
+    "largest_single_bytes": 163872768,
+    "largest_single_mib": 156.281,
+    "largest_single_op": "aten.linear.default",
+    "n_allocations": 34,
+    "total_allocated_mib": 1261.237
+  },
+  "chunked": {
+    "peak_bytes": 90333036,
+    "peak_mib": 86.148,
+    "largest_single_bytes": 20484096,
+    "largest_single_mib": 19.535,
+    "largest_single_op": "aten.linear.default",
+    "n_allocations": 183,
+    "total_allocated_mib": 1558.231
+  },
+  "ratio_loss_step": 7.249547290709013,
+  "sweep": {
+    "64": {
+      "peak_bytes": 39188332,
+      "peak_mib": 37.373,
+      "largest_single_bytes": 10242048,
+      "largest_single_mib": 9.768,
+      "largest_single_op": "aten.detach.default",
+      "n_allocations": 1303,
+      "total_allocated_mib": 3647.572
+    },
+    "128": {
+      "peak_bytes": 44243820,
+      "peak_mib": 42.194,
+      "largest_single_bytes": 10242048,
+      "largest_single_mib": 9.768,
+      "largest_single_op": "aten.detach.default",
+      "n_allocations": 663,
+      "total_allocated_mib": 2453.663
+    },
+    "256": {
+      "peak_bytes": 59606892,
+      "peak_mib": 56.846,
+      "largest_single_bytes": 10242048,
+      "largest_single_mib": 9.768,
+      "largest_single_op": "aten.linear.default",
+      "n_allocations": 343,
+      "total_allocated_mib": 1856.709
+    },
+    "512": {
+      "peak_bytes": 90333036,
+      "peak_mib": 86.148,
+      "largest_single_bytes": 20484096,
+      "largest_single_mib": 19.535,
+      "largest_single_op": "aten.linear.default",
+      "n_allocations": 183,
+      "total_allocated_mib": 1558.231
+    },
+    "1024": {
+      "peak_bytes": 151785324,
+      "peak_mib": 144.754,
+      "largest_single_bytes": 40968192,
+      "largest_single_mib": 39.07,
+      "largest_single_op": "aten.linear.default",
+      "n_allocations": 103,
+      "total_allocated_mib": 1408.993
+    },
+    "2048": {
+      "peak_bytes": 274689896,
+      "peak_mib": 261.965,
+      "largest_single_bytes": 81936384,
+      "largest_single_mib": 78.141,
+      "largest_single_op": "aten.linear.default",
+      "n_allocations": 63,
+      "total_allocated_mib": 1334.373
+    }
+  },
+  "full_training_step": {
+    "ordinary": {
+      "peak_bytes": 856052536,
+      "peak_mib": 816.395,
+      "largest_single_bytes": 163872768,
+      "largest_single_mib": 156.281,
+      "largest_single_op": "aten.linear.default",
+      "n_allocations": 455,
+      "total_allocated_mib": 3115.373
+    },
+    "chunked": {
+      "peak_bytes": 455386988,
+      "peak_mib": 434.291,
+      "largest_single_bytes": 20484096,
+      "largest_single_mib": 19.535,
+      "largest_single_op": "aten.linear.default",
+      "n_allocations": 604,
+      "total_allocated_mib": 3412.367
+    },
+    "ratio": 1.879835301749992
+  },
+  "rss_cpu_mib": {
+    "ordinary": 636.71875,
+    "chunked": 202.125,
+    "ratio": 3.1501236858379715
+  }
+}

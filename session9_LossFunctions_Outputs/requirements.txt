@@ -1,0 +1,8 @@
+# Session 9 - loss harness. CUDA (Colab), Apple MPS or CPU is picked automatically.
+torch>=2.4
+numpy>=1.26
+matplotlib>=3.8
+# only to open or re-execute the notebook
+jupyter>=1.0
+nbformat>=5.9
+nbclient>=0.9

@@ -1,0 +1,65 @@
+{
+  "machine": {
+    "chip": "Apple M4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.5",
+    "torch": "2.13.0",
+    "device": "mps"
+  },
+  "device": "mps",
+  "steps": 400,
+  "untrained": {
+    "n_unmasked": 1016,
+    "n_masked": 1008,
+    "loss_unmasked": 9.28327751159668,
+    "loss_masked": 9.283224105834961
+  },
+  "density": {
+    "2": {
+      "n_crossing": 8,
+      "n_interior": 1008,
+      "loss_crossing": 6.549529075622559,
+      "loss_interior": 4.386651039123535,
+      "loss_unmasked": 4.40368127822876,
+      "loss_masked": 4.386651039123535,
+      "n_docs": 2,
+      "boundary_fraction": 0.007874015748031496,
+      "delta": 0.01703023910522461
+    },
+    "4": {
+      "n_crossing": 24,
+      "n_interior": 992,
+      "loss_crossing": 6.986749649047852,
+      "loss_interior": 4.960954189300537,
+      "loss_unmasked": 5.008807182312012,
+      "loss_masked": 4.960954189300537,
+      "n_docs": 4,
+      "boundary_fraction": 0.023622047244094488,
+      "delta": 0.04785299301147461
+    },
+    "8": {
+      "n_crossing": 56,
+      "n_interior": 960,
+      "loss_crossing": 6.771047115325928,
+      "loss_interior": 5.261829853057861,
+      "loss_unmasked": 5.345015048980713,
+      "loss_masked": 5.261829853057861,
+      "n_docs": 8,
+      "boundary_fraction": 0.05511811023622047,
+      "delta": 0.08318519592285156
+    },
+    "16": {
+      "n_crossing": 120,
+      "n_interior": 896,
+      "loss_crossing": 6.527604579925537,
+      "loss_interior": 5.485001564025879,
+      "loss_unmasked": 5.608144283294678,
+      "loss_masked": 5.485001564025879,
+      "n_docs": 16,
+      "boundary_fraction": 0.11811023622047244,
+      "delta": 0.12314271926879883
+    }
+  },
+  "join_index": 32,
+  "final_train_loss": 4.35798454284668
+}

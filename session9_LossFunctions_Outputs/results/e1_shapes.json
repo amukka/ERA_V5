@@ -1,0 +1,1229 @@
+{
+  "machine": {
+    "chip": "Apple M4",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.5",
+    "torch": "2.13.0",
+    "device": "mps"
+  },
+  "config": {
+    "vocab_size": 10002,
+    "n_layer": 4,
+    "n_head": 4,
+    "d_model": 256,
+    "d_ff": 704,
+    "max_seq": 256,
+    "tie_embeddings": false
+  },
+  "batch": {
+    "B": 4,
+    "T": 128,
+    "valid_tokens": 320,
+    "padded_positions": 192
+  },
+  "n_params": 8400128,
+  "activations": [
+    {
+      "name": "tokens",
+      "shape": [
+        4,
+        128
+      ],
+      "dtype": "int64",
+      "numel": 512,
+      "bytes": 4096,
+      "meaning": "B=rows in the batch, T=positions; each entry is a token id in [0, V).  Unshifted -- this is what the harness is handed"
+    },
+    {
+      "name": "valid",
+      "shape": [
+        4,
+        128
+      ],
+      "dtype": "bool",
+      "numel": 512,
+      "bytes": 512,
+      "meaning": "B=rows, T=positions; True where the position holds a real token rather than padding"
+    },
+    {
+      "name": "tok_emb",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; one learned vector per token id"
+    },
+    {
+      "name": "pos_emb",
+      "shape": [
+        1,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 32768,
+      "bytes": 131072,
+      "meaning": "1=broadcast over rows, T=positions, D=d_model; one learned vector per absolute position"
+    },
+    {
+      "name": "resid_in",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream as it enters block 0"
+    },
+    {
+      "name": "attn_bias",
+      "shape": [
+        4,
+        1,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "numel": 65536,
+      "bytes": 262144,
+      "meaning": "B=rows, 1=broadcast over heads, T_q=querying position, T_k=attended position; 0 where the edge is allowed and -inf where it is not"
+    },
+    {
+      "name": "block0.norm1",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream normalised per position before attention reads it"
+    },
+    {
+      "name": "block0.attn.qkv",
+      "shape": [
+        4,
+        128,
+        768
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "bytes": 1572864,
+      "meaning": "B=rows in the batch, T=positions, 3D=query, key and value packed into one projection so it is a single matmul"
+    },
+    {
+      "name": "block0.attn.q",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position asking, Dh=d_model/H, the slice of the channel this head owns"
+    },
+    {
+      "name": "block0.attn.k",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position being asked about, Dh=per-head width"
+    },
+    {
+      "name": "block0.attn.v",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position whose content gets carried, Dh=per-head width"
+    },
+    {
+      "name": "block0.attn.scores",
+      "shape": [
+        4,
+        4,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "numel": 262144,
+      "bytes": 1048576,
+      "meaning": "B=rows, H=heads, T_q=querying position, T_k=attended position; entry (b,h,i,j) is how much i wants j"
+    },
+    {
+      "name": "block0.attn.weights",
+      "shape": [
+        4,
+        4,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "numel": 262144,
+      "bytes": 1048576,
+      "meaning": "same axes as scores, now a distribution over T_k for each (row, head, T_q) -- each slice sums to 1"
+    },
+    {
+      "name": "block0.attn.context",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=positions, Dh=per-head width; the value vectors averaged with the attention weights"
+    },
+    {
+      "name": "block0.attn.merged",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the heads concatenated back into one channel axis"
+    },
+    {
+      "name": "block0.attn.out",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; attention's contribution to the residual stream"
+    },
+    {
+      "name": "block0.resid_attn",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream with attention's answer added back -- nothing overwritten"
+    },
+    {
+      "name": "block0.norm2",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; normalised again before the FFN reads it"
+    },
+    {
+      "name": "block0.ffn.hidden",
+      "shape": [
+        4,
+        128,
+        704
+      ],
+      "dtype": "float32",
+      "numel": 360448,
+      "bytes": 1441792,
+      "meaning": "B=rows, T=positions, F=d_ff, the wide inner width; one branch decides what to pass, the other how much"
+    },
+    {
+      "name": "block0.ffn.out",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the FFN's contribution to the residual stream"
+    },
+    {
+      "name": "block0.resid_ffn",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream leaving this block"
+    },
+    {
+      "name": "block1.norm1",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream normalised per position before attention reads it"
+    },
+    {
+      "name": "block1.attn.qkv",
+      "shape": [
+        4,
+        128,
+        768
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "bytes": 1572864,
+      "meaning": "B=rows in the batch, T=positions, 3D=query, key and value packed into one projection so it is a single matmul"
+    },
+    {
+      "name": "block1.attn.q",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position asking, Dh=d_model/H, the slice of the channel this head owns"
+    },
+    {
+      "name": "block1.attn.k",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position being asked about, Dh=per-head width"
+    },
+    {
+      "name": "block1.attn.v",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position whose content gets carried, Dh=per-head width"
+    },
+    {
+      "name": "block1.attn.scores",
+      "shape": [
+        4,
+        4,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "numel": 262144,
+      "bytes": 1048576,
+      "meaning": "B=rows, H=heads, T_q=querying position, T_k=attended position; entry (b,h,i,j) is how much i wants j"
+    },
+    {
+      "name": "block1.attn.weights",
+      "shape": [
+        4,
+        4,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "numel": 262144,
+      "bytes": 1048576,
+      "meaning": "same axes as scores, now a distribution over T_k for each (row, head, T_q) -- each slice sums to 1"
+    },
+    {
+      "name": "block1.attn.context",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=positions, Dh=per-head width; the value vectors averaged with the attention weights"
+    },
+    {
+      "name": "block1.attn.merged",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the heads concatenated back into one channel axis"
+    },
+    {
+      "name": "block1.attn.out",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; attention's contribution to the residual stream"
+    },
+    {
+      "name": "block1.resid_attn",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream with attention's answer added back -- nothing overwritten"
+    },
+    {
+      "name": "block1.norm2",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; normalised again before the FFN reads it"
+    },
+    {
+      "name": "block1.ffn.hidden",
+      "shape": [
+        4,
+        128,
+        704
+      ],
+      "dtype": "float32",
+      "numel": 360448,
+      "bytes": 1441792,
+      "meaning": "B=rows, T=positions, F=d_ff, the wide inner width; one branch decides what to pass, the other how much"
+    },
+    {
+      "name": "block1.ffn.out",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the FFN's contribution to the residual stream"
+    },
+    {
+      "name": "block1.resid_ffn",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream leaving this block"
+    },
+    {
+      "name": "block2.norm1",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream normalised per position before attention reads it"
+    },
+    {
+      "name": "block2.attn.qkv",
+      "shape": [
+        4,
+        128,
+        768
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "bytes": 1572864,
+      "meaning": "B=rows in the batch, T=positions, 3D=query, key and value packed into one projection so it is a single matmul"
+    },
+    {
+      "name": "block2.attn.q",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position asking, Dh=d_model/H, the slice of the channel this head owns"
+    },
+    {
+      "name": "block2.attn.k",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position being asked about, Dh=per-head width"
+    },
+    {
+      "name": "block2.attn.v",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position whose content gets carried, Dh=per-head width"
+    },
+    {
+      "name": "block2.attn.scores",
+      "shape": [
+        4,
+        4,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "numel": 262144,
+      "bytes": 1048576,
+      "meaning": "B=rows, H=heads, T_q=querying position, T_k=attended position; entry (b,h,i,j) is how much i wants j"
+    },
+    {
+      "name": "block2.attn.weights",
+      "shape": [
+        4,
+        4,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "numel": 262144,
+      "bytes": 1048576,
+      "meaning": "same axes as scores, now a distribution over T_k for each (row, head, T_q) -- each slice sums to 1"
+    },
+    {
+      "name": "block2.attn.context",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=positions, Dh=per-head width; the value vectors averaged with the attention weights"
+    },
+    {
+      "name": "block2.attn.merged",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the heads concatenated back into one channel axis"
+    },
+    {
+      "name": "block2.attn.out",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; attention's contribution to the residual stream"
+    },
+    {
+      "name": "block2.resid_attn",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream with attention's answer added back -- nothing overwritten"
+    },
+    {
+      "name": "block2.norm2",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; normalised again before the FFN reads it"
+    },
+    {
+      "name": "block2.ffn.hidden",
+      "shape": [
+        4,
+        128,
+        704
+      ],
+      "dtype": "float32",
+      "numel": 360448,
+      "bytes": 1441792,
+      "meaning": "B=rows, T=positions, F=d_ff, the wide inner width; one branch decides what to pass, the other how much"
+    },
+    {
+      "name": "block2.ffn.out",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the FFN's contribution to the residual stream"
+    },
+    {
+      "name": "block2.resid_ffn",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream leaving this block"
+    },
+    {
+      "name": "block3.norm1",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the residual stream normalised per position before attention reads it"
+    },
+    {
+      "name": "block3.attn.qkv",
+      "shape": [
+        4,
+        128,
+        768
+      ],
+      "dtype": "float32",
+      "numel": 393216,
+      "bytes": 1572864,
+      "meaning": "B=rows in the batch, T=positions, 3D=query, key and value packed into one projection so it is a single matmul"
+    },
+    {
+      "name": "block3.attn.q",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position asking, Dh=d_model/H, the slice of the channel this head owns"
+    },
+    {
+      "name": "block3.attn.k",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position being asked about, Dh=per-head width"
+    },
+    {
+      "name": "block3.attn.v",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=the position whose content gets carried, Dh=per-head width"
+    },
+    {
+      "name": "block3.attn.scores",
+      "shape": [
+        4,
+        4,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "numel": 262144,
+      "bytes": 1048576,
+      "meaning": "B=rows, H=heads, T_q=querying position, T_k=attended position; entry (b,h,i,j) is how much i wants j"
+    },
+    {
+      "name": "block3.attn.weights",
+      "shape": [
+        4,
+        4,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "numel": 262144,
+      "bytes": 1048576,
+      "meaning": "same axes as scores, now a distribution over T_k for each (row, head, T_q) -- each slice sums to 1"
+    },
+    {
+      "name": "block3.attn.context",
+      "shape": [
+        4,
+        4,
+        128,
+        64
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, H=heads, T=positions, Dh=per-head width; the value vectors averaged with the attention weights"
+    },
+    {
+      "name": "block3.attn.merged",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the heads concatenated back into one channel axis"
+    },
+    {
+      "name": "block3.attn.out",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; attention's contribution to the residual stream"
+    },
+    {
+      "name": "block3.resid_attn",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream with attention's answer added back -- nothing overwritten"
+    },
+    {
+      "name": "block3.norm2",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; normalised again before the FFN reads it"
+    },
+    {
+      "name": "block3.ffn.hidden",
+      "shape": [
+        4,
+        128,
+        704
+      ],
+      "dtype": "float32",
+      "numel": 360448,
+      "bytes": 1441792,
+      "meaning": "B=rows, T=positions, F=d_ff, the wide inner width; one branch decides what to pass, the other how much"
+    },
+    {
+      "name": "block3.ffn.out",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the FFN's contribution to the residual stream"
+    },
+    {
+      "name": "block3.resid_ffn",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; residual stream leaving this block"
+    },
+    {
+      "name": "hidden",
+      "shape": [
+        4,
+        128,
+        256
+      ],
+      "dtype": "float32",
+      "numel": 131072,
+      "bytes": 524288,
+      "meaning": "B=rows, T=positions, D=d_model; the final hidden state. Every token now has a vector that has seen its context"
+    },
+    {
+      "name": "logits",
+      "shape": [
+        4,
+        128,
+        10002
+      ],
+      "dtype": "float32",
+      "numel": 5121024,
+      "bytes": 20484096,
+      "meaning": "B=rows, T=positions, V=vocab size; one unnormalised score for every token the model could name next, at every position.  V/D = 39x larger than the hidden state that produced it"
+    },
+    {
+      "name": "logits[:, :-1]",
+      "shape": [
+        4,
+        127,
+        10002
+      ],
+      "dtype": "float32",
+      "numel": 5081016,
+      "bytes": 20324064,
+      "meaning": "B=rows, P=positions that have something to predict, V=vocab; the last positions are dropped because nothing follows them"
+    },
+    {
+      "name": "targets",
+      "shape": [
+        4,
+        127
+      ],
+      "dtype": "int64",
+      "numel": 508,
+      "bytes": 4064,
+      "meaning": "B=rows, P=pairs; the token id each position must name. Position i of the row is token i+1 of the sequence"
+    },
+    {
+      "name": "flat_logits",
+      "shape": [
+        508,
+        10002
+      ],
+      "dtype": "float32",
+      "numel": 5081016,
+      "bytes": 20324064,
+      "meaning": "N=B*P, one row per prediction the batch will be scored on, V=vocab; cross_entropy has no use for the batch and position axes, so they are folded into one"
+    },
+    {
+      "name": "flat_targets",
+      "shape": [
+        508
+      ],
+      "dtype": "int64",
+      "numel": 508,
+      "bytes": 4064,
+      "meaning": "N=B*P; one correct id per row of flat_logits, in the same order"
+    },
+    {
+      "name": "per_token_loss",
+      "shape": [
+        4,
+        127
+      ],
+      "dtype": "float32",
+      "numel": 508,
+      "bytes": 2032,
+      "meaning": "B=rows, P=pairs; -log(probability the model gave the true token) at each position, before anything is masked"
+    },
+    {
+      "name": "loss_mask",
+      "shape": [
+        4,
+        127
+      ],
+      "dtype": "bool",
+      "numel": 508,
+      "bytes": 508,
+      "meaning": "B=rows, P=pairs; True where the pair is allowed to contribute. Its sum is the denominator, and it is not B*P"
+    },
+    {
+      "name": "loss",
+      "shape": [],
+      "dtype": "float32",
+      "numel": 1,
+      "bytes": 4,
+      "meaning": "a scalar in nats: the mean surprise per contributing token. This is the one number the whole forward pass exists to produce"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "tok_emb.weight",
+      "shape": [
+        10002,
+        256
+      ],
+      "numel": 2560512,
+      "bytes": 10242048
+    },
+    {
+      "name": "pos_emb.weight",
+      "shape": [
+        256,
+        256
+      ],
+      "numel": 65536,
+      "bytes": 262144
+    },
+    {
+      "name": "blocks.0.norm1.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "bytes": 1024
+    },
+    {
+      "name": "blocks.0.attn.qkv.weight",
+      "shape": [
+        768,
+        256
+      ],
+      "numel": 196608,
+      "bytes": 786432
+    },
+    {
+      "name": "blocks.0.attn.proj.weight",
+      "shape": [
+        256,
+        256
+      ],
+      "numel": 65536,
+      "bytes": 262144
+    },
+    {
+      "name": "blocks.0.norm2.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "bytes": 1024
+    },
+    {
+      "name": "blocks.0.ffn.gate.weight",
+      "shape": [
+        704,
+        256
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.0.ffn.up.weight",
+      "shape": [
+        704,
+        256
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.0.ffn.down.weight",
+      "shape": [
+        256,
+        704
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.1.norm1.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "bytes": 1024
+    },
+    {
+      "name": "blocks.1.attn.qkv.weight",
+      "shape": [
+        768,
+        256
+      ],
+      "numel": 196608,
+      "bytes": 786432
+    },
+    {
+      "name": "blocks.1.attn.proj.weight",
+      "shape": [
+        256,
+        256
+      ],
+      "numel": 65536,
+      "bytes": 262144
+    },
+    {
+      "name": "blocks.1.norm2.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "bytes": 1024
+    },
+    {
+      "name": "blocks.1.ffn.gate.weight",
+      "shape": [
+        704,
+        256
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.1.ffn.up.weight",
+      "shape": [
+        704,
+        256
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.1.ffn.down.weight",
+      "shape": [
+        256,
+        704
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.2.norm1.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "bytes": 1024
+    },
+    {
+      "name": "blocks.2.attn.qkv.weight",
+      "shape": [
+        768,
+        256
+      ],
+      "numel": 196608,
+      "bytes": 786432
+    },
+    {
+      "name": "blocks.2.attn.proj.weight",
+      "shape": [
+        256,
+        256
+      ],
+      "numel": 65536,
+      "bytes": 262144
+    },
+    {
+      "name": "blocks.2.norm2.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "bytes": 1024
+    },
+    {
+      "name": "blocks.2.ffn.gate.weight",
+      "shape": [
+        704,
+        256
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.2.ffn.up.weight",
+      "shape": [
+        704,
+        256
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.2.ffn.down.weight",
+      "shape": [
+        256,
+        704
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.3.norm1.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "bytes": 1024
+    },
+    {
+      "name": "blocks.3.attn.qkv.weight",
+      "shape": [
+        768,
+        256
+      ],
+      "numel": 196608,
+      "bytes": 786432
+    },
+    {
+      "name": "blocks.3.attn.proj.weight",
+      "shape": [
+        256,
+        256
+      ],
+      "numel": 65536,
+      "bytes": 262144
+    },
+    {
+      "name": "blocks.3.norm2.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "bytes": 1024
+    },
+    {
+      "name": "blocks.3.ffn.gate.weight",
+      "shape": [
+        704,
+        256
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.3.ffn.up.weight",
+      "shape": [
+        704,
+        256
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "blocks.3.ffn.down.weight",
+      "shape": [
+        256,
+        704
+      ],
+      "numel": 180224,
+      "bytes": 720896
+    },
+    {
+      "name": "norm_f.weight",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "bytes": 1024
+    },
+    {
+      "name": "head.weight",
+      "shape": [
+        10002,
+        256
+      ],
+      "numel": 2560512,
+      "bytes": 10242048
+    }
+  ],
+  "n_activation_tensors": 75,
+  "hidden_bytes": 524288,
+  "logits_bytes": 20484096,
+  "logits_over_hidden": 39.0703125,
+  "vocab_over_d_model": 39.0703125,
+  "loss": 9.237044334411621,
+  "n_contributing": 316,
+  "n_pairs": 508
+}
