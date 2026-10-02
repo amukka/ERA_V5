@@ -1,0 +1,11 @@
+{
+  "type": "summary",
+  "name": "4_moe_copy",
+  "val_loss_start": 4.4090177655220035,
+  "val_loss_final": 4.261313772201538,
+  "train_loss_last10": 4.300551986694336,
+  "params": 83497728,
+  "active_params": 26874624,
+  "train_seconds": 1016.6,
+  "tok_per_s": 5899
+}

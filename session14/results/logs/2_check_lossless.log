@@ -1,0 +1,12 @@
+{
+  "copy (r=0)": {
+    "dense_loss": 4.537945747375488,
+    "moe_loss": 4.537945747375488,
+    "max_abs_logit_diff": 3.0517578125e-05
+  },
+  "drop-upcycle (r=0.5)": {
+    "dense_loss": 4.537945747375488,
+    "moe_loss": 5.083776950836182,
+    "max_abs_logit_diff": 10.527751922607422
+  }
+}

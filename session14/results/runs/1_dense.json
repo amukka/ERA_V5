@@ -1,0 +1,11 @@
+{
+  "type": "summary",
+  "name": "1_dense",
+  "val_loss_start": 9.08298921585083,
+  "val_loss_final": 4.409017741680145,
+  "train_loss_last10": 4.373596239089966,
+  "params": 17412864,
+  "active_params": 17412864,
+  "train_seconds": 1498.3,
+  "tok_per_s": 13346
+}

@@ -1,0 +1,4 @@
+results/ckpt/
+__pycache__/
+*.pyc
+data/*.bin

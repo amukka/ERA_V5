@@ -1,0 +1,11 @@
+{
+  "type": "summary",
+  "name": "5_moe_drop",
+  "val_loss_start": 4.996183931827545,
+  "val_loss_final": 4.280001974105835,
+  "train_loss_last10": 4.3175536632537845,
+  "params": 83497728,
+  "active_params": 26874624,
+  "train_seconds": 1203.4,
+  "tok_per_s": 4983
+}
